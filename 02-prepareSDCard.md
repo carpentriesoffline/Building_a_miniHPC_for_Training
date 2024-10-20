@@ -50,16 +50,18 @@ You can now click on the **Choose OS** button which will open a window for
 selecting the image you want to write to the SD card. Scroll down to the bottom
 where you should find an option **Raspberry Pi OS (other)**. Click on that option:
 
-![Selecting an image to write to the SD card](fig/ChooseImage.png){alt='An image
+{% include image.html max-width="400px" file="fig/ChooseImage.png" alt=
+"Selecting an image to write to the SD card" caption="n image
 of the RPi Imager software screen for selecting an image to be written to the SD
-card'}
+card" %}
 
 Select **Raspberry Pi OS Lite (64 bit)**. Make
 sure you have inserted the SD card into your computer. Now click on the **Choose
 Storage** button and select the device you want to write the image to: 
 
-![Select a device to write the image to](fig/SelectDevice.png){alt='An image of the
-RPi Imager software screen for selecting the device to be written to'}
+{% include image.html max-width="400px" file="fig/SelectDevice.png" alt=
+"Select a device to write the image to" caption="An image of the
+RPi Imager software screen for selecting the device to be written to" %}
 
 Once you have selected the Storage device, click the **WRITE** button. You will
 be prompted to overwrite the information on the SD card, click on **YES** to
