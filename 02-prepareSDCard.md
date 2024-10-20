@@ -67,18 +67,22 @@ Once you have selected the Storage device, click the **WRITE** button. You will
 be prompted to overwrite the information on the SD card, click on **YES** to
 accept.
 
-![Prompt to overwrite the SD card](fig/PromptToOverwrite.png){alt='An image of
-the RPi Imager software screen for confirming to overwrite the SD card'}
+{% include image.html max-width="400px" file="fig/PromptToOverwrite.png" alt=
+"Prompt to overwrite the SD card" caption="An image of
+the RPi Imager software screen for confirming to overwrite the SD card" %}
 
 The image will now be written to the SD card.
-![Overwriting the SD card](fig/Writing.png){alt='An image of the RPi Imager
-software screen while writing the image to the SD card'}
+
+{% include image.html max-width="400px" file="fig/Writing.png" alt=
+"Overwriting the SD card" caption="An image of the RPi Imager
+software screen while writing the image to the SD card" %}
 
 Once the image has been written to the SD card a **Write Successful** message
 will be displayed.
 
-![Write Successful](fig/ImageWritten.png){alt='An image of the RPi Imager
-software screen after the image has been written succesfully.'}
+{% include image.html max-width="400px" file="fig/ImageWritten.png" alt=
+"Write Successful" caption="An image of the RPi Imager
+software screen after the image has been written succesfully.d" %}
 
 You can now remove the SD card from your computer and insert it into the
 Raspberry Pi.
