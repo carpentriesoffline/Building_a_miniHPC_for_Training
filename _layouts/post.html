@@ -1,0 +1,20 @@
+---
+layout: default
+---
+
+
+<b>Date:</b> {{ page.date | date_to_string }}
+<br/>
+<b>Posted by:</b> {{ page.author }}
+
+{{ content }}
+
+<b>Tags:</b>
+{% for tag in page.tags %}
+  {{ tag }}
+{% endfor %}
+<br/>
+<b>Categories:</b>
+{% for category in page.categories %}
+  {{ category }}
+{% endfor %}

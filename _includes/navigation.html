@@ -1,0 +1,3 @@
+  {% for item in site.data.navigation %}
+    <button onclick="window.location.href='{{ site.baseurl }}{{ item.link }}'" {% if page.url==item.link %}class="button hightlight"{% else %}class="button"{% endif %}>{{ item.name }}</button>
+  {% endfor %}
