@@ -1,6 +1,6 @@
-- name: Home Page
-  link: /
-- name: Blog
-  link: /blog.html
-- name: About
-  link: /about.html
+- name: Setup
+  link: index.html
+- name: Introduction
+  link: 01-intro.html
+- name: Preparing an SD Card
+  link: 02-prepareSDCard.html
