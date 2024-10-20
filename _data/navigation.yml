@@ -4,3 +4,5 @@
   link: 01-intro.html
 - name: Preparing an SD Card
   link: 02-prepareSDCard.html
+- name: Booting and Updating
+  link: 03-booting_and_updating.html
