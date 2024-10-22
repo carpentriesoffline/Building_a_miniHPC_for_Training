@@ -1,16 +1,11 @@
-# Jekyll Template
+# Carpentries style lesson to Build a miniHPC for Training
 
-Use this template and expand on it if you want to create a Jekyll webpage.
+The Carpentries Workbench won't work for me and since I do not have time to struggle with an infrastructure
+that won't work I am just using GitHub pages (Jekyll) to create the lesson material.
 
-1. The easiest way that I found to work with Jekyll pages is to use the Jekyll docker image. Start by pulling the image:
+If you want to work offline on this lesson, like me, you can install Jekyll by following the instructions on
+the Jekyll site. There is a docker image but that also won't work for me.
 
-  ```docker pull jekyll/jekyll```
-1. Now create your own repository by using this repository as a template. Click on the green ```Use this template``` button.
-1. Clone the new repository to your harddrive. Let's say you clone it to ```/home/you/mywebsite```.
-1. To serve the website type the following in the command line:
-  ```export JEKYLL_VERSION=3.8
-  docker run --rm --name jekyll --volume="/home/you/mywebsite:/srv/jekyll" --publish 4000:4000 jekyll/jekyll jekyll serve
-  ```
-4. You can now edit any of the files. As soon as you save the site will be rebuilt and you can view it on ```http://localhost:4000```
-1. Obviously you should replace all instances of ```/home/you/mywebsite``` with the name of the directory where you actually are saving the files.
-1. Make sure you set the source branch for building GitHub pages to ```main```. This can be done by clicking on ```Settings```, i.e. Settings for the project and not for your GitHub account. Then, click on ```Pages```. Look for the heading **Source** and select ```Branch:main```. Save the change.
+If anyone would like to port this to the Workbench it would be great but I won't be able to work in the 
+workbench until it takes less time to get it running than installing Jekyll (so 15 to 30 minutes).
+
