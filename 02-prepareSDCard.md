@@ -77,9 +77,9 @@ it will ask if the user wants to do any customisation, select `EDIT SETTINGS`.
 
 This will show a pop-up window where the following configuration options can be defined for your set-up (below are examples) such that your OS is pre-configured upon first boot.
 
-1. Hostname: `CW24miniHPC`
-1. Username: `cw24`
-1. Password: `*****`
+1. Hostname: `node001`
+1. Username: `pi`
+1. Password: `0nl1n3`
 1. WiFI SSID and Password: Enter your WiFi details
 
 ![](/fig/screenshots/imager-os-config.png)

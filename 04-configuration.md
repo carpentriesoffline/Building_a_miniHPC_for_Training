@@ -10,25 +10,7 @@ This is a step by step guide on how to set up a miniHPC using Raspberry Pis.
 # 2. Initial configuration
 _TODO From https://github.com/carpentriesoffline/CarpentriesOffline.github.io/blob/main/rpiimage_step_by_step.md_
 
-# Installing SLURM/HPC
-
 ## Setting up the miniHPC login node
-
-- Login to the Pi
-Use SSH or login with a local console if you have a monitor attached. Use the login details you used above to log into the Pi.
-
-```bash
-ssh <USERNAME>@<IP-ADDRESS>
-```
-
-In this example, the username would be `cw24`
-
-- Do an update and a full-upgrade:
-
-```bash
-sudo apt update
-sudo apt full-upgrade
-```
 
 - Install required dependencies.
 
