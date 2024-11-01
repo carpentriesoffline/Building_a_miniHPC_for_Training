@@ -43,6 +43,77 @@ information for installing the software on your computer.
 Once the installation is complete you should be able to run the Imager which
 will open with the following screen:
 
+
+## Creating an SD card image: step-by-step
+
+###  Setting up a Raspberry Pi
+
+The official [Set up your SD card](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/2) is up to date as of 2nd of May 2024.
+
+When using the The Raspberry Pi Imager, select the Device and OS.
+
+The OS selection should be `Raspberry Pi OS (other)` -> `Raspberry Pi OS Lite (64-bit)`.
+
+![image alt >](/fig/screenshots/imager-hero-shot.png)
+
+Selecting the device:
+
+![image alt >](/fig/screenshots/imager-device-selection.png)
+
+
+Selecting the OS:
+
+![](/fig/screenshots/imager-OS-selection-1.png)
+
+![](/fig/screenshots/imager-OS-selection-2.png)
+
+After this, please select the sdcard you would like to flash the image on, Then press `NEXT`.
+
+![](/fig/screenshots/imager-sd-card-selection.png)
+
+it will ask if the user wants to do any customisation, select `EDIT SETTINGS`.
+
+![](/fig/screenshots/imager-customiser-dialog.png)
+
+This will show a pop-up window where the following configuration options can be defined for your set-up (below are examples) such that your OS is pre-configured upon first boot.
+
+1. Hostname: `CW24miniHPC`
+1. Username: `cw24`
+1. Password: `*****`
+1. WiFI SSID and Password: Enter your WiFi details
+
+![](/fig/screenshots/imager-os-config.png)
+
+Then go to the `SERVICES` tab and enable SSH with password authentication (alternatively, adding a ssh public key). If you would like to set up easy access to the Pi via an ssh key, please see [here](ssh-setup.md).
+
+_TODO: Section on generating an ssh key-pair._
+
+![](/fig/screenshots/imager-pwd-setup.png)
+
+
+After, saving this, select `YES` to apply the configuration.
+
+![](/fig/screenshots/imager-os-config-apply.png)
+
+Confim writing to the sdcard (please backup any data on the sdcard, any existing data will be **LOST!**)
+
+![](/fig/screenshots/imager-confirm-sdcard-write.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
 {% include image.html max-width="400px" file="fig/RaspberryPiImager.png" alt=
 "The Raspberry Pi Imager" caption="The Raspberry Pi Imager" %}
 
