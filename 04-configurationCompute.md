@@ -13,6 +13,13 @@ Run and update and an upgrade
 sudo apt update -y
 sudo apt full-upgrade -y
 ```
+
+## Create a mount point for the shared drive
+
+```bash
+sudo mkdir /sharedfs
+```
+
 ## Install required packages
 
 ```bash
