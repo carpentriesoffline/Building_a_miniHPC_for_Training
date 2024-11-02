@@ -1,18 +1,9 @@
 ---
-title: Configuration
 layout: default
+title: Configuring the login node
 ---
 
-This is a step by step guide on how to set up a miniHPC using Raspberry Pis.
-
-# 1. Hardware requirement 
-
-# 2. Initial configuration
-_TODO From https://github.com/carpentriesoffline/CarpentriesOffline.github.io/blob/main/rpiimage_step_by_step.md_
-
-## Setting up the miniHPC login node
-
-- Install required dependencies.
+## Install required packages.
 
 ```bash
 sudo apt install -y nfs-kernel-server lmod ansible slurm munge nmap \
@@ -32,8 +23,7 @@ sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -
 sudo netfilter-persistent save
 ```
 
-
-## Setup the Cluster network
+## Configure the network interfaces
 
 Place the following into `/etc/network/interfaces`
 
@@ -46,11 +36,13 @@ iface eth0 inet static
 source /etc/network/interfaces.d/*
 ```
 
-- Modify the hostname
+## Modify the hostname
 
 ```bash
 echo pixie001 | sudo tee /etc/hostname
 ```
+
+## Configure DHCP
 
 - Configure dhcp by entering the following in the file `/etc/dhcpd.conf`
 
@@ -60,6 +52,8 @@ static ip_address=192.168.5.101/24
 static routers=192.168.5.101
 static domain_name_servers=192.168.5.101
 ```
+
+## Configure DNS masquerading
 
 - Configure dnsmasq by entering the following in the file `/etc/dnsmasq.conf`
 
@@ -71,7 +65,7 @@ bogus-priv
 dhcp-range=192.168.5.102,192.168.5.200,255.255.255.0,12h
 ```
 
-- Create a shared directory.
+##  Create a shared directory.
 
 ```bash
 sudo mkdir /sharedfs
@@ -79,11 +73,15 @@ sudo chown nobody:nogroup -R /sharedfs
 sudo chmod 777 -R /sharedfs
 ```
 
+## Configure NFS
+
 - Configure shared drives by adding the following at the end of the file `/etc/exports`
 
 ```bash
 /sharedfs    192.168.5.0/24(rw,sync,no_root_squash,no_subtree_check)
 ```
+
+## Configure hosts
 
 - The `/etc/hosts` file should contain the following. Make sure to change all occurences of `pixie` in the script to the name of your cluster:
 
@@ -100,7 +98,7 @@ ff02::2		ip6-allrouters
 192.168.5.102	pixie002
 ```
 
-- Configure Slurm
+## Configure Slurm
 
 Add the following to /etc/slurm/slurm.conf. Change all occurences of `pixie` in this script to the name of your cluster.
 
@@ -151,17 +149,7 @@ NodeName=pixie002 NodeAddr=192.168.5.102 CPUs=4 State=IDLE
 sudo systemctl restart slurmctld
 ```
 
-- Install ESSI
-
-```bash
-mkdir essi
-cd essi
-wget https://raw.githubusercontent.com/EESSI/eessi-demo/main/scripts/install_cvmfs_eessi.sh
-sudo bash ./install_cvmfs_eessi.sh
-echo "source /cvmfs/software.eessi.io/versions/2023.06/init/bash" | sudo tee -a /etc/profile
-```
-
-### Configure munge
+## Configure munge
 
 - Create munge key
   
@@ -177,70 +165,15 @@ sudo chown munge: /etc/munge/munge.key
 sudo chmod 400 /etc/munge/munge.key
 ```
 
-
-
-## Setting up a compute node
-
-Flash another SD card for a Raspberry Pi. Boot it up with internet access and run the following:
+## Install ESSI
 
 ```bash
-sudo apt-get install -y slurmd slurm-client munge vim ntp ntpdate
+mkdir essi
+cd essi
+wget https://raw.githubusercontent.com/EESSI/eessi-demo/main/scripts/install_cvmfs_eessi.sh
+sudo bash ./install_cvmfs_eessi.sh
+echo "source /cvmfs/software.eessi.io/versions/2023.06/init/bash" | sudo tee -a /etc/profile
 ```
 
-- Copy the `/etc/hosts` from the login node to the compute node
-- Copy the slurm config of the login node to `/etc/slurm/slurm.conf`
-- Copy the `/etc/munge/munge.key` from the login node to the compute node
-
-## Making an image of the compute node OS
-
-- On a Linux laptop (or with a USB SD card reader) take an image of this:
-
-```bash
-dd if=/dev/mmcblk0 of=node.img
-```
-
-- Copy node.img to the master Raspberry Pi's home directory.
 
 
-## Setup PXE booting
-
-Download the pxe-boot scripts:
-
-```bash
-git clone https://github.com/carpentriesoffline/pxe-boot.git
-cd pxe-boot
-./pxe-install
-```
-
-Initalise a PXE node:
-```
-./pxe-add <serial number> ../node.img <IP address>  <node name> <mac address>
-```
-
-for example:
-```
-./pxe-add fa917c3a ../node.img 192.168.5.105 pixie002 dc:a6:32:af:83:d0
-```
-
-This will create an entry with the serial number in /pxe-boot and /pxe-root. 
-
-- Copy the Slurm config to the node filesystems
-
-```bash
-cp /etc/slurm/slurm.conf /pxe-root/*/etc/slurm/
-````
- 
-
-## Test PXE booting
-* Boot up a client
-* Run sinfo to see if the cluster is working
-You should see something like
-
-```bash
-PARTITION     AVAIL  TIMELIMIT  NODES  STATE NODELIST
-pixiecluster*    up   infinite      5   idle pixie[002-006]
-```
-
-# Links:
-- https://www.clearlinux.org/clear-linux-documentation/tutorials/hpc.html
-- https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-3/

@@ -6,7 +6,9 @@
   link: 02-prepareSDCard.html
 - name: Booting and Updating
   link: 03-booting_and_updating.html
-- name: Configuration
-  link: 04-configuration.html
+- name: Configuration of a compute node
+  link: 04-configurationCompute.html
+- name: Configuration of the login node
+  link: 05-configurationLogin.html
 - name: Setting up a loop device
   link: 10-UsingLosetup.html
