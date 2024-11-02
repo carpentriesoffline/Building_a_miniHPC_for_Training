@@ -5,9 +5,15 @@ layout: default
 
 This is a step by step guide on how to set up a miniHPC using Raspberry Pis.
 
-## Install required packages
+Flash an SD card as described in episode 2 and give it a name of <<nodename>>002 where <<nodename>> is the
+name that you use for all your nodes in your HPC.
 
-Flash another SD card for a Raspberry Pi. Boot it up with internet access and run the following:
+Run and update and an upgrade
+```bash
+sudo apt update -y
+sudo apt full-upgrade -y
+```
+## Install required packages
 
 ```bash
 sudo apt-get install -y slurmd slurm-client munge vim ntp ntpdate
