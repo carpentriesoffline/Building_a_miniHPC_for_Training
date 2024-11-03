@@ -35,8 +35,6 @@ sudo apt-get install -y slurmd slurm-client munge vim ntp ntpdate
 proc            /proc           proc    defaults          0       0
 PARTUUID=3e3e7392-01  /boot/firmware  vfat    defaults          0       2
 PARTUUID=3e3e7392-02  /               ext4    defaults,noatime  0       1
-# a swapfile is not a swap partition, no line here
-#   use  dphys-swapfile swap[on|off]  for that
 192.168.5.101:/sharedfs    /sharedfs    nfs    defaults   0 0
 192.168.5.101:/home    /home    nfs    defaults   0 0
 
