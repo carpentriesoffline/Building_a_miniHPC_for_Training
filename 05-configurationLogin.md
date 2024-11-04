@@ -63,6 +63,9 @@ bind-dynamic
 domain-needed
 bogus-priv
 dhcp-range=192.168.5.102,192.168.5.200,255.255.255.0,12h
+dhcp-host=ab:cd:12:34:ab:cd,192.168.5.102
+dhcp-option=3,192.168.0.1 # default route
+
 ```
 
 ##  Create a shared directory.
