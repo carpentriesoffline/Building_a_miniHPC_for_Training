@@ -13,6 +13,12 @@ dnsmasq slurm-wlm iptables iptables-persistent
 
 A dialog block will appear on the screen. Answer yes to both questions.
 
+## Enable IP forwarding
+
+- As `sudo`, edit the file `\etc\sysctl.conf`. Find the line that reads `#net.ipv4.ip_forward=1` 
+and remove the `#` at the beginning of the line. Save the file. The change will become active 
+after a reboot.
+
 ##  Configure IP-tables
 ```bash
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
@@ -53,7 +59,8 @@ static domain_name_servers=192.168.5.101
 
 ## Configure DNS masquerading
 
-- Configure dnsmasq by entering the following in the file `/etc/dnsmasq.conf`
+- Configure dnsmasq by entering the following in the file `/etc/dnsmasq.conf`. Replace 
+the MAC address on the sixth line with the MAC address of your compute node.
 
 ```bash
 interface=eth0
