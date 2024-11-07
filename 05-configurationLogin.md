@@ -8,9 +8,7 @@ title: Configuring the login node
 ```bash
 sudo apt install -y nfs-kernel-server lmod ansible slurm munge nmap \
 nfs-common net-tools build-essential htop net-tools screen vim python3-pip \
-dnsmasq slurm-wlm iptables
-
-sudo apt install -y iptables-persistent
+dnsmasq slurm-wlm iptables iptables-persistent
 ```
 
 A dialog block will appear on the screen. Answer yes to both questions.
