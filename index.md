@@ -10,7 +10,7 @@ that is typically used on HPCs and not the hardware.
 
 The minimum equipment you will need for this lesson would be:
 
-- 2 Raspberry Pis, one which will serve as the 
+- 2 x Raspberry Pi 4 or 5, one which will serve as the 
 login node and one which will be a compute node. These do not need keyboards 
 and screens but it is sometimes handy to have a keyboard and screen for when 
 you run into trouble.
@@ -19,9 +19,10 @@ you run into trouble.
 useful for this workstation to have an ethernet port.
 - Three network cables.
 - If your switch has Power over Ethernet (PoE) you might not need power supplies
-for your two node. If they don't, don't forget the power supplies. Also don't 
+for your two nodes. If they don't, don't forget the power supplies. Also don't 
 forget the power supply for the switch itself.
-- You'll need at least one SD card. It might be helpful if you have two in case PXE 
-(Preboot eXecution Environment) doesn't want to work.
-
+- For starters you'll need two SD cards. One SD card will be used for the login
+node and the other for the compute node. If, later on, you want to use PXE 
+(i.e. boot over network), then you can use the compute node SD card to create
+a template image for compute nodes
 
