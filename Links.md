@@ -8,4 +8,5 @@
 - [pishrink](https://github.com/Drewsif/PiShrink/blob/master/pishrink.sh)
 - [NFS Mount](https://linuxize.com/post/how-to-mount-an-nfs-share-in-linux/)
 - [iptables](https://www.cyberciti.biz/faq/how-to-save-iptables-firewall-rules-permanently-on-linux/)
+- [Autofs](https://www.apalrd.net/posts/2021/autofs/)
 
