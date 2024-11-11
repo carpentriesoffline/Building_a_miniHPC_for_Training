@@ -9,4 +9,4 @@
 - [NFS Mount](https://linuxize.com/post/how-to-mount-an-nfs-share-in-linux/)
 - [iptables](https://www.cyberciti.biz/faq/how-to-save-iptables-firewall-rules-permanently-on-linux/)
 - [Autofs](https://www.apalrd.net/posts/2021/autofs/)
-
+- [dd](https://blog.kubesimplify.com/the-complete-guide-to-the-dd-command-in-linux)
