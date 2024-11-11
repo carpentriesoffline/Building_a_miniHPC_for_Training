@@ -10,3 +10,8 @@
 - [iptables](https://www.cyberciti.biz/faq/how-to-save-iptables-firewall-rules-permanently-on-linux/)
 - [Autofs](https://www.apalrd.net/posts/2021/autofs/)
 - [dd](https://blog.kubesimplify.com/the-complete-guide-to-the-dd-command-in-linux)
+- [ssh config](https://linuxize.com/post/using-the-ssh-config-file/)
+- [IP forwarding](https://network-insight.net/2014/08/10/ip-forwarding/#:~:text=IP%20forwarding%2C%20or%20packet%20forwarding,data%20flow%20across%20different%20networks.)
+- [Disable Wifi](https://fleetstack.io/blog/disable-wifi-raspberry-pi-guide)
+- [NFS shares](https://linuxize.com/post/how-to-mount-an-nfs-share-in-linux/0
+
