@@ -14,6 +14,14 @@ sudo apt update -y
 sudo apt full-upgrade -y
 ```
 
+## Disable WiFi and Bluetooth
+Open `/boot/firmware/config.txt` and add the following two lines at the bottom in the `[all]` section.
+```
+dtoverlay=disable-wifi
+dtoverlay=disable-bt
+```
+Save the file and reboot
+
 ## Create a mount point for the shared drive
 
 ```bash
