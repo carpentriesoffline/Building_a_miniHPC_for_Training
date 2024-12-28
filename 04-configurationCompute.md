@@ -31,7 +31,7 @@ sudo mkdir /sharedfs
 ## Install required packages
 
 ```bash
-sudo apt-get install -y slurmd slurm-client munge vim ntp ntpdate
+sudo apt-get install -y slurmd slurm-client munge vim ntp ntpdate lmod
 ```
 
 - Copy the `/etc/hosts` from the login node to the compute node
