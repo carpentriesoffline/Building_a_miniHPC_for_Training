@@ -3,13 +3,20 @@ layout: default
 title: Configuring the login node
 ---
 
+## Start with an update
+
+```bash
+sudo apt update -y
+sudo apt upgrade -y
+```
+
 ## Install required packages.
 
 ```bash
 sudo apt install -y nfs-kernel-server lmod ansible slurm munge nmap \
 nfs-common net-tools build-essential htop net-tools screen vim python3-pip \
 dnsmasq slurm-wlm iptables iptables-persistent libmunge-dev libmunge2 \
-libpmix2 libpmix-bin libpmix-dev
+libpmix2 libpmix-bin libpmix-dev git
 ```
 
 A dialog block will appear on the screen. Answer yes to both questions.
