@@ -29,6 +29,6 @@ To use `eessi` on diskless compute nodes, we need to create "pseudo" disk using
 
 ### Mount the file as a drive
 
-- `sudo mount /dev/loop0p1 /cvmfs`
+- `sudo mount /dev/loop0 /cvmfs`
 
 
