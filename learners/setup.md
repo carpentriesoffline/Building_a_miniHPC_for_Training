@@ -2,53 +2,15 @@
 title: Setup
 ---
 
-FIXME: Setup instructions live in this document. Please specify the tools and
-the data sets the Learner needs to have installed.
-
-## Data Sets
-
-<!--
-FIXME: place any data you want learners to use in `episodes/data` and then use
-       a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
-       link to it, replacing the example.com link.
--->
-Download the [data zip file](https://example.com/FIXME) and unzip it to your Desktop
-
-## Software Setup
-
-::::::::::::::::::::::::::::::::::::::: discussion
-
-### Details
-
-Setup for different systems can be presented in dropdown menus via a `spoiler`
-tag. They will join to this discussion block, so you can give a general overview
-of the software used in this lesson here and fill out the individual operating
-systems (and potentially add more, e.g. online setup) in the solutions blocks.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::: spoiler
-
-### Windows
-
-Use PuTTY
-
-::::::::::::::::::::::::
-
-:::::::::::::::: spoiler
-
-### MacOS
-
-Use Terminal.app
-
-::::::::::::::::::::::::
 
 
-:::::::::::::::: spoiler
+In this lesson you will learn how to create a high performance computer using Raspberry Pi single board computers. The skills you learn will be transferrable to any unix type operating system. The focus of this lesson is on the software that is typically used on HPCs and not the hardware.
 
-### Linux
+The minimum equipment you will need for this lesson would be:
 
-Use Terminal
-
-::::::::::::::::::::::::
-
+- 2 x Raspberry Pi 4 or 5, one which will serve as the login node and one which will be a compute node. These do not need keyboards and screens but it is sometimes handy to have a keyboard and screen for when you run into trouble.
+- One network switch.
+- One laptop or computer which will serve as your workstation. It might prove useful for this workstation to have an ethernet port.
+- Three network cables.
+- If your switch has Power over Ethernet (PoE) you might not need power supplies for your two nodes. If they don’t, don’t forget the power supplies. Also don’t forget the power supply for the switch itself.
+- For starters you’ll need two SD cards. One SD card will be used for the login node and the other for the compute node. - If, later on, you want to use PXE (i.e. boot over network), then you can use the compute node SD card to create a template image for compute nodes
