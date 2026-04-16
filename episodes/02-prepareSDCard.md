@@ -53,26 +53,26 @@ When using the The Raspberry Pi Imager, select the Device and OS.
 
 The OS selection should be `Raspberry Pi OS (other)` -> `Raspberry Pi OS Lite (64-bit)`.
 
-![image alt >](/fig/screenshots/imager-hero-shot.png)
+![](fig/screenshots/imager-hero-shot.png)
 
 Selecting the device:
 
-![image alt >](/fig/screenshots/imager-device-selection.png)
+![](fig/screenshots/imager-device-selection.png)
 
 
 Selecting the OS:
 
-![](/fig/screenshots/imager-OS-selection-1.png)
+![](fig/screenshots/imager-OS-selection-1.png){alt=}
 
-![](/fig/screenshots/imager-OS-selection-2.png)
+![](fig/screenshots/imager-OS-selection-2.png){alt=}
 
 After this, please select the sdcard you would like to flash the image on, Then press `NEXT`.
 
-![](/fig/screenshots/imager-sd-card-selection.png)
+![](fig/screenshots/imager-sd-card-selection.png){alt=}
 
 it will ask if the user wants to do any customisation, select `EDIT SETTINGS`.
 
-![](/fig/screenshots/imager-customiser-dialog.png)
+![](fig/screenshots/imager-customiser-dialog.png){alt=}
 
 This will show a pop-up window where the following configuration options can be defined for your set-up (below are examples) such that your OS is pre-configured upon first boot.
 
@@ -81,78 +81,80 @@ This will show a pop-up window where the following configuration options can be 
 1. Password: `0nl1n3`
 1. WiFI SSID and Password: Enter your WiFi details
 
-![](/fig/screenshots/imager-os-config.png)
+![](fig/screenshots/imager-os-config.png){alt=}
 
 Then go to the `SERVICES` tab and enable SSH with password authentication (alternatively, adding a ssh public key). If you would like to set up easy access to the Pi via an ssh key, please see [here](ssh-setup.md).
 
 _TODO: Section on generating an ssh key-pair._
 
-![](/fig/screenshots/imager-pwd-setup.png)
+![](fig/screenshots/imager-pwd-setup.png){alt=}
 
 
 After, saving this, select `YES` to apply the configuration.
 
-![](/fig/screenshots/imager-os-config-apply.png)
+![](fig/screenshots/imager-os-config-apply.png){alt=}
 
 Confim writing to the sdcard (please backup any data on the sdcard, any existing data will be **LOST!**)
 
-![](/fig/screenshots/imager-confirm-sdcard-write.png)
+![](fig/screenshots/imager-confirm-sdcard-write.png){alt=}
 
+![The Raspberry Pi Imager](fig/RaspberryPiImager.png){alt="The Raspberry Pi Imager"}
 
-
-
-
-
-
-
-
-
-
-
-
-
----
-
-{% include image.html max-width="400px" file="fig/RaspberryPiImager.png" alt=
-"The Raspberry Pi Imager" caption="The Raspberry Pi Imager" %}
+<!-- {% include image.html max-width="400px" file="fig/RaspberryPiImager.png" alt=
+"The Raspberry Pi Imager" caption="The Raspberry Pi Imager" %} -->
 
 You can now click on the **Choose OS** button which will open a window for
 selecting the image you want to write to the SD card. Scroll down to the bottom
 where you should find an option **Raspberry Pi OS (other)**. Click on that option:
 
-{% include image.html max-width="400px" file="fig/ChooseImage.png" alt=
-"Selecting an image to write to the SD card" caption="n image
+![Selecting an image to write to the SD card" ](fig/ChooseImage.png){alt="Image
 of the RPi Imager software screen for selecting an image to be written to the SD
-card" %}
+card"}
+
+<!-- caption="n image
+of the RPi Imager software screen for selecting an image to be written to the SD
+card" -->
+
 
 Select **Raspberry Pi OS Lite (64 bit)**. Make
 sure you have inserted the SD card into your computer. Now click on the **Choose
 Storage** button and select the device you want to write the image to: 
 
-{% include image.html max-width="400px" file="fig/SelectDevice.png" alt=
+![An image of the RPi Imager software screen for selecting the device to be written to](fig/SelectDevice.png){alt="Select a device to write the image to"}
+
+<!-- {% include image.html max-width="400px" file="fig/SelectDevice.png" alt=
 "Select a device to write the image to" caption="An image of the
-RPi Imager software screen for selecting the device to be written to" %}
+RPi Imager software screen for selecting the device to be written to" %} -->
 
 Once you have selected the Storage device, click the **WRITE** button. You will
 be prompted to overwrite the information on the SD card, click on **YES** to
 accept.
 
+![An image of the RPi Imager software screen for confirming to overwrite the SD card](fig/PromptToOverwrite.png){alt="Prompt to overwrite the SD card"}
+
+<!-- 
 {% include image.html max-width="400px" file="fig/PromptToOverwrite.png" alt=
 "Prompt to overwrite the SD card" caption="An image of
-the RPi Imager software screen for confirming to overwrite the SD card" %}
+the RPi Imager software screen for confirming to overwrite the SD card" %} -->
 
 The image will now be written to the SD card.
 
+![An image of the RPi Imager software screen while writing the image to the SD card](fig/Writing.png){alt="Overwriting the SD card"}
+
+<!-- 
 {% include image.html max-width="400px" file="fig/Writing.png" alt=
 "Overwriting the SD card" caption="An image of the RPi Imager
-software screen while writing the image to the SD card" %}
+software screen while writing the image to the SD card" %} -->
 
 Once the image has been written to the SD card a **Write Successful** message
 will be displayed.
 
+![An image of the RPi Imager software screen after the image has been written successfully](fig/ImageWritten.png){alt="Write Successful"}
+
+<!-- 
 {% include image.html max-width="400px" file="fig/ImageWritten.png" alt=
 "Write Successful" caption="An image of the RPi Imager
-software screen after the image has been written succesfully.d" %}
+software screen after the image has been written succesfully.d" %} -->
 
 You can now remove the SD card from your computer and insert it into the
 Raspberry Pi.
