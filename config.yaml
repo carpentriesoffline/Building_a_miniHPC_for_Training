@@ -19,7 +19,7 @@ carpentry: 'incubator'
 carpentry_description: 'A guide to configuring a cluster of Raspberry Pis to use as a mini-HPC in a workshop setting.'
 
 # Overall title for pages.
-title: 'Lesson Title' # FIXME
+title: 'Building a mini-HPC for training' # FIXME
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
 created: 2026-04-16  # FIXME
@@ -27,7 +27,7 @@ created: 2026-04-16  # FIXME
 # Comma-separated list of keywords for the lesson
 keywords: 'HPC, Raspberry Pi, mini-HPC, The Carpentries, CarpentriesOffline' # FIXME
 
-# Life cycle stage of the lesson
+# Life cycle stage of sthe lesson
 # refer to <https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html> for details
 # possible values: pre-alpha, alpha, beta, stable
 life_cycle: 'pre-alpha' 
