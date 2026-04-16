@@ -1,4 +1,5 @@
 ---
+site: sandpaper::sandpaper_site
 layout: default
 title: Setup
 ---
