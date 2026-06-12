@@ -9,6 +9,18 @@ body {
   padding: 0.6em 1.5em;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.site-header__github {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  opacity: 0.85;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .site-header__brand {
