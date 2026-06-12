@@ -72,9 +72,9 @@ After this, please select the sdcard you would like to flash the image on, then 
 
 It will now ask about customisation, and at this point we can enter the hostname:
 
-> Hostname: `node001`
+> Hostname: `node01`
 
-Repeating this for the second Pi, we will use the hostname `node002`.
+Repeating this for the second Pi, we will use the hostname `node02`.
 
 ![Enter hostname dialog image](/fig/screenshots/imager-customiser-dialog.png)
 
@@ -84,16 +84,18 @@ The following configuration options can be defined for your set-up (below are ex
 
 ![Wi-Fi network entry](/fig/screenshots/imager-os-config.png)
 
-Then enable SSH with password authentication (alternatively, adding a ssh public key). If you would like to set up easy access to the Pi via an ssh key, please see [here](ssh-setup.md).
+Then enable SSH with password authentication (alternatively, by adding a ssh public key). If you would like to set up easy access to the Pi via an ssh key, please see [here](ssh-setup.md).
+
+![Setting up SSH](/fig/screenshots/imager-ssh-options.png)
+
+Set the username and password that will be used to log into the Pi using the `ssh` command.
 
 1. Username: `pixie`
 1. Password: `0nl1n3`
 
-_TODO: Section on generating an ssh key-pair._
-
 ![Setting the username and password](/fig/screenshots/imager-pwd-setup.png)
 
-After, saving this, select `NEXT` to apply the configuration. We can skip the screen on setting up Raspberry Pi Connect.
+After, saving this, select `NEXT` to apply the configuration. We can skip the final screen on setting up Raspberry Pi Connect.
 
 Confim writing to the sdcard (please backup any data on the sdcard, any existing data will be **LOST!**)
 
@@ -103,4 +105,3 @@ Confim writing to the sdcard (please backup any data on the sdcard, any existing
 Once the image has been written to the SD card a **Write Successful** message
 will be displayed. You can now remove the SD card from your computer and insert it into the
 Raspberry Pi.
-
