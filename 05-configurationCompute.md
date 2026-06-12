@@ -3,10 +3,19 @@ title: Configuring a compute node
 layout: default
 ---
 
-This is a step by step guide on how to set up a miniHPC using Raspberry Pis.
+This section demonstrates how to set up a compute node on your Raspberry Pi, and add it to your cluster.
 
 Flash an SD card as described in episode 2 and give it a name of <`nodename`>02 where <`nodename`> is the
 name that you use for all your nodes in your HPC (e.g. `orange`, `black`, `green`, `blue`, `yellow`).
+
+## Start with an update
+
+We need to update packages on the compute nodes, too:
+
+```bash
+sudo apt update -y
+sudo apt upgrade -y
+```
 
 ## Configure the hostname and hosts file
 
@@ -54,17 +63,12 @@ sudo apt-get install -y slurmd
 sudo mkdir /sharedfs
 ```
 
-## Install required packages
+## Copy configuration files from the login node
 
-```bash
-sudo apt-get install -y slurmd slurm-client munge vim ntp ntpdate lmod
-```
-
-- Copy the `/etc/hosts` from the login node to the compute node
 - Copy the slurm config of the login node to `/etc/slurm/slurm.conf`
-- Copy the `/etc/munge/munge.key` from the login node to the compute node
-- Copy the /etc/cgroup.conf and /etc/cgroup_allowed_devices_file.conf from the login node to the compute node
-- Update /etc/fstab to show the following:
+- Copy `/etc/munge/munge.key` from the login node to the compute node
+- Copy `/etc/cgroup.conf` and `/etc/cgroup_allowed_devices_file.conf` from the login node to the compute node
+- Update `/etc/fstab` to show the following:
 
 ```bash
 proc            /proc           proc    defaults          0       0
@@ -72,7 +76,6 @@ PARTUUID=3e3e7392-01  /boot/firmware  vfat    defaults          0       2
 PARTUUID=3e3e7392-02  /               ext4    defaults,noatime  0       1
 192.168.5.101:/sharedfs    /sharedfs    nfs    defaults   0 0
 192.168.5.101:/home    /home    nfs    defaults   0 0
-
 ```
 
 ## Install ESSI
