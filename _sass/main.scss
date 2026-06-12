@@ -1,5 +1,33 @@
 body {
   font-family: sans-serif;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.site-header {
+  background: #0066cc;
+  padding: 0.6em 1.5em;
+  display: flex;
+  align-items: center;
+}
+
+.site-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  text-decoration: none;
+}
+
+.site-header__logo {
+  height: 2.5em;
+  width: auto;
+}
+
+.site-header__title {
+  color: #fff;
+  font-size: 1.3em;
+  font-weight: bold;
+  letter-spacing: 0.01em;
 }
 
 img {
