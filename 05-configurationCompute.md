@@ -8,6 +8,16 @@ This is a step by step guide on how to set up a miniHPC using Raspberry Pis.
 Flash an SD card as described in episode 2 and give it a name of <`nodename`>02 where <`nodename`> is the
 name that you use for all your nodes in your HPC (e.g. `orange`, `black`, `green`, `blue`, `yellow`).
 
+## Install required packages
+
+```bash
+sudo apt-get install -y slurmd slurm-client munge vim ntpsec ntpsec-ntpdate lmod
+```
+
+> **Note:** `ntp` and `ntpdate` are no longer available on current Raspberry Pi OS. Use `ntpsec`
+> and `ntpsec-ntpdate` instead; they provide the same functionality.
+
+
 ## Create a mount point for the shared drive
 
 ```bash
