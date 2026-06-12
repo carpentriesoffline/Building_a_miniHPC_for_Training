@@ -25,6 +25,27 @@ libpmix2 libpmix-bin libpmix-dev git
 
 A dialog block will appear on the screen. Answer yes to both questions.
 
+| Package.                          | Purpose                                                                    |
+| --------------------------------- | -------------------------------------------------------------------------- |
+| `nfs-kernel-server`               | NFS server — exports the shared filesystem to compute nodes                |
+| `nfs-common`                      | NFS client utilities, also needed on the login node                        |
+| `lmod`                            | Lua-based module system for managing software environments (e.g. ESSI)     |
+| `ansible`                         | Automation tool for configuring compute nodes in bulk                      |
+| `slurm-wlm`                       | Slurm workload manager — schedules and dispatches jobs across the cluster  |
+| `munge`                           | Authentication service used by Slurm daemons to verify messages            |
+| `libmunge2`, `libmunge-dev`       | MUNGE shared library and development headers                               |
+| `libpmix2`, `libpmix-bin`, `libpmix-dev` | PMIx library for MPI job launch support                             |
+| `dnsmasq`                         | Lightweight DHCP and DNS server — assigns IPs to compute nodes             |
+| `iptables`, `iptables-persistent` | Firewall and NAT rules; persistent saves them across reboots               |
+| `nmap`                            | Network scanner — useful for verifying compute nodes are reachable         |
+| `net-tools`                       | Legacy networking tools (`ifconfig`, `netstat`, etc.)                      |
+| `build-essential`                 | Compilers and build tools (`gcc`, `make`, etc.)                            |
+| `htop`                            | Interactive process viewer                                                 |
+| `screen`                          | Terminal multiplexer — keeps sessions alive over SSH                       |
+| `vim`                             | Text editor                                                                |
+| `python3-pip`                     | Python package installer                                                   |
+| `git`                             | Version control                                                            |
+
 ## Enable IP forwarding
 
 Create a drop-in configuration file so the system setting is not mixed with distribution defaults:

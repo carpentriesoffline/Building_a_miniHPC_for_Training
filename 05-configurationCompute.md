@@ -25,6 +25,15 @@ sudo apt-get install -y slurmd slurm-client munge vim ntpsec ntpsec-ntpdate lmod
 > **Note:** `ntp` and `ntpdate` are no longer available on current Raspberry Pi OS. Use `ntpsec`
 > and `ntpsec-ntpdate` instead; they provide the same functionality.
 
+| Package | Purpose |
+| --- | --- |
+| `slurmd` | Slurm compute node daemon — executes jobs dispatched by the login node |
+| `slurm-client` | Slurm client tools (`srun`, `sbatch`, `squeue`, etc.) |
+| `munge` | Authentication service used by Slurm to verify inter-node messages |
+| `ntpsec` | NTP time synchronisation daemon — keeps node clocks in sync with the login node |
+| `ntpsec-ntpdate` | One-shot time sync command, useful for initial clock correction on first boot |
+| `lmod` | Lua-based module system for loading software environments (e.g. ESSI) |
+| `vim` | Text editor |
 
 Verify that `slurmd` installed and the service unit is present:
 
