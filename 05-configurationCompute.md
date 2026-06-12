@@ -26,7 +26,7 @@ sudo apt-get install -y slurmd slurm-client munge vim ntp ntpdate lmod
 - Copy the /etc/cgroup.conf and /etc/cgroup_allowed_devices_file.conf from the login node to the compute node
 - Update /etc/fstab to show the following:
 
-```
+```bash
 proc            /proc           proc    defaults          0       0
 PARTUUID=3e3e7392-01  /boot/firmware  vfat    defaults          0       2
 PARTUUID=3e3e7392-02  /               ext4    defaults,noatime  0       1

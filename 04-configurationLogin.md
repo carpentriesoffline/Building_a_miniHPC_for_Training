@@ -10,7 +10,7 @@ sudo apt update -y
 sudo apt upgrade -y
 ```
 
-## Install required packages.
+## Install required packages
 
 ```bash
 sudo apt install -y nfs-kernel-server lmod ansible slurm munge nmap \
@@ -23,11 +23,12 @@ A dialog block will appear on the screen. Answer yes to both questions.
 
 ## Enable IP forwarding
 
-- As `sudo`, edit the file `\etc\sysctl.conf`. Find the line that reads `#net.ipv4.ip_forward=1` 
-and remove the `#` at the beginning of the line. Save the file. The change will become active 
+- As `sudo`, edit the file `\etc\sysctl.conf`. Find the line that reads `#net.ipv4.ip_forward=1`
+and remove the `#` at the beginning of the line. Save the file. The change will become active
 after a reboot.
 
-##  Configure IP-tables
+## Configure IP-tables
+
 ```bash
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
@@ -67,7 +68,7 @@ static domain_name_servers=192.168.5.101
 
 ## Configure DNS masquerading
 
-- Configure dnsmasq by entering the following in the file `/etc/dnsmasq.conf`. Replace 
+- Configure dnsmasq by entering the following in the file `/etc/dnsmasq.conf`. Replace
 the MAC address on the sixth line with the MAC address of your compute node.
 
 ```bash
@@ -81,7 +82,7 @@ dhcp-option=3,192.168.0.1 # default route
 
 ```
 
-##  Create a shared directory.
+## Create a shared directory
 
 ```bash
 sudo mkdir /sharedfs
@@ -102,23 +103,23 @@ sudo chmod 777 -R /sharedfs
 - The `/etc/hosts` file should contain the following. Make sure to change all occurences of `pixie` in the script to the name of your cluster:
 
 ```bash
-127.0.0.1	localhost
-::1		localhost ip6-localhost ip6-loopback
-ff02::1		ip6-allnodes
-ff02::2		ip6-allrouters
+127.0.0.1 localhost
+::1       localhost ip6-localhost ip6-loopback
+ff02::1   ip6-allnodes
+ff02::2   ip6-allrouters
 
 # This login node's hostname
-127.0.1.1	pixie001
+127.0.1.1 pixie001
 
 # IP and hostname of compute nodes
-192.168.5.102	pixie002
+192.168.5.102 pixie002
 ```
 
 ## Configure Slurm
 
 Add the following to /etc/slurm/slurm.conf. Change all occurences of `pixie` in this script to the name of your cluster.
 
-```
+```conf
 SlurmctldHost=pixie001(192.168.5.101)
 MpiDefault=none
 ProctrackType=proctrack/cgroup
@@ -195,11 +196,12 @@ source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 ```
 
 ## Disable WiFi and Bluetooth
+
 Now that we have set our login node up as a DHCP server, we can disable WiFi.
 
 Open `/boot/firmware/config.txt` and add the following two lines at the bottom in the `[all]` section.
 
-```
+```ini
 dtoverlay=disable-wifi
 dtoverlay=disable-bt
 ```
