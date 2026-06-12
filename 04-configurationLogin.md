@@ -3,6 +3,10 @@ layout: default
 title: Configuring the login node
 ---
 
+> **Configure the login node first.** The compute node configuration (next page) depends on files
+> generated here (munge key, slurm.conf, /etc/hosts), and the login node must be up and running
+> as the DHCP/DNS server before the compute node can reach the network.
+
 ## Start with an update
 
 ```bash
