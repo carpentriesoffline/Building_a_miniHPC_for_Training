@@ -43,15 +43,30 @@ sudo netfilter-persistent save
 
 ## Configure the network interfaces
 
-Place the following into `/etc/network/interfaces`
+> **Warning:** Do **not** edit `/etc/network/interfaces` on current Raspberry Pi OS (Bookworm).
+> That file is not used when NetworkManager is active, and mixing the two causes unpredictable
+> behaviour. Use `nmcli` instead.
+
+The login node needs a **fixed IP** on its ethernet interface (`eth0`) so the compute nodes
+always reach it at the same address, and so dnsmasq can hand out leases reliably.
+Ethernet interfaces must be set to "unmanaged" in the sense that they carry a static address
+rather than requesting one via DHCP — NetworkManager still controls the interface, but DHCP
+is disabled for it.
 
 ```bash
-auto eth0
-allow-hotplug eth0
-iface eth0 inet static
-  address 192.168.5.101
-  netmask 255.255.255.0
-source /etc/network/interfaces.d/*
+sudo nmcli con add type ethernet ifname eth0 con-name eth0-static \
+  ipv4.method manual \
+  ipv4.addresses 192.168.5.101/24 \
+  ipv4.gateway 192.168.5.101 \
+  ipv4.dns 192.168.5.101 \
+  connection.autoconnect yes
+sudo nmcli con up eth0-static
+```
+
+Verify the address is set:
+
+```bash
+ip addr show eth0
 ```
 
 ## Modify the hostname
