@@ -20,31 +20,35 @@ sudo apt upgrade -y
 sudo apt install -y nfs-kernel-server lmod ansible slurm munge nmap \
 nfs-common net-tools build-essential htop net-tools screen vim python3-pip \
 dnsmasq slurm-wlm iptables iptables-persistent libmunge-dev libmunge2 \
-libpmix2 libpmix-bin libpmix-dev git
+libopenmpi-dev libopenmpi3t64 git
 ```
 
 A dialog block will appear on the screen. Answer yes to both questions.
 
-| Package.                          | Purpose                                                                    |
-| --------------------------------- | -------------------------------------------------------------------------- |
-| `nfs-kernel-server`               | NFS server — exports the shared filesystem to compute nodes                |
-| `nfs-common`                      | NFS client utilities, also needed on the login node                        |
-| `lmod`                            | Lua-based module system for managing software environments (e.g. ESSI)     |
-| `ansible`                         | Automation tool for configuring compute nodes in bulk                      |
-| `slurm-wlm`                       | Slurm workload manager — schedules and dispatches jobs across the cluster  |
-| `munge`                           | Authentication service used by Slurm daemons to verify messages            |
-| `libmunge2`, `libmunge-dev`       | MUNGE shared library and development headers                               |
-| `libpmix2`, `libpmix-bin`, `libpmix-dev` | PMIx library for MPI job launch support                             |
-| `dnsmasq`                         | Lightweight DHCP and DNS server — assigns IPs to compute nodes             |
-| `iptables`, `iptables-persistent` | Firewall and NAT rules; persistent saves them across reboots               |
-| `nmap`                            | Network scanner — useful for verifying compute nodes are reachable         |
-| `net-tools`                       | Legacy networking tools (`ifconfig`, `netstat`, etc.)                      |
-| `build-essential`                 | Compilers and build tools (`gcc`, `make`, etc.)                            |
-| `htop`                            | Interactive process viewer                                                 |
-| `screen`                          | Terminal multiplexer — keeps sessions alive over SSH                       |
-| `vim`                             | Text editor                                                                |
-| `python3-pip`                     | Python package installer                                                   |
-| `git`                             | Version control                                                            |
+> **Note:** On older Raspberry Pi OS releases, `libpmix2`, `libpmix-bin`, and `libpmix-dev` were
+> separate packages. These were merged into OpenMPI in Debian Bookworm — use `libopenmpi3t64`
+> and `libopenmpi-dev` instead.
+
+| Package.                           | Purpose                                                                    |
+| ---------------------------------- | -------------------------------------------------------------------------- |
+| `nfs-kernel-server`                | NFS server — exports the shared filesystem to compute nodes                |
+| `nfs-common`                       | NFS client utilities, also needed on the login node                        |
+| `lmod`                             | Lua-based module system for managing software environments (e.g. ESSI)     |
+| `ansible`                          | Automation tool for configuring compute nodes in bulk                      |
+| `slurm-wlm`                        | Slurm workload manager — schedules and dispatches jobs across the cluster  |
+| `munge`                            | Authentication service used by Slurm daemons to verify messages            |
+| `libmunge2`, `libmunge-dev`        | MUNGE shared library and development headers                               |
+| `libopenmpi3t64`, `libopenmpi-dev` | OpenMPI runtime and headers — provides PMIx support for Slurm job launch (PMIx packages were merged into OpenMPI in Debian Bookworm) |
+| `dnsmasq`                          | Lightweight DHCP and DNS server — assigns IPs to compute nodes             |
+| `iptables`, `iptables-persistent`  | Firewall and NAT rules; persistent saves them across reboots               |
+| `nmap`                             | Network scanner — useful for verifying compute nodes are reachable         |
+| `net-tools`                        | Legacy networking tools (`ifconfig`, `netstat`, etc.)                      |
+| `build-essential`                  | Compilers and build tools (`gcc`, `make`, etc.)                            |
+| `htop`                             | Interactive process viewer                                                 |
+| `screen`                           | Terminal multiplexer — keeps sessions alive over SSH                       |
+| `vim`                              | Text editor                                                                |
+| `python3-pip`                      | Python package installer                                                   |
+| `git`                              | Version control                                                            |
 
 ## Enable IP forwarding
 
