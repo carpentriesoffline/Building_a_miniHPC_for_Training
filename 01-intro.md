@@ -49,3 +49,7 @@ to use an HPC.
 - Example of casing:
   - 3D printed DIN Rail stand
   - 3D printed RPi cases
+
+![An example of a MiniHPC created with Raspberry Pis](fig/minihpc.jpg)
+
+*The first CarpentriesOffline MiniHPC, `pixie`, created with Raspberry Pis!*
