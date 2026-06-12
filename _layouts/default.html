@@ -10,5 +10,34 @@
 		<h1>{{ page.title }}</h1>
 
     {{ content }}
+
+    {% assign nav = site.data.navigation %}
+    {% if page.url == '/' %}
+      {% assign current_link = 'index.html' %}
+    {% else %}
+      {% assign current_link = page.url | remove: '/' | replace: '.html', '' | append: '.html' %}
+    {% endif %}
+    {% for item in nav %}
+      {% assign item_link = item.link | remove: '/' %}
+      {% if item_link == current_link %}
+        {% assign current_index = forloop.index0 %}
+      {% endif %}
+    {% endfor %}
+    {% if current_index != nil %}
+      {% assign prev_index = current_index | minus: 1 %}
+      {% assign next_index = current_index | plus: 1 %}
+      <nav class="prev-next">
+        {% if current_index > 0 %}
+          {% assign prev = nav[prev_index] %}
+          <a href="{{ site.baseurl }}/{{ prev.link }}" class="prev-next__prev">&larr; {{ prev.name }}</a>
+        {% else %}
+          <span></span>
+        {% endif %}
+        {% if next_index < nav.size %}
+          {% assign next = nav[next_index] %}
+          <a href="{{ site.baseurl }}/{{ next.link }}" class="prev-next__next">{{ next.name }} &rarr;</a>
+        {% endif %}
+      </nav>
+    {% endif %}
   </body>
 </html>

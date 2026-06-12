@@ -9,3 +9,20 @@ body {
   height: 100vh;
   text-align: justify;
 }
+
+.prev-next {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid #ccc;
+
+  a {
+    text-decoration: none;
+    color: #0066cc;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
