@@ -23,7 +23,13 @@ sudo apt upgrade -y
 > otherwise every `sudo` invocation will print `unable to resolve host node001`. Copy `/etc/hosts`
 > from the login node before proceeding.
 
-- Copy `/etc/hosts` from the login node to `/etc/hosts` on the compute node
+Copy `/etc/hosts` from the login node to `/etc/hosts` on the compute node:
+
+```bash
+pi@node02:~ $ scp pi@node01.local:/etc/hosts /etc/hosts
+```
+
+(Obviously, replace `node01`, `node02` with your hostnames here!)
 
 ## Install required packages
 
