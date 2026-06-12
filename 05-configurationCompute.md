@@ -8,6 +8,14 @@ This is a step by step guide on how to set up a miniHPC using Raspberry Pis.
 Flash an SD card as described in episode 2 and give it a name of <`nodename`>02 where <`nodename`> is the
 name that you use for all your nodes in your HPC (e.g. `orange`, `black`, `green`, `blue`, `yellow`).
 
+## Configure the hostname and hosts file
+
+> **Do this first.** Hostname resolution must be in place before running any `sudo` command,
+> otherwise every `sudo` invocation will print `unable to resolve host node001`. Copy `/etc/hosts`
+> from the login node before proceeding.
+
+- Copy `/etc/hosts` from the login node to `/etc/hosts` on the compute node
+
 ## Install required packages
 
 ```bash
