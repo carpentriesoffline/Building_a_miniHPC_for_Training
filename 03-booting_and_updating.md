@@ -40,5 +40,5 @@ Now you are connected, do an update and a full-upgrade:
 
 ```bash
 sudo apt update
-sudo apt full-upgrade
+sudo apt full-upgrade -y
 ```
