@@ -74,7 +74,9 @@ It will now ask about customisation, and at this point we can enter the hostname
 
 > Hostname: `node01`
 
-Repeating this for the second Pi, we will use the hostname `node02`.
+Repeating this for the second Pi, we will use a different hostname `node02`.
+
+Check the label on your Pis for the hostname to use.
 
 ![Enter hostname dialog image](/fig/screenshots/imager-customiser-dialog.png)
 
@@ -97,10 +99,9 @@ Set the username and password that will be used to log into the Pi using the `ss
 
 After, saving this, select `NEXT` to apply the configuration. We can skip the final screen on setting up Raspberry Pi Connect.
 
-Confim writing to the sdcard (please backup any data on the sdcard, any existing data will be **LOST!**)
+Confirm writing to the sdcard (please backup any data on the sdcard, any existing data will be **LOST!**)
 
 ![Confirming the write to the SD Card](/fig/screenshots/imager-confirm-sdcard-write.png)
-
 
 Once the image has been written to the SD card a **Write Successful** message
 will be displayed. You can now remove the SD card from your computer and insert it into the
