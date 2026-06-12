@@ -194,5 +194,14 @@ source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 # echo "source /cvmfs/software.eessi.io/versions/2023.06/init/bash" | sudo tee -a /etc/profile
 ```
 
+## Disable WiFi and Bluetooth
+Now that we have set our login node up as a DHCP server, we can disable WiFi.
 
+Open `/boot/firmware/config.txt` and add the following two lines at the bottom in the `[all]` section.
 
+```
+dtoverlay=disable-wifi
+dtoverlay=disable-bt
+```
+
+Save the file and reboot.
