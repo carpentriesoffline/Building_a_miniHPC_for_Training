@@ -18,6 +18,19 @@ sudo apt-get install -y slurmd slurm-client munge vim ntpsec ntpsec-ntpdate lmod
 > and `ntpsec-ntpdate` instead; they provide the same functionality.
 
 
+Verify that `slurmd` installed and the service unit is present:
+
+```bash
+systemctl status slurmd
+```
+
+If `slurmd` is not found, the package may have been silently skipped during install. Run the
+install command again with only `slurmd` to confirm:
+
+```bash
+sudo apt-get install -y slurmd
+```
+
 ## Create a mount point for the shared drive
 
 ```bash
