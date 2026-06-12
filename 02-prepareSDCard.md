@@ -30,7 +30,6 @@ Internet connectivity might prove to be a problem during this workshop so your
 instructor might bring an image along that can be copied or perhaps they will
 provide pre-prepared microSD cards.
 
-
 The Raspberry Pi can run several operating systems including several flavours
 of Linux. The official Raspberry Pi OS is based on Debian Linux.
 
@@ -42,7 +41,6 @@ the installation file to your computer. The web page will provide further
 information for installing the software on your computer.
 Once the installation is complete you should be able to run the Imager which
 will open with the following screen:
-
 
 ## Creating an SD card image: step-by-step
 
@@ -89,13 +87,16 @@ Next, set the username and password that will be used to log into the Pi using t
 1. Username: `pixie`
 1. Password: `0nl1n3`
 
+> *Pro-tip:* Don't use the login name `pi` on fresh Rasbian Lite image - it takes you round in circles back to a login prompt!
+
 ![Setting the username and password](fig/screenshots/imager-pwd-setup.png)
 
 *Customisation: Choose Wi-Fi*: next, enter your WiFi details. For our workshop, we are using the network `CarpentriesOffline`.
 
 ![Wi-Fi network entry](fig/screenshots/imager-os-config.png)
 
-Then on the "Remote Access" page, enable SSH with password authentication (alternatively, by adding a ssh public key). If you would like to set up easy access to the Pi via an ssh key, please see [here](ssh-setup.md).
+Then on the "Remote Access" page, enable SSH with password authentication (alternatively, by adding a ssh public key).
+You could also, if desired, [set up easy access to the Pi via an ssh key](ssh-setup.md).
 
 ![Setting up SSH](fig/screenshots/imager-ssh-options.png)
 
