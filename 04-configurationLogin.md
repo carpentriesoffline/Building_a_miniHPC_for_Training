@@ -23,9 +23,14 @@ A dialog block will appear on the screen. Answer yes to both questions.
 
 ## Enable IP forwarding
 
-- As `sudo`, edit the file `\etc\sysctl.conf`. Find the line that reads `#net.ipv4.ip_forward=1`
-and remove the `#` at the beginning of the line. Save the file. The change will become active
-after a reboot.
+Create a drop-in configuration file so the system setting is not mixed with distribution defaults:
+
+```bash
+echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/99-ip-forward.conf
+sudo sysctl --system
+```
+
+`sudo sysctl --system` applies all drop-in files immediately, so a reboot is not required.
 
 ## Configure IP-tables
 
