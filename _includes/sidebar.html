@@ -1,0 +1,34 @@
+<aside class="sidebar">
+  <nav class="sidebar-nav">
+    {% for item in site.data.navigation %}
+      {% assign item_url = item.link | prepend: '/' %}
+      {% if page.url == '/' and item.link == 'index.html' %}
+        {% assign is_active = true %}
+      {% elsif page.url contains item.link and item.link != 'index.html' %}
+        {% assign is_active = true %}
+      {% else %}
+        {% assign is_active = false %}
+      {% endif %}
+
+      {% comment %} Find the matching page to get its frontmatter title {% endcomment %}
+      {% assign matched_page = nil %}
+      {% for p in site.pages %}
+        {% assign p_file = p.url | remove: '/' | replace: '.html', '' | append: '.html' %}
+        {% if p_file == item.link %}
+          {% assign matched_page = p %}
+        {% endif %}
+      {% endfor %}
+
+      {% if matched_page %}
+        {% assign display_name = matched_page.title %}
+      {% else %}
+        {% assign display_name = item.name %}
+      {% endif %}
+
+      <a href="{{ site.baseurl }}/{{ item.link }}"
+         class="sidebar-nav__item{% if is_active %} active{% endif %}">
+        {{ display_name }}
+      </a>
+    {% endfor %}
+  </nav>
+</aside>
