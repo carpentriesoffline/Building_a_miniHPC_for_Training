@@ -128,6 +128,36 @@ img {
   }
 }
 
+.toc-page {
+  margin-bottom: 1.5em;
+
+  h2 {
+    margin-bottom: 0.25em;
+    font-size: 1.1em;
+  }
+}
+
+.toc-sections {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 1em;
+  border-left: 2px solid #ddd;
+
+  li {
+    margin: 0.2em 0;
+    font-size: 0.9em;
+  }
+
+  a {
+    text-decoration: none;
+    color: #444;
+
+    &:hover {
+      color: #0066cc;
+    }
+  }
+}
+
 .prev-next {
   display: flex;
   justify-content: space-between;

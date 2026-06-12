@@ -1,5 +1,7 @@
 - name: Setup
   link: index.html
+- name: Contents
+  link: toc.html
 - name: Introduction
   link: 01-intro.html
 - name: Preparing an SD Card
