@@ -56,19 +56,19 @@ The OS selection should be `Raspberry Pi OS (other)` -> `Raspberry Pi OS Lite (6
 
 Selecting the device:
 
-![Selecting the Raspberry Pi 5](/fig/screenshots/imager-device-selection.png)
+![Selecting the Raspberry Pi 5](fig/screenshots/imager-device-selection.png)
 
 Selecting the OS is a two step process:
 
-![Selecting "Raspberry Pi OS (other)"](/fig/screenshots/imager-OS-selection-1.png)
+![Selecting "Raspberry Pi OS (other)"](fig/screenshots/imager-OS-selection-1.png)
 
 We want the OS with no desktop environment: use `Raspberry Pi OS Lite (64-bit)`:
 
-![OS selection: Raspberry Pi OS Lite (64-bit)](/fig/screenshots/imager-OS-selection-2.png)
+![OS selection: Raspberry Pi OS Lite (64-bit)](fig/screenshots/imager-OS-selection-2.png)
 
 After this, please select the sdcard you would like to flash the image on, then press `NEXT`.
 
-![Selecting the SD card to write to](/fig/screenshots/imager-sd-card-selection.png)
+![Selecting the SD card to write to](fig/screenshots/imager-sd-card-selection.png)
 
 The following configuration options can be defined for your set-up such that your OS is pre-configured upon first boot. This is useful as it means we can complete some of the initial configuration before flashing the image, without a screen and keyboard for the Pi.
 
@@ -80,7 +80,7 @@ Repeating this for the second Pi, we will use a different hostname e.g. `node02`
 
 Check the label on your Pis for the hostname to use.
 
-![Enter hostname dialog image](/fig/screenshots/imager-customiser-dialog.png)
+![Enter hostname dialog image](fig/screenshots/imager-customiser-dialog.png)
 
 In the Localisation screen, select options for United Kingdom / London.
 
@@ -89,21 +89,21 @@ Next, set the username and password that will be used to log into the Pi using t
 1. Username: `pixie`
 1. Password: `0nl1n3`
 
-![Setting the username and password](/fig/screenshots/imager-pwd-setup.png)
+![Setting the username and password](fig/screenshots/imager-pwd-setup.png)
 
 *Customisation: Choose Wi-Fi*: next, enter your WiFi details. For our workshop, we are using the network `CarpentriesOffline`.
 
-![Wi-Fi network entry](/fig/screenshots/imager-os-config.png)
+![Wi-Fi network entry](fig/screenshots/imager-os-config.png)
 
 Then on the "Remote Access" page, enable SSH with password authentication (alternatively, by adding a ssh public key). If you would like to set up easy access to the Pi via an ssh key, please see [here](ssh-setup.md).
 
-![Setting up SSH](/fig/screenshots/imager-ssh-options.png)
+![Setting up SSH](fig/screenshots/imager-ssh-options.png)
 
 After, saving this, select `NEXT` to apply the configuration. We can skip the final screen on setting up Raspberry Pi Connect.
 
 Confirm writing to the sdcard (please backup any data on the sdcard, any existing data will be **LOST!**)
 
-![Confirming the write to the SD Card](/fig/screenshots/imager-confirm-sdcard-write.png)
+![Confirming the write to the SD Card](fig/screenshots/imager-confirm-sdcard-write.png)
 
 Once the image has been written to the SD card a **Write Successful** message
 will be displayed. You can now remove the SD card from your computer and insert it into the
