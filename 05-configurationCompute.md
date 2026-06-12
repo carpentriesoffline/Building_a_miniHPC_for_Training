@@ -93,6 +93,8 @@ source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 
 ## Disable WiFi and Bluetooth
 
+As with our login node, now that we've performed setup, we can turn off WiFi on the compute node:
+
 Open `/boot/firmware/config.txt` and add the following two lines at the bottom in the `[all]` section.
 
 ```ini
