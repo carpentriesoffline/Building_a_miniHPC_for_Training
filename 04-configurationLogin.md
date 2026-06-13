@@ -107,23 +107,22 @@ sudo netfilter-persistent save
 ```
 Here's what each rule does:
 
-`sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE`
-
+`sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE`  
 This is NAT masquerading. Packets leaving via `wlan0` (the upstream internet
 interface) have their source IP rewritten to the login node's `wlan0` address.
 This lets compute nodes reach the internet via `eth0` on the login node: their
 traffic appears to come from the login node.
 
-`sudo iptables -A FORWARD -i eth0 -o wlan0 -j ACCEPT` Allows packets to be
-forwarded from `eth0` (the cluster network) out to `wlan0` (internet). Without
-this, the kernel would drop traffic trying to cross interfaces even if IP
-forwarding is enabled in sysctl.
+`sudo iptables -A FORWARD -i eth0 -o wlan0 -j ACCEPT`  
+Allows packets to be forwarded from `eth0` (the cluster network) out to `wlan0`
+(internet). Without this, the kernel would drop traffic trying to cross
+interfaces even if IP forwarding is enabled in sysctl.
 
-`sudo iptables -A FORWARD -i wlan0 -o eth0 -m state --state RELATED,ESTABLISHED
--j ACCEPT` The return-traffic rule. Allows packets coming back from the
-internet (`wlan0`) into the cluster (`eth0`), but only for connections that
-were already established or are related to an existing connection (e.g. FTP
-data channels). New inbound connections from the internet are dropped.
+`sudo iptables -A FORWARD -i wlan0 -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT`  
+The return-traffic rule. Allows packets coming back from the internet (`wlan0`)
+into the cluster (`eth0`), but only for connections that were already
+established or are related to an existing connection (e.g. FTP data channels).
+New inbound connections from the internet are dropped.
 
 Together, these three rules implement a basic NAT gateway: compute nodes can
 reach the internet through the login node, but the internet cannot initiate
