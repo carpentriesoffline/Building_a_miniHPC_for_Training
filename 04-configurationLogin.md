@@ -17,9 +17,9 @@ sudo apt upgrade -y
 ## Install required packages
 
 ```bash
-sudo apt-get install -y nfs-kernel-server lmod ansible slurm munge nmap \
-  nfs-common net-tools build-essential htop net-tools screen vim python3-pip \
-  dnsmasq slurm-wlm iptables iptables-persistent libmunge-dev libmunge2 \
+sudo apt-get install -y nfs-kernel-server lmod ansible slurm munge nmap \  
+  nfs-common net-tools build-essential htop net-tools screen vim python3-pip \  
+  dnsmasq slurm-wlm iptables iptables-persistent libmunge-dev libmunge2 \  
   libopenmpi-dev libopenmpi3t64 git
 ```
 
@@ -56,7 +56,7 @@ Now, we can remove any redundant packages left over after our upgrades and packa
 sudo apt-get -y autoremove
 ```
 
-> Info: This stage can take quite a long time on older hardware (Pi 2Bs or Pi 3s, for instance).
+> **Note:** This stage can take quite a long time on older hardware (Pi 2Bs or Pi 3s, for instance).
 > The hardware in the workshop uses Raspberry Pi 5s, so shouldn't keep you waiting too long.
 
 ## Enable IP forwarding
