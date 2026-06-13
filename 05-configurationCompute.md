@@ -45,11 +45,10 @@ sudo apt upgrade -y
 Copy `/etc/hosts` from the login node to `/etc/hosts` on the compute node:
 
 ```bash
-scp pi@node01.local:/etc/hosts /etc/hosts
+sudo scp pi@node01.local:/etc/hosts /etc/hosts
 ```
 
 (Obviously, replace `node01`, `node02` with your hostnames here!)
-
 
 ## Install required packages
 
@@ -96,8 +95,12 @@ sudo mkdir /sharedfs
 ## Copy configuration files from the login node
 
 - Copy the slurm config of the login node to `/etc/slurm/slurm.conf`
+  - _On login node:_ `scp /etc/slurm/slurm.conf pi@node02.local:slurm.conf`
+  - _On compute node:_ `sudo mv slurm.conf /etc/slurm/slurm.conf`
 - Copy `/etc/munge/munge.key` from the login node to the compute node
-- Copy `/etc/cgroup.conf` and `/etc/cgroup_allowed_devices_file.conf` from the login node to the compute node
+  - _On login node:_ `scp /etc/munge/munge.key pi@node02.local:munge.key`
+  - _On compute node:_ `sudo mv munge.key /etc/munge/munge.key && sudo chmod 400 /etc/munge/munge.key`
+- Copy `/etc/cgroup.conf` and `/etc/cgroup_allowed_devices_file.conf` from the login node to the compute node using the same technique.
 - Update `/etc/fstab` to show the following:
 
 ```bash
@@ -107,6 +110,30 @@ PARTUUID=3e3e7392-02  /               ext4    defaults,noatime  0       1
 192.168.5.101:/sharedfs    /sharedfs    nfs    defaults   0 0
 192.168.5.101:/home    /home    nfs    defaults   0 0
 ```
+
+> **Note:** My `/etc/cgroup.conf` didn't get created automatically. I created it using:
+>
+> ```bash
+> sudo tee /etc/cgroup.conf << 'EOF'
+> CgroupPlugin=autodetect
+> ConstrainCores=yes
+> ConstrainRAMSpace=yes
+> EOF
+> ```
+>
+> Same for `/etc/slurm/cgroup_allowed_devices_file.conf`:
+>
+> ```bash
+> sudo tee /etc/slurm/cgroup_allowed_devices_file.conf << 'EOF'
+> /dev/null
+> /dev/urandom
+> /dev/zero
+> /dev/sda*
+> /dev/cpu/*/*
+> /dev/pts/*
+> /dev/shm
+> EOF
+> ```
 
 ## Install ESSI
 
