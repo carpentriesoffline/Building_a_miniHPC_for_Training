@@ -63,7 +63,7 @@ cat hello-1.out
 
 Expected output:
 
-```
+```text
 Hello from pixie02 at Fri Jun 13 10:00:00 BST 2026
 ```
 
