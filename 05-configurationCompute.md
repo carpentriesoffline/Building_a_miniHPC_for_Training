@@ -100,7 +100,10 @@ sudo mkdir /sharedfs
   - _On compute node:_ `sudo mv slurm.conf /etc/slurm/slurm.conf`
 - Copy `/etc/munge/munge.key` from the login node to the compute node
   - _On login node:_ `scp /etc/munge/munge.key pi@node02.local:munge.key`
-  - _On compute node:_ `sudo mv munge.key /etc/munge/munge.key && sudo chmod 400 /etc/munge/munge.key`
+  - _On compute node:_
+    - `sudo mv munge.key /etc/munge/munge.key`
+    - `sudo chmod 400 /etc/munge/munge.key`
+    - `sudo chown munge: /etc/munge/munge.key`
 - Copy `/etc/cgroup.conf` and `/etc/cgroup_allowed_devices_file.conf` from the login node to the compute node using the same technique.
 - Update `/etc/fstab` to show the following:
 
@@ -135,6 +138,22 @@ PARTUUID=3e3e7392-02  /               ext4    defaults,noatime  0       1
 > /dev/shm
 > EOF
 > ```
+
+## Start munge and slurmd
+
+Now that the config files are in place, start munge first (slurmd depends on it), then slurmd:
+
+```bash
+sudo systemctl restart munge
+sudo systemctl restart slurmd
+sudo systemctl status slurmd
+```
+
+`slurmd` should now show `active (running)`. If it still fails, check the log for details:
+
+```bash
+sudo journalctl -u slurmd -n 30
+```
 
 ## Install ESSI
 

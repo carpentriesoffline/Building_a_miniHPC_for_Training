@@ -277,8 +277,13 @@ NodeName=pixie02 NodeAddr=192.168.5.102 CPUs=4 State=IDLE
 Next, restart slurm:
 
 ```bash
+sudo systemctl restart munge
 sudo systemctl restart slurmctld
+sudo systemctl restart slurmd
 ```
+
+> **Note:** `slurmd` must be restarted after the config is in place — it is installed earlier
+> but will be in a failed state until now. Munge must be started first as both daemons depend on it.
 
 At this point, you should see Slurm running if you check using `sudo systemctl status slurmctld`:
 
@@ -288,18 +293,16 @@ At this point, you should see Slurm running if you check using `sudo systemctl s
 
 Munge is the authentication service we'll be using in our Pi HPC cluster. We need to do some configuration here first.
 
-Create munge key:
-  
+Create the munge key using the `mungekey` tool, which handles size and permissions correctly:
+
 ```bash
-sudo mkdir /etc/munge
-dd if=/dev/urandom bs=1 count=1024 | sudo tee -a /etc/munge/munge.key | xxd
+sudo mungekey --create
 ```
 
-Set ownership:
+Verify ownership and permissions:
 
- ```bash
-sudo chown munge: /etc/munge/munge.key
-sudo chmod 400 /etc/munge/munge.key
+```bash
+sudo ls -la /etc/munge/munge.key
 ```
 
 ## Install EESSI
