@@ -154,7 +154,7 @@ static domain_name_servers=192.168.5.101
 
 ## Configure DNS masquerading
 
-- Configure dnsmasq by entering the following in the file `/etc/dnsmasq.conf`. Replace
+Configure dnsmasq by entering the following in the file `/etc/dnsmasq.conf`. Replace
 the MAC address on the sixth line with the MAC address of your compute node.
 
 ```bash
@@ -178,7 +178,7 @@ sudo chmod 777 -R /sharedfs
 
 ## Configure NFS
 
-- Configure shared drives by adding the following at the end of the file `/etc/exports`
+Configure shared drives by adding the following at the end of the file `/etc/exports`
 
 ```bash
 /sharedfs    192.168.5.0/24(rw,sync,no_root_squash,no_subtree_check)
