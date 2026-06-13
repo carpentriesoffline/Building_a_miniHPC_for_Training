@@ -8,10 +8,11 @@ title: Configuring the login node
 > as the DHCP/DNS server before the compute node can reach the network.
 
 > **Tip:** We won't configure a separate control node in this tutorial: the login
-> node will act as the NFS backing filesystem and the SLURM controller, too.
-> This probably isn't quite true-to-life, but means we can demonstrate the 
-> techniques using just two nodes. We'll also leave multi-user systems and
-> authentication (Kerberos, LDAP and friends) as an exercise to the reader.
+> node will act as the NFS backing filesystem, the SLURM controller, and the cluster's
+> internet gateway, too. In a production cluster these would typically be separate machines,
+> but combining them means we can demonstrate all the techniques using just two nodes. We'll
+> also leave multi-user systems and authentication (Kerberos, LDAP and friends) as an
+> exercise to the reader.
 
 In this section, we will configure our login node. This is the node through
 which we will interface with our cluster.
@@ -130,15 +131,15 @@ connections into the cluster.
 
 ## Configure the network interfaces
 
-> **Warning:** Do **not** edit `/etc/network/interfaces` on current Raspberry Pi OS (Bookworm).
-> That file is not used when NetworkManager is active, and mixing the two causes unpredictable
-> behaviour. Use `nmcli` instead.
+> **Warning:** Do **not** edit `/etc/network/interfaces` on current Raspberry
+> Pi OS (Bookworm).  That file is not used when NetworkManager is active, and
+> mixing the two causes unpredictable behaviour. Use `nmcli` instead.
 
-The login node needs a **fixed IP** on its ethernet interface (`eth0`) so the compute nodes
-always reach it at the same address, and so dnsmasq can hand out leases reliably.
-Ethernet interfaces must be set to "unmanaged" in the sense that they carry a static address
-rather than requesting one via DHCP — NetworkManager still controls the interface, but DHCP
-is disabled for it.
+The login node needs a **fixed IP** on its ethernet interface (`eth0`) so the
+compute nodes always reach it at the same address, and so dnsmasq can hand out
+leases reliably.  Ethernet interfaces must be set to "unmanaged" in the sense
+that they carry a static address rather than requesting one via DHCP:
+NetworkManager still controls the interface, but DHCP is disabled for it.
 
 ```bash
 sudo nmcli con add type ethernet ifname eth0 con-name eth0-static \
@@ -385,8 +386,6 @@ wget https://raw.githubusercontent.com/EESSI/eessi-demo/main/scripts/install_cvm
 sudo bash ./install_cvmfs_eessi.sh
 
 source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
-# We don't do this one anymore:
-# echo "source /cvmfs/software.eessi.io/versions/2023.06/init/bash" | sudo tee -a /etc/profile
 ```
 
 > **Note:** Only Pi 3 and later are supported by EESSI, as it needs a 64-bit OS.
