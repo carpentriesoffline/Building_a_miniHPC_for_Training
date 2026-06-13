@@ -35,6 +35,7 @@ sudo apt upgrade -y
 > ```bash
 > sudo nmcli con mod netplan-wlan0-CarpentriesOffline ipv4.route-metric 100
 > sudo nmcli con down netplan-wlan0-CarpentriesOffline && sudo nmcli con up netplan-wlan0-CarpentriesOffline
+> ```
 
 ## Configure the hostname and hosts file
 
