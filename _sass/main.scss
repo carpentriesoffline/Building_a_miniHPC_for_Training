@@ -238,6 +238,27 @@ pre:not(.highlight):hover .copy-btn {
   opacity: 1;
 }
 
+code.highlighter-rouge > .copy-btn {
+  top: 0.1em;
+  right: 0.1em;
+  padding: 0.1em 0.15em;
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #555;
+
+  svg { width: 10px; height: 10px; }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.15);
+    color: #222;
+  }
+
+  &.copy-btn--copied {
+    color: #2a7a3b;
+    border-color: #2a7a3b;
+  }
+}
+
 .highlight {
   border-radius: 6px;
   margin: 0;
