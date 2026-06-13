@@ -5,7 +5,7 @@ layout: default
 
 This section demonstrates how to set up a compute node on your Raspberry Pi, and add it to your cluster.
 
-Flash an SD card as described in episode 2 and give it a name of <`nodename`>02 where <`nodename`> is the
+Flash an SD card as described in episode 2 and give it a name of `nodename`02 where <`nodename`> is the
 name that you use for all your nodes in your HPC (e.g. `orange`, `black`, `green`, `blue`, `yellow`).
 
 ## Start with an update
@@ -13,23 +13,43 @@ name that you use for all your nodes in your HPC (e.g. `orange`, `black`, `green
 We need to update packages on the compute nodes, too:
 
 ```bash
-sudo apt update -y
+sudo apt-get update
 sudo apt upgrade -y
 ```
+
+> **Note:** Sometimes, when more than one network adapter is connected, your Pi can get confused.
+> You may need to set a higher interface priority on `wlan0` if traffic isn't getting out
+> to the internet from your compute node while configuring packages.
+> Grab the device name from `nmcli`:
+>
+> ```bash
+> pi@node02:~ $ nmcli con show
+> NAME                              UUID                                  TYPE      DEVICE
+> netplan-wlan0-CarpentriesOffline  e5799f3d-8920-3080-b93f-e6e5ac4ce778  wifi      wlan0
+> netplan-eth0                      75a1216a-9d1a-30cd-8aca-ace5526ec021  ethernet  eth0
+> lo                                c4c925ab-c23d-4a84-86f3-bb9133a05b92  loopback  lo
+> ```
+>
+> Then give `wlan0` a higher interface metric:
+>
+> ```bash
+> sudo nmcli con mod netplan-wlan0-CarpentriesOffline ipv4.route-metric 100
+> sudo nmcli con down netplan-wlan0-CarpentriesOffline && sudo nmcli con up netplan-wlan0-CarpentriesOffline
 
 ## Configure the hostname and hosts file
 
 > **Do this first.** Hostname resolution must be in place before running any `sudo` command,
-> otherwise every `sudo` invocation will print `unable to resolve host node001`. Copy `/etc/hosts`
+> otherwise every `sudo` invocation will print `unable to resolve host node01`. Copy `/etc/hosts`
 > from the login node before proceeding.
 
 Copy `/etc/hosts` from the login node to `/etc/hosts` on the compute node:
 
 ```bash
-pi@node02:~ $ scp pi@node01.local:/etc/hosts /etc/hosts
+scp pi@node01.local:/etc/hosts /etc/hosts
 ```
 
 (Obviously, replace `node01`, `node02` with your hostnames here!)
+
 
 ## Install required packages
 
