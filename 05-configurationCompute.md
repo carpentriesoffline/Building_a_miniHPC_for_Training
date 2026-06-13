@@ -17,10 +17,9 @@ sudo apt-get update
 sudo apt upgrade -y
 ```
 
-> **Note:** Sometimes, when more than one network adapter is connected, your Pi can get confused.
-> You may need to set a higher interface priority on `wlan0` if traffic isn't getting out
-> to the internet from your compute node while configuring packages.
-> Grab the device name from `nmcli`:
+> **Note:** During initial setup, while both `wlan0` and `eth0` are connected, your Pi can
+> get confused about which interface to use for internet traffic. If packages aren't
+> downloading, give `wlan0` a higher interface priority. Grab the device name from `nmcli`:
 >
 > ```bash
 > pi@node02:~ $ nmcli con show
@@ -36,6 +35,9 @@ sudo apt upgrade -y
 > sudo nmcli con mod netplan-wlan0-CarpentriesOffline ipv4.route-metric 100
 > sudo nmcli con down netplan-wlan0-CarpentriesOffline && sudo nmcli con up netplan-wlan0-CarpentriesOffline
 > ```
+>
+> Once `wlan0` is disabled at the end of this tutorial, the compute node routes all traffic
+> through `eth0` to the login node, which provides internet access via its own `wlan0`.
 
 ## Configure the hostname and hosts file
 
@@ -171,7 +173,7 @@ source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 
 ## Disable WiFi and Bluetooth
 
-As with our login node, now that we've performed setup, we can turn off WiFi on the compute node:
+Unlike the login node (which keeps `wlan0` as its internet uplink), the compute node can now disable WiFi. All traffic will route through `eth0` to the login node and out via its `wlan0` connection:
 
 Open `/boot/firmware/config.txt` and add the following two lines at the bottom in the `[all]` section.
 
