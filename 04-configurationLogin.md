@@ -114,11 +114,17 @@ You should see a static address of `192.168.5.101` assigned to `eth0`. Your SSH 
 
 ![`ip addr show` showing static IP assignment and WiFi connection](fig/static-ip.png)
 
-## Modify the hostname
+## How to modify the hostname (*if required!*)
+
+If you followed section 2 correctly, your hostname will already be set. However, if you need to modify it for any reason, you can do so with the following command:
 
 ```bash
 echo pixie01 | sudo tee /etc/hostname
 ```
+
+> **Warning:** This hostname **must** match the value used in the config files below,
+> particularly `/etc/hosts` and `/etc/slurm/slurm.conf`. Take extra care when editing these
+> files that they match the values for your login and compute node hostnames.
 
 ## Configure DHCP
 
@@ -177,7 +183,7 @@ sudo chmod 777 -R /sharedfs
 
 ## Configure hosts
 
-- The `/etc/hosts` file should contain the following. Make sure to change all occurences of `pixie` in the script to the name of your cluster:
+- The `/etc/hosts` file should contain the following. Make sure to change all occurences of `pixie` in this block to the name of your cluster:
 
 ```bash
 127.0.0.1 localhost
@@ -186,18 +192,20 @@ ff02::1   ip6-allnodes
 ff02::2   ip6-allrouters
 
 # This login node's hostname
-127.0.1.1 pixie001
+127.0.1.1 pixie01
 
 # IP and hostname of compute nodes
-192.168.5.102 pixie002
+192.168.5.102 pixie02
 ```
+
+> **Warning:** Don't copy-and-paste this block without altering it to match your hostname!
 
 ## Configure Slurm
 
-Add the following to /etc/slurm/slurm.conf. Change all occurences of `pixie` in this script to the name of your cluster.
+Add the following to `/etc/slurm/slurm.conf`. **Change all occurences of `pixie` in this script to the name of your cluster.**
 
 ```conf
-SlurmctldHost=pixie001(192.168.5.101)
+SlurmctldHost=pixie01(192.168.5.101)
 MpiDefault=none
 ProctrackType=proctrack/cgroup
 #ProctrackType=proctrack/linuxproc
@@ -231,13 +239,15 @@ SlurmctldDebug=info
 SlurmctldLogFile=/var/log/slurm/slurmctld.log
 SlurmdDebug=info
 SlurmdLogFile=/var/log/slurm/slurmd.log
-PartitionName=pixiecluster Nodes=pixie[002-002] Default=YES MaxTime=INFINITE State=UP
+PartitionName=pixiecluster Nodes=pixie[02-02] Default=YES MaxTime=INFINITE State=UP
 RebootProgram=/etc/slurm/slurmreboot.sh
-NodeName=pixie001 NodeAddr=192.168.5.101 CPUs=4 State=IDLE
-NodeName=pixie002 NodeAddr=192.168.5.102 CPUs=4 State=IDLE
+NodeName=pixie01 NodeAddr=192.168.5.101 CPUs=4 State=IDLE
+NodeName=pixie02 NodeAddr=192.168.5.102 CPUs=4 State=IDLE
 ```
 
-- Restart slurm
+> **Warning:** Don't copy-and-paste this block without altering it to match your hostname!
+
+Next, restart slurm:
 
 ```bash
 sudo systemctl restart slurmctld
