@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Testing — running your first job
+title: Testing: running your first job
 ---
 
 Before submitting any work, verify that the cluster is healthy and all nodes are visible to
@@ -24,7 +24,7 @@ pixiecluster*       up   infinite      1   idle pixie02
 If the node shows `down` or `unknown`, check that `slurmd` is running on the compute node:
 
 ```bash
-ssh pixie002 systemctl status slurmd
+ssh pixie02 systemctl status slurmd
 ```
 
 ## Submit a minimal batch job
