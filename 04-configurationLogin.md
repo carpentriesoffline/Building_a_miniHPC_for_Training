@@ -144,16 +144,18 @@ NetworkManager still controls the interface, but DHCP is disabled for it.
 sudo nmcli con add type ethernet ifname eth0 con-name eth0-static \
   ipv4.method manual \
   ipv4.addresses 192.168.5.101/24 \
-  ipv4.gateway 192.168.5.101 \
   ipv4.dns 192.168.5.101 \
   connection.autoconnect yes
 sudo nmcli con up eth0-static
 ```
 
-> **Note:** Need to reverse this for any reason?  
-> `sudo nmcli con delete eth0-static` is your friend.  
-> You may also wish to keep wifi as the outgoing route to contact the internet:
-> `sudo ip route del default via 192.168.5.101 dev eth0` will do that, if required.
+> **Note:** Need to reverse this for any reason? `sudo nmcli con delete
+> eth0-static` removes the static connection and returns eth0 to DHCP.
+
+> **Warning:** Previous versions of this tutorial used `eth0` as the gateway
+> interface, routing outgoing traffic back over `192.168.5.101`. This has been
+> updated to use `wlan0` so that the cluster network can reach the
+> internet. As such, we don't set an `ipv4.gateway` on this connection.
 
 Verify the address is set:
 
