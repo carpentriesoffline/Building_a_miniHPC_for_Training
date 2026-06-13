@@ -122,7 +122,7 @@ echo pixie01 | sudo tee /etc/hostname
 
 ## Configure DHCP
 
-- Configure dhcp by entering the following in the file `/etc/dhcpd.conf`
+Configure dhcp by entering the following in the file `/etc/dhcpd.conf`
 
 ```bash
 interface eth0
@@ -130,6 +130,18 @@ static ip_address=192.168.5.101/24
 static routers=192.168.5.101
 static domain_name_servers=192.168.5.101
 ```
+
+> _Pro-tip:_ You can populate the files in this section however you'd like. However,
+> one of the easier ways is dropping to a root shell, and using `cat` with a
+> redirection operator `>`, e.g.:
+>
+> ```bash
+>   pi@node01:~ $ sudo su
+>   root@node01:/home/pi# cat > /etc/dhcpd.conf
+>   <paste your lines here, then hit Ctrl+C>
+>   ^C
+>   root@node01:/home/pi# 
+> ```
 
 ## Configure DNS masquerading
 
