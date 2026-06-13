@@ -205,7 +205,17 @@ Configure shared drives by adding the following at the end of the file `/etc/exp
 
 ```bash
 /sharedfs    192.168.5.0/24(rw,sync,no_root_squash,no_subtree_check)
+/home        192.168.5.0/24(rw,sync,no_root_squash,no_subtree_check)
 ```
+
+Then apply the exports:
+
+```bash
+sudo exportfs -ra
+sudo exportfs -v
+```
+
+You should see both `/sharedfs` and `/home` listed.
 
 ## Configure hosts
 

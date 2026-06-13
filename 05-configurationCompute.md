@@ -54,7 +54,7 @@ sudo scp pi@node01.local:/etc/hosts /etc/hosts
 ## Install required packages
 
 ```bash
-sudo apt-get install -y slurmd slurm-client munge vim ntpsec ntpsec-ntpdate lmod
+sudo apt-get install -y slurmd slurm-client munge vim ntpsec ntpsec-ntpdate lmod nfs-common
 ```
 
 > **Note:** `ntp` and `ntpdate` are no longer available on current Raspberry Pi OS. Use `ntpsec`
@@ -68,6 +68,7 @@ sudo apt-get install -y slurmd slurm-client munge vim ntpsec ntpsec-ntpdate lmod
 | `ntpsec` | NTP time synchronisation daemon — keeps node clocks in sync with the login node |
 | `ntpsec-ntpdate` | One-shot time sync command, useful for initial clock correction on first boot |
 | `lmod` | Lua-based module system for loading software environments (e.g. ESSI) |
+| `nfs-common` | NFS client utilities — required to mount the shared filesystem from the login node |
 | `vim` | Text editor |
 
 Verify that `slurmd` installed and the service unit is present:
