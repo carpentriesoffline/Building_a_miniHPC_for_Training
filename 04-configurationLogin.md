@@ -253,16 +253,22 @@ Next, restart slurm:
 sudo systemctl restart slurmctld
 ```
 
+At this point, you should see Slurm running if you check using `sudo systemctl status slurmctld`:
+
+![Slurm running on the login node](fig/slurm-running.png)
+
 ## Configure munge
 
-- Create munge key
+Munge is the authentication service we'll be using in our Pi HPC cluster. We need to do some configuration here first.
+
+Create munge key:
   
 ```bash
 sudo mkdir /etc/munge
 dd if=/dev/urandom bs=1 count=1024 | sudo tee -a /etc/munge/munge.key
 ```
 
-- Set ownership
+Set ownership:
 
  ```bash
 sudo chown munge: /etc/munge/munge.key
