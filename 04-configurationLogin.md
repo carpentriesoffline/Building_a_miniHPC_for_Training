@@ -293,9 +293,9 @@ source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 
 > **Note:** Only Pi 3 and later are supported by EESSI, as it needs a 64-bit OS.
 
-## Disable WiFi and Bluetooth
+## Optional: Disable WiFi and Bluetooth
 
-Now that we have set our login node up as a DHCP server, we can disable WiFi.
+Now that we have set our login node up as a DHCP server, we can disable WiFi if desired.
 
 Open `/boot/firmware/config.txt` and add the following two lines at the bottom in the `[all]` section.
 
@@ -304,4 +304,4 @@ dtoverlay=disable-wifi
 dtoverlay=disable-bt
 ```
 
-Save the file and reboot.
+Save the file and reboot. From now on, you'll use the Ethernet IP `192.168.5.1` to connect to the login node.
