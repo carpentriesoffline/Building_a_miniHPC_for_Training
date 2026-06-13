@@ -10,17 +10,17 @@ title: Configuring the login node
 ## Start with an update
 
 ```bash
-sudo apt update -y
+sudo apt update
 sudo apt upgrade -y
 ```
 
 ## Install required packages
 
 ```bash
-sudo apt install -y nfs-kernel-server lmod ansible slurm munge nmap \
-nfs-common net-tools build-essential htop net-tools screen vim python3-pip \
-dnsmasq slurm-wlm iptables iptables-persistent libmunge-dev libmunge2 \
-libopenmpi-dev libopenmpi3t64 git
+sudo apt-get install -y nfs-kernel-server lmod ansible slurm munge nmap \
+  nfs-common net-tools build-essential htop net-tools screen vim python3-pip \
+  dnsmasq slurm-wlm iptables iptables-persistent libmunge-dev libmunge2 \
+  libopenmpi-dev libopenmpi3t64 git
 ```
 
 A dialog block will appear on the screen. Answer yes to both questions.
@@ -49,6 +49,15 @@ A dialog block will appear on the screen. Answer yes to both questions.
 | `vim`                              | Text editor                                                                |
 | `python3-pip`                      | Python package installer                                                   |
 | `git`                              | Version control                                                            |
+
+Now, we can remove any redundant packages left over after our upgrades and package installations:
+
+```bash
+sudo apt-get -y autoremove
+```
+
+> Info: This stage can take quite a long time on older hardware (Pi 2Bs or Pi 3s, for instance).
+> The hardware in the workshop uses Raspberry Pi 5s, so shouldn't keep you waiting too long.
 
 ## Enable IP forwarding
 
