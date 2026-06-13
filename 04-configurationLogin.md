@@ -20,7 +20,7 @@ sudo apt upgrade -y
 sudo apt-get install -y nfs-kernel-server lmod ansible slurm munge nmap \  
   nfs-common net-tools build-essential htop net-tools screen vim python3-pip \  
   dnsmasq slurm-wlm iptables iptables-persistent libmunge-dev libmunge2 \  
-  libopenmpi-dev libopenmpi3t64 git
+  libopenmpi-dev libopenmpi3t64 git xxd
 ```
 
 A dialog block will appear on the screen. Answer yes to both questions.
@@ -49,6 +49,7 @@ A dialog block will appear on the screen. Answer yes to both questions.
 | `vim`                              | Text editor                                                                |
 | `python3-pip`                      | Python package installer                                                   |
 | `git`                              | Version control                                                            |
+| `xxd`                              | Hex dump tool — used to safely pipe binary data (e.g. munge key) via `tee` without corrupting the terminal |
 
 Now, we can remove any redundant packages left over after our upgrades and package installations:
 
@@ -102,7 +103,9 @@ sudo nmcli con up eth0-static
 ```
 
 > **Note:** Need to reverse this for any reason?  
-> `sudo nmcli con delete eth0-static` is your friend.
+> `sudo nmcli con delete eth0-static` is your friend.  
+> You may also wish to keep only the wifi as the outgoing route to contact the internet:  
+> `sudo ip route del default via 192.168.5.101 dev eth0` will do that, if required.
 
 Verify the address is set:
 
@@ -265,7 +268,7 @@ Create munge key:
   
 ```bash
 sudo mkdir /etc/munge
-dd if=/dev/urandom bs=1 count=1024 | sudo tee -a /etc/munge/munge.key
+dd if=/dev/urandom bs=1 count=1024 | sudo tee -a /etc/munge/munge.key | xxd
 ```
 
 Set ownership:
