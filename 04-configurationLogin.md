@@ -253,6 +253,23 @@ ff02::2   ip6-allrouters
 
 > **Warning:** Don't copy-and-paste this block without altering it to match your hostname!
 
+## Configure munge
+
+Munge is the authentication service we'll be using in our Pi HPC cluster. We
+need to do some configuration here first.
+
+Create the munge key using the `mungekey` tool, which handles size and permissions correctly:
+
+```bash
+sudo mungekey --create
+```
+
+Verify ownership and permissions:
+
+```bash
+sudo ls -la /etc/munge/munge.key
+```
+
 ## Configure Slurm
 
 Add the following to `/etc/slurm/slurm.conf`. Again, **change all occurences of 
@@ -319,23 +336,6 @@ sudo systemctl restart slurmd
 At this point, you should see Slurm running if you check using `sudo systemctl status slurmctld`:
 
 ![Slurm running on the login node](fig/slurm-running.png)
-
-## Configure munge
-
-Munge is the authentication service we'll be using in our Pi HPC cluster. We 
-need to do some configuration here first.
-
-Create the munge key using the `mungekey` tool, which handles size and permissions correctly:
-
-```bash
-sudo mungekey --create
-```
-
-Verify ownership and permissions:
-
-```bash
-sudo ls -la /etc/munge/munge.key
-```
 
 ## Install EESSI
 
