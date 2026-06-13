@@ -196,6 +196,7 @@ ff02::2   ip6-allrouters
 
 # This login node's hostname
 127.0.1.1 pixie01
+192.168.5.101 pixie01
 
 # IP and hostname of compute nodes
 192.168.5.102 pixie02
