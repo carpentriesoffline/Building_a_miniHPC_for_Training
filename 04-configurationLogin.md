@@ -278,11 +278,11 @@ sudo chown munge: /etc/munge/munge.key
 sudo chmod 400 /etc/munge/munge.key
 ```
 
-## Install ESSI
+## Install EESSI
 
 ```bash
-mkdir essi
-cd essi
+mkdir eessi
+cd eessi
 wget https://raw.githubusercontent.com/EESSI/eessi-demo/main/scripts/install_cvmfs_eessi.sh
 sudo bash ./install_cvmfs_eessi.sh
 
@@ -290,6 +290,8 @@ source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 # We don't do this one anymore:
 # echo "source /cvmfs/software.eessi.io/versions/2023.06/init/bash" | sudo tee -a /etc/profile
 ```
+
+> **Note:** Only Pi 3 and later are supported by EESSI, as it needs a 64-bit OS.
 
 ## Disable WiFi and Bluetooth
 
