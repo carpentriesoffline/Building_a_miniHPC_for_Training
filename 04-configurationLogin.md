@@ -69,7 +69,21 @@ sudo apt-get -y autoremove
 > **Note:** This stage can take quite a long time on older hardware (Pi 2Bs or Pi 3s, for instance).
 > The hardware in the workshop uses Raspberry Pi 5s, so shouldn't keep you waiting too long.
 
-## Enable IP forwarding
+## Set up cluster networking
+
+Compute clusters are usually set up so that users cannot access compute nodes
+directly from the public internet. We'll do that too. Our login node's WiFi
+connection will be used as the gateway to the world, and we'll later disable
+WiFi on our compute nodes.
+
+This means that our login node is also acting as a router for the purposes of
+our tutorial.
+
+### Enable IP forwarding
+
+By default, Linux drops packets that arrive on one interface but are destined
+for another network. Enabling IP forwarding tells the kernel to route those
+packets instead of discarding them.
 
 Create a drop-in configuration file so the system setting is not mixed with distribution defaults:
 
@@ -80,14 +94,39 @@ sudo sysctl --system
 
 `sudo sysctl --system` applies all drop-in files immediately, so a reboot is not required.
 
-## Configure IP-tables
+### Configure IP-tables
+
+We will configure NAT masquerading to control the network topology of our cluster.
 
 ```bash
-sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
-sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+sudo iptables -A FORWARD -i eth0 -o wlan0 -j ACCEPT
+sudo iptables -A FORWARD -i wlan0 -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo netfilter-persistent save
 ```
+Here's what each rule does:
+
+`sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE`
+
+This is NAT masquerading. Packets leaving via `wlan0` (the upstream internet
+interface) have their source IP rewritten to the login node's `wlan0` address.
+This lets compute nodes reach the internet via `eth0` on the login node: their
+traffic appears to come from the login node.
+
+`sudo iptables -A FORWARD -i eth0 -o wlan0 -j ACCEPT` Allows packets to be
+forwarded from `eth0` (the cluster network) out to `wlan0` (internet). Without
+this, the kernel would drop traffic trying to cross interfaces even if IP
+forwarding is enabled in sysctl.
+
+`sudo iptables -A FORWARD -i wlan0 -o eth0 -m state --state RELATED,ESTABLISHED
+-j ACCEPT` The return-traffic rule. Allows packets coming back from the
+internet (`wlan0`) into the cluster (`eth0`), but only for connections that
+were already established or are related to an existing connection (e.g. FTP
+data channels). New inbound connections from the internet are dropped.
+
+Together, these three rules implement a basic NAT gateway: compute nodes can
+reach the internet through the login node, but the internet cannot initiate
+connections into the cluster.
 
 ## Configure the network interfaces
 
@@ -352,17 +391,24 @@ source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 
 > **Note:** Only Pi 3 and later are supported by EESSI, as it needs a 64-bit OS.
 
-## Optional: Disable WiFi and Bluetooth
+## What we learned
 
-Now that we have set our login node up as a DHCP server, we can disable WiFi if desired.
+We have now configured the login node from a fresh Raspberry Pi OS install
+into a functioning HPC head node.
 
-Open `/boot/firmware/config.txt` and add the following two lines at the bottom in the `[all]` section.
+- Updated packages and installed the software stack needed to run a cluster
+- Configured the login node as a NAT gateway, using iptables to allow compute
+  nodes to reach the internet through `wlan0` while keeping them hidden from
+  inbound connections
+- Assigned a static IP (`192.168.5.101`) to `eth0` and configured dnsmasq to
+  serve DHCP and DNS to compute nodes on the `192.168.5.0/24` subnet
+- Exported a shared `/home` filesystem over NFS so compute nodes can access
+  user files without copying them
+- Configured munge so that Slurm daemons on the login and compute nodes can
+  authenticate each other
+- Installed and configured Slurm (`slurmctld`) to schedule jobs across the
+  cluster
+- Installed EESSI to provide a shared, architecture-aware software environment
 
-```ini
-dtoverlay=disable-wifi
-dtoverlay=disable-bt
-```
-
-Save the file and reboot. From now on, you'll use the Ethernet IP `192.168.5.1` 
-to connect to the login node.
+In the next section, we'll configure a compute node to perform computational work.
 
