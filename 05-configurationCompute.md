@@ -56,6 +56,10 @@ Verify that `slurmd` installed and the service unit is present:
 systemctl status slurmd
 ```
 
+`systemctl` should show that Slurm is installed, but not configured yet. This is OK for now! We haven't configured it yet, so it will be in a failure state:
+
+![`systemctl` shows that Slurm is installed, but not configured yet](fig/slurm-fail.png)
+
 If `slurmd` is not found, the package may have been silently skipped during install. Run the
 install command again with only `slurmd` to confirm:
 
