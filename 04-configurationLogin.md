@@ -101,16 +101,23 @@ sudo nmcli con add type ethernet ifname eth0 con-name eth0-static \
 sudo nmcli con up eth0-static
 ```
 
+> **Note:** Need to reverse this for any reason?  
+> `sudo nmcli con delete eth0-static` is your friend.
+
 Verify the address is set:
 
 ```bash
-ip addr show eth0
+ip addr show
 ```
+
+You should see a static address of `192.168.5.101` assigned to `eth0`. Your SSH connection to the Pi is running through `wlan0` at this point:
+
+![`ip addr show` showing static IP assignment and WiFi connection](fig/static-ip.png)
 
 ## Modify the hostname
 
 ```bash
-echo pixie001 | sudo tee /etc/hostname
+echo pixie01 | sudo tee /etc/hostname
 ```
 
 ## Configure DHCP
