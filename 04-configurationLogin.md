@@ -154,8 +154,18 @@ static domain_name_servers=192.168.5.101
 
 ## Configure DNS masquerading
 
-Configure dnsmasq by entering the following in the file `/etc/dnsmasq.conf`. Replace
-the MAC address on the sixth line with the MAC address of your compute node.
+First, retrieve the ethernet MAC address of your compute node. If it is already on the
+network over WiFi, you can do this from the login node, or from your laptop:
+
+```bash
+ssh node02.local "ip link show eth0"
+```
+
+Look for the `link/ether` line — the MAC address is the six colon-separated hex pairs,
+e.g. `b8:27:eb:6e:7d:6d`.
+
+Now configure dnsmasq by entering the following in `/etc/dnsmasq.conf`, substituting
+your compute node's MAC address into the `dhcp-host` line:
 
 ```bash
 interface=eth0
@@ -163,10 +173,23 @@ bind-dynamic
 domain-needed
 bogus-priv
 dhcp-range=192.168.5.102,192.168.5.200,255.255.255.0,12h
-dhcp-host=ab:cd:12:34:ab:cd,192.168.5.102
-dhcp-option=3,192.168.0.1 # default route
-
+dhcp-host=b8:27:eb:6e:7d:6d,192.168.5.102
+dhcp-option=3,192.168.5.101 # default route — the login node
 ```
+
+Restart dnsmasq to apply the config:
+
+```bash
+sudo systemctl restart dnsmasq
+```
+
+Verify it is now listening on the DHCP port:
+
+```bash
+sudo ss -ulnp | grep :67
+```
+
+You should see `dnsmasq` bound to port 67.
 
 ## Create a shared directory
 
