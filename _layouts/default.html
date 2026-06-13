@@ -61,5 +61,16 @@
         {% endif %}
       </main>
     </div>
+  <script>
+    document.querySelectorAll('blockquote').forEach(function(bq) {
+      var first = bq.querySelector('strong, em');
+      if (!first) return;
+      var t = first.textContent.toLowerCase();
+      if (t.includes('warning'))                       bq.classList.add('callout--warning');
+      else if (t.includes('note'))                     bq.classList.add('callout--note');
+      else if (t.includes('tip'))                      bq.classList.add('callout--tip');
+      else if (t.includes('first') || t.includes('important')) bq.classList.add('callout--important');
+    });
+  </script>
   </body>
 </html>

@@ -158,6 +158,42 @@ img {
   }
 }
 
+blockquote {
+  margin: 1.25em 0;
+  padding: 0.75em 1em 0.75em 1.1em;
+  border-left: 4px solid #aaa;
+  background: #f5f5f5;
+  border-radius: 0 6px 6px 0;
+  color: #333;
+
+  p:first-child { margin-top: 0; }
+  p:last-child  { margin-bottom: 0; }
+}
+
+.callout--note {
+  border-left-color: #0066cc;
+  background: #e8f0fb;
+  color: #003580;
+}
+
+.callout--warning {
+  border-left-color: #e07b00;
+  background: #fff3e0;
+  color: #5a3200;
+}
+
+.callout--tip {
+  border-left-color: #2a9d2a;
+  background: #eafaea;
+  color: #1a4d1a;
+}
+
+.callout--important {
+  border-left-color: #7c3aed;
+  background: #f3eeff;
+  color: #3b0e8c;
+}
+
 .highlighter-rouge {
   border-radius: 6px;
   overflow: hidden;
