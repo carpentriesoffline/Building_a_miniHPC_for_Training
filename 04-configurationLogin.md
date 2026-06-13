@@ -7,6 +7,15 @@ title: Configuring the login node
 > generated here (munge key, slurm.conf, /etc/hosts), and the login node must be up and running
 > as the DHCP/DNS server before the compute node can reach the network.
 
+> **Tip:** We won't configure a separate control node in this tutorial: the login
+> node will act as the NFS backing filesystem and the SLURM controller, too.
+> This probably isn't quite true-to-life, but means we can demonstrate the 
+> techniques using just two nodes. We'll also leave multi-user systems and
+> authentication (Kerberos, LDAP and friends) as an exercise to the reader.
+
+In this section, we will configure our login node. This is the node through
+which we will interface with our cluster.
+
 ## Start with an update
 
 ```bash
@@ -104,7 +113,7 @@ sudo nmcli con up eth0-static
 
 > **Note:** Need to reverse this for any reason?  
 > `sudo nmcli con delete eth0-static` is your friend.  
-> You may also wish to keep only the wifi as the outgoing route to contact the internet:  
+> You may also wish to keep wifi as the outgoing route to contact the internet:
 > `sudo ip route del default via 192.168.5.101 dev eth0` will do that, if required.
 
 Verify the address is set:
@@ -113,13 +122,15 @@ Verify the address is set:
 ip addr show
 ```
 
-You should see a static address of `192.168.5.101` assigned to `eth0`. Your SSH connection to the Pi is running through `wlan0` at this point:
+You should see a static address of `192.168.5.101` assigned to `eth0`. Your SSH
+connection to the Pi is running through `wlan0` at this point:
 
 ![`ip addr show` showing static IP assignment and WiFi connection](fig/static-ip.png)
 
 ## How to modify the hostname (*if required!*)
 
-If you followed section 2 correctly, your hostname will already be set. However, if you need to modify it for any reason, you can do so with the following command:
+If you followed section 2 correctly, your hostname will already be set. However,
+if you need to modify it for any reason, you can do so with the following command:
 
 ```bash
 echo pixie01 | sudo tee /etc/hostname
@@ -140,28 +151,25 @@ static routers=192.168.5.101
 static domain_name_servers=192.168.5.101
 ```
 
-> _Pro-tip:_ You can populate the files in this section however you'd like. However,
-> one of the easier ways is dropping to a root shell, and using `cat` with a
-> redirection operator `>`, e.g.:
+> _Tip:_ You can populate the files in this section however you'd like. However,
+> one of the easier patterns is using heredocs with `sudo tee filename`, e.g.:
 >
 > ```bash
->   pi@node01:~ $ sudo su
->   root@node01:/home/pi# cat > /etc/dhcpd.conf
->   <paste your lines here, then hit Ctrl+C>
->   ^C
->   root@node01:/home/pi# 
+> sudo tee /etc/somefile.conf <<EOF
+>   <paste your lines here, then type "EOF" to end>
+> EOF
 > ```
 
 ## Configure DNS masquerading
 
-First, retrieve the ethernet MAC address of your compute node. If it is already on the
-network over WiFi, you can do this from the login node, or from your laptop:
+First, retrieve the ethernet MAC address of your compute node. If it is already on
+the network over WiFi, you can do this from the login node, or from your laptop:
 
 ```bash
 ssh node02.local "ip link show eth0"
 ```
 
-Look for the `link/ether` line — the MAC address is the six colon-separated hex pairs,
+Look for the `link/ether` line: the MAC address is the six colon-separated hex pairs,
 e.g. `b8:27:eb:6e:7d:6d`.
 
 Now configure dnsmasq by entering the following in `/etc/dnsmasq.conf`, substituting
@@ -177,6 +185,8 @@ dhcp-host=b8:27:eb:6e:7d:6d,192.168.5.102
 dhcp-option=3,192.168.5.101 # default route — the login node
 ```
 
+> **Warning:** Don't copy-and-paste this block without altering it to match your MAC address!
+
 Restart dnsmasq to apply the config:
 
 ```bash
@@ -191,15 +201,19 @@ sudo ss -ulnp | grep :67
 
 You should see `dnsmasq` bound to port 67.
 
-## Create a shared directory
+## Configure NFS
+
+Next we want to configure some shared filesystem space that all nodes can access.
+
+First we'll create a shared directory on our login node, which here is acting
+as our backing filestore. This would be a separate filesystem server in 
+reality, using an HPC-class filesystem like [Lustre](https://www.lustre.org/).
 
 ```bash
 sudo mkdir /sharedfs
 sudo chown nobody:nogroup -R /sharedfs
 sudo chmod 777 -R /sharedfs
 ```
-
-## Configure NFS
 
 Configure shared drives by adding the following at the end of the file `/etc/exports`
 
@@ -215,11 +229,13 @@ sudo exportfs -ra
 sudo exportfs -v
 ```
 
-You should see both `/sharedfs` and `/home` listed.
+You should see both `/sharedfs` and `/home` listed. We don't need to restart the
+NFS service here.
 
-## Configure hosts
+## Configure hosts file
 
-- The `/etc/hosts` file should contain the following. Make sure to change all occurences of `pixie` in this block to the name of your cluster:
+- The `/etc/hosts` file should contain the following. Make sure to change all 
+occurences of `pixie` in this block to the name of your cluster:
 
 ```bash
 127.0.0.1 localhost
@@ -239,7 +255,10 @@ ff02::2   ip6-allrouters
 
 ## Configure Slurm
 
-Add the following to `/etc/slurm/slurm.conf`. **Change all occurences of `pixie` in this script to the name of your cluster.**
+Add the following to `/etc/slurm/slurm.conf`. Again, **change all occurences of 
+`pixie` in this script to the name of your cluster.** We use a two-digit
+node identifier here (`pixieNN`) for simplicity but SLURM can easily be 
+configured to use more. 
 
 ```conf
 SlurmctldHost=pixie01(192.168.5.101)
@@ -282,7 +301,8 @@ NodeName=pixie01 NodeAddr=192.168.5.101 CPUs=4 State=IDLE
 NodeName=pixie02 NodeAddr=192.168.5.102 CPUs=4 State=IDLE
 ```
 
-> **Warning:** Don't copy-and-paste this block without altering it to match your hostname!
+> **Warning:** You're starting to get used to this warning, but please, 
+> don't copy-and-paste this block without altering it to match your hostname!
 
 Next, restart slurm:
 
@@ -292,8 +312,9 @@ sudo systemctl restart slurmctld
 sudo systemctl restart slurmd
 ```
 
-> **Note:** `slurmd` must be restarted after the config is in place — it is installed earlier
-> but will be in a failed state until now. Munge must be started first as both daemons depend on it.
+> **Note:** `slurmd` must be restarted after the config is in place. It is 
+> installed earlier but will be in a failed state until now. Munge must be 
+> started first as both daemons depend on it.
 
 At this point, you should see Slurm running if you check using `sudo systemctl status slurmctld`:
 
@@ -301,7 +322,8 @@ At this point, you should see Slurm running if you check using `sudo systemctl s
 
 ## Configure munge
 
-Munge is the authentication service we'll be using in our Pi HPC cluster. We need to do some configuration here first.
+Munge is the authentication service we'll be using in our Pi HPC cluster. We 
+need to do some configuration here first.
 
 Create the munge key using the `mungekey` tool, which handles size and permissions correctly:
 
@@ -341,4 +363,6 @@ dtoverlay=disable-wifi
 dtoverlay=disable-bt
 ```
 
-Save the file and reboot. From now on, you'll use the Ethernet IP `192.168.5.1` to connect to the login node.
+Save the file and reboot. From now on, you'll use the Ethernet IP `192.168.5.1` 
+to connect to the login node.
+
