@@ -12,7 +12,7 @@
   link: 04-configurationLogin.html
 - name: Configuration of a compute node
   link: 05-configurationCompute.html
-- name: Testing — running your first job
+- name: Testing & running your first job
   link: 07-testingMinimal.html
 - name: Setting up a loop device
   link: 10-UsingLosetup.html

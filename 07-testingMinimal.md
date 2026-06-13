@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Testing: running your first job
+title: Testing & running your first job
 ---
 
 Before submitting any work, verify that the cluster is healthy and all nodes are visible to
