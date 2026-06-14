@@ -13,22 +13,21 @@ computers you will have a hard drive built into the computer or alternatively
 you might be able to boot from a USB device.
 
 In the case of the Raspberry Pi its default booting device is an SD card.
-Pre-RPi3 used a mini-SD card but RPi3 and RPi4 use micro-SD cards. SD cards are
-available in various capacities, ie. the amount of information that can be
-stored on it. A basic operating system for the Pi will probably take about 2GB
-but then you will also need space for all the Carpentries lesson files and other
-software that you want to make available to the learners.
+The orignal Rasberry Pi used a full-size SD card but from the RPi2 micro-SD
+cards are used. SD cards are available in various capacities, ie. the amount of
+information that can be stored on it. A basic operating system for the Pi will
+take about 3GB but you will also need space for all the Carpentries lesson
+files and other software that you want to make available to the learners.
 
 Usually when you buy a RPi you can also buy an SD card with the operating system
 pre-loaded. Alternatively you can buy an empty SD card and prepare it yourself.
 Preparing the SD card involves downloading an **image** of the operating system
-(and there are various versions available), downloading the software, Raspberry
-Pi Imager, required for writing the image to the SD card and then using the
-software to write the image to the SD card.
+(and there are various versions available). We will also download and use the
+Raspberry Pi Imager software to write the image to the SD card.
 
 Internet connectivity might prove to be a problem during this workshop so your
-instructor might bring an image along that can be copied or perhaps they will
-provide pre-prepared microSD cards.
+instructor might bring an image along that can be copied or perhaps provide
+pre-prepared microSD cards.
 
 The Raspberry Pi can run several operating systems including several flavours
 of Linux. The official Raspberry Pi OS is based on Debian Linux.
@@ -46,13 +45,16 @@ will open with the following screen:
 
 ### Setting up a Raspberry Pi
 
-The official [Set up your SD card](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/2) is up to date as of 2nd of May 2024.
+> **Note**: The Raspberry Pi imager software is updated frequently, so these
+screenshots may not exactly match what you see. This guide is up to date as of
+June 2026. The official [Set up your SD card](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/4)
+tutorial on the Raspberry Pi website is updated more frequently.
 
 When using the The Raspberry Pi Imager, select the Device and OS.
 
 The OS selection should be `Raspberry Pi OS (other)` -> `Raspberry Pi OS Lite (64-bit)`.
 
-Selecting the device:
+First, select the device:
 
 ![Selecting the Raspberry Pi 5](fig/screenshots/imager-device-selection.png)
 
@@ -68,7 +70,10 @@ After this, please select the sdcard you would like to flash the image on, then 
 
 ![Selecting the SD card to write to](fig/screenshots/imager-sd-card-selection.png)
 
-The following configuration options can be defined for your set-up such that your OS is pre-configured upon first boot. This is useful as it means we can complete some of the initial configuration before flashing the image, without a screen and keyboard for the Pi.
+The following configuration options can be defined for your set-up such that
+your OS is pre-configured upon first boot. This is useful as it means we can
+complete some of the initial configuration before flashing the image, without a
+screen and keyboard for the Pi.
 
 At this point, we can enter the hostname:
 
@@ -87,25 +92,31 @@ Next, set the username and password that will be used to log into the Pi using t
 1. Username: `pixie`
 1. Password: `0nl1n3`
 
-> *Pro-tip:* We've noticed occasional issues using the login name `pi` on fresh Rasbian Lite image – it takes you round in circles back to a login prompt! We'll use a different name to be sure here.
+> *Pro-tip:* We've noticed occasional issues using the login name `pi` on fresh
+> Rasbian Lite image: it takes you round in circles back to a login prompt!
+> We'll use a different name to be sure here.
 
 ![Setting the username and password](fig/screenshots/imager-pwd-setup.png)
 
-*Customisation: Choose Wi-Fi*: next, enter your WiFi details. For our workshop, we are using the network `CarpentriesOffline`.
+*Customisation: Choose Wi-Fi*: next, enter your WiFi details. For our workshop,
+we are using the network `CarpentriesOffline`.
 
 ![Wi-Fi network entry](fig/screenshots/imager-os-config.png)
 
-Then on the "Remote Access" page, enable SSH with password authentication (alternatively, by adding a ssh public key).
-You could also, if desired, [set up easy access to the Pi via an ssh key](ssh-setup.md).
+Then on the "Remote Access" page, enable SSH with password authentication
+(alternatively, by adding a ssh public key). You could also, if desired, [set
+up easy access to the Pi via an ssh key](ssh-setup.md).
 
 ![Setting up SSH](fig/screenshots/imager-ssh-options.png)
 
-After, saving this, select `NEXT` to apply the configuration. We can skip the final screen on setting up Raspberry Pi Connect.
+After, saving this, select `NEXT` to apply the configuration. We can skip the
+final screen on setting up Raspberry Pi Connect.
 
-Confirm writing to the sdcard (please backup any data on the sdcard, any existing data will be **LOST!**)
+Confirm writing to the sdcard (please backup any data on the sdcard, any
+existing data will be **LOST!**)
 
 ![Confirming the write to the SD Card](fig/screenshots/imager-confirm-sdcard-write.png)
 
 Once the image has been written to the SD card a **Write Successful** message
-will be displayed. You can now remove the SD card from your computer and insert it into the
-Raspberry Pi.
+will be displayed. You can now remove the SD card from your computer and insert
+it into the Raspberry Pi.
