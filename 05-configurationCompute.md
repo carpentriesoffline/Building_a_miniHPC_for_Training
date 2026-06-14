@@ -3,10 +3,12 @@ title: Configuring a compute node
 layout: default
 ---
 
-This section demonstrates how to set up a compute node on your Raspberry Pi, and add it to your cluster.
+This section demonstrates how to set up a compute node on your Raspberry Pi,
+and add it to your cluster.
 
-Flash an SD card as described in episode 2 and give it a name of `nodename`02 where <`nodename`> is the
-name that you use for all your nodes in your HPC (e.g. `orange`, `black`, `green`, `blue`, `yellow`).
+Flash an SD card as described in episode 2 and give it a name of `node02` where
+`node` is the name that you use for all your nodes in your HPC (e.g. `orange`,
+`black`, `green`, `blue`, `yellow`).
 
 ## Start with an update
 
@@ -17,9 +19,10 @@ sudo apt-get update
 sudo apt upgrade -y
 ```
 
-> **Note:** During initial setup, while both `wlan0` and `eth0` are connected, your Pi can
-> get confused about which interface to use for internet traffic. If packages aren't
-> downloading, give `wlan0` a higher interface priority. Grab the device name from `nmcli`:
+> **Note:** During initial setup, while both `wlan0` and `eth0` are connected,
+> your Pi can get confused about which interface to use for internet traffic.
+> If packages aren't downloading, give `wlan0` a higher interface priority.
+> Grab the device name from `nmcli`:
 >
 > ```bash
 > pi@node02:~ $ nmcli con show
@@ -36,14 +39,16 @@ sudo apt upgrade -y
 > sudo nmcli con down netplan-wlan0-CarpentriesOffline && sudo nmcli con up netplan-wlan0-CarpentriesOffline
 > ```
 >
-> Once `wlan0` is disabled at the end of this tutorial, the compute node routes all traffic
-> through `eth0` to the login node, which provides internet access via its own `wlan0`.
+> Once `wlan0` is disabled at the end of this tutorial, the compute node routes
+> all traffic through `eth0` to the login node, which provides internet access
+> via its own `wlan0`.
 
 ## Configure the hostname and hosts file
 
-> **Do this first.** Hostname resolution must be in place before running any `sudo` command,
-> otherwise every `sudo` invocation will print `unable to resolve host node01`. Copy `/etc/hosts`
-> from the login node before proceeding.
+> **Do this first.** Hostname resolution must be in place before running any
+> `sudo` command, otherwise every `sudo` invocation will print `unable to
+> resolve host node01`. Copy `/etc/hosts` from the login node before
+> proceeding.
 
 Copy `/etc/hosts` from the login node to `/etc/hosts` on the compute node:
 
@@ -79,12 +84,14 @@ Verify that `slurmd` installed and the service unit is present:
 systemctl status slurmd
 ```
 
-`systemctl` should show that Slurm is installed, but not configured yet. This is OK for now! We haven't configured it yet, so it will be in a failure state:
+`systemctl` should show that Slurm is installed, but not configured yet. This
+is OK for now! We haven't configured it yet, so it will be in a failure state:
 
-![`systemctl` shows that Slurm is installed, but not configured yet](fig/slurm-fail.png)
+![`systemctl` shows that Slurm is installed, but not configured
+yet](fig/slurm-fail.png)
 
-If `slurmd` is not found, the package may have been silently skipped during install. Run the
-install command again with only `slurmd` to confirm:
+If `slurmd` is not found, the package may have been silently skipped during
+install. Run the install command again with only `slurmd` to confirm:
 
 ```bash
 sudo apt-get install -y slurmd
@@ -173,9 +180,17 @@ source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 
 ## Disable WiFi and Bluetooth
 
-Unlike the login node (which keeps `wlan0` as its internet uplink), the compute node can now disable WiFi. All traffic will route through `eth0` to the login node and out via its `wlan0` connection:
+Unlike the login node (which keeps `wlan0` as its internet uplink), the compute
+node can now disable WiFi. All traffic will route through `eth0` to the login
+node and out via its `wlan0` connection.
 
-Open `/boot/firmware/config.txt` and add the following two lines at the bottom in the `[all]` section.
+`sudo nmcli con down netplan-wlan0-CarpentriesOffline` should take down the
+default network configured in the Raspberry Pi Imager software. However, we can
+permanently disable the hardware for the built-in WiFi chip in the boot
+configuration file.
+
+Open `/boot/firmware/config.txt` and add the following two lines at the bottom
+in the `[all]` section.
 
 ```ini
 dtoverlay=disable-wifi
