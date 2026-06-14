@@ -3,16 +3,17 @@ layout: default
 title: Configuring the login node
 ---
 
-> **Configure the login node first.** The compute node configuration (next page) depends on files
-> generated here (munge key, slurm.conf, /etc/hosts), and the login node must be up and running
-> as the DHCP/DNS server before the compute node can reach the network.
+> **Configure the login node first.** The compute node configuration (next
+> page) depends on files generated here (munge key, slurm.conf, /etc/hosts),
+> and the login node must be up and running as the DHCP/DNS server before the
+> compute node can reach the network.
 
-> **Tip:** We won't configure a separate control node in this tutorial: the login
-> node will act as the NFS backing filesystem, the SLURM controller, and the cluster's
-> internet gateway, too. In a production cluster these would typically be separate machines,
-> but combining them means we can demonstrate all the techniques using just two nodes. We'll
-> also leave multi-user systems and authentication (Kerberos, LDAP and friends) as an
-> exercise to the reader.
+> **Tip:** We won't configure a separate control node in this tutorial: the
+> login node will act as the SLURM controller, the NFS backing filesystem, and
+> the cluster's internet gateway, too. In a production cluster these would
+> typically be separate machines, but combining them means we can demonstrate
+> all the techniques using just two nodes. We'll also leave multi-user systems
+> and authentication (Kerberos, LDAP and friends) as an exercise to the reader.
 
 In this section, we will configure our login node. This is the node through
 which we will interface with our cluster.
@@ -26,40 +27,43 @@ sudo apt upgrade -y
 
 ## Install required packages
 
+This command will install the required packages (and some suggested ones we like
+to have on hand) onto your Pi:
+
 ```bash
-sudo apt-get install -y nfs-kernel-server lmod ansible slurm munge nmap \  
-  nfs-common net-tools build-essential htop net-tools screen vim python3-pip \  
-  dnsmasq slurm-wlm iptables iptables-persistent libmunge-dev libmunge2 \  
-  libopenmpi-dev libopenmpi3t64 git xxd
+sudo apt-get install -y nfs-kernel-server nfs-common slurm slurm-wlm munge \  
+  libmunge-dev libmunge2 iptables iptables-persistent dnsmasq libopenmpi-dev \
+  libopenmpi3t64 lmod build-essential python3-pip net-tools bind9-dnsutils \
+  ansible nmap git htop screen vim 
 ```
 
 A dialog block will appear on the screen. Answer yes to both questions.
 
-> **Note:** On older Raspberry Pi OS releases, `libpmix2`, `libpmix-bin`, and `libpmix-dev` were
-> separate packages. These were merged into OpenMPI in Debian Bookworm — use `libopenmpi3t64`
-> and `libopenmpi-dev` instead.
+> **Note:** On older Raspberry Pi OS releases, `libpmix2`, `libpmix-bin`, and
+> `libpmix-dev` were separate packages. PMIx packages were merged into OpenMPI
+> in Debian Bookworm: use `libopenmpi3t64` and `libopenmpi-dev` instead.
 
-| Package.                           | Purpose                                                                    |
-| ---------------------------------- | -------------------------------------------------------------------------- |
-| `nfs-kernel-server`                | NFS server — exports the shared filesystem to compute nodes                |
-| `nfs-common`                       | NFS client utilities, also needed on the login node                        |
-| `lmod`                             | Lua-based module system for managing software environments (e.g. ESSI)     |
-| `ansible`                          | Automation tool for configuring compute nodes in bulk                      |
-| `slurm-wlm`                        | Slurm workload manager — schedules and dispatches jobs across the cluster  |
-| `munge`                            | Authentication service used by Slurm daemons to verify messages            |
-| `libmunge2`, `libmunge-dev`        | MUNGE shared library and development headers                               |
-| `libopenmpi3t64`, `libopenmpi-dev` | OpenMPI runtime and headers — provides PMIx support for Slurm job launch (PMIx packages were merged into OpenMPI in Debian Bookworm) |
-| `dnsmasq`                          | Lightweight DHCP and DNS server — assigns IPs to compute nodes             |
-| `iptables`, `iptables-persistent`  | Firewall and NAT rules; persistent saves them across reboots               |
-| `nmap`                             | Network scanner — useful for verifying compute nodes are reachable         |
-| `net-tools`                        | Legacy networking tools (`ifconfig`, `netstat`, etc.)                      |
-| `build-essential`                  | Compilers and build tools (`gcc`, `make`, etc.)                            |
-| `htop`                             | Interactive process viewer                                                 |
-| `screen`                           | Terminal multiplexer — keeps sessions alive over SSH                       |
-| `vim`                              | Text editor                                                                |
-| `python3-pip`                      | Python package installer                                                   |
-| `git`                              | Version control                                                            |
-| `xxd`                              | Hex dump tool — used to safely pipe binary data (e.g. munge key) via `tee` without corrupting the terminal |
+| Package                           | Purpose                                                                  |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| `nfs-kernel-server`               | NFS server: exports the shared filesystem to compute nodes               |
+| `nfs-common`                      | NFS client utilities, also needed on the login node                      |
+| `slurm` `slurm-wlm`               | Slurm workload manager: schedules and dispatches jobs across the cluster |
+| `munge`                           | Authentication service used by Slurm daemons to verify messages          |
+| `libmunge2` `libmunge-dev`        | MUNGE shared library and development headers                             |
+| `iptables` `iptables-persistent`  | Firewall and NAT rules: persistent saves them across reboots             |
+| `dnsmasq`                         | Lightweight DHCP and DNS server: assigns IPs to compute nodes            |
+| `libopenmpi-dev` `libopenmpi3t64` | OpenMPI runtime and headers: provides PMIx support for Slurm job launch  |
+| `python3-pip`                     | Python package installer                                                 |
+| `lmod`                            | Lua-based module system for managing software environments (e.g. EESSI)  |
+| `build-essential`                 | Compilers and build tools (`gcc`, `make`, etc.)                          |
+| `net-tools`                       | Legacy networking tools (`ifconfig`, `netstat`, etc.)                    |
+| `bind9-dnsutils`                  | DNS utilities (`dig`, `nslookup`): useful for verifying DNS resolution   |
+| `ansible`                         | Automation tool for configuring compute nodes in bulk                    |
+| `nmap`                            | Network scanner: useful for verifying compute nodes are reachable        |
+| `git`                             | Version control                                                          |
+| `htop`                            | Interactive process viewer                                               |
+| `screen`                          | Terminal multiplexer: keeps sessions alive over SSH                      |
+| `vim`                             | Text editor                                                              |
 
 Now, we can remove any redundant packages left over after our upgrades and package installations:
 
