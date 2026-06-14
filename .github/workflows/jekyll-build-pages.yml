@@ -16,6 +16,8 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Generate TOC data
         run: python3 _scripts/generate_toc.py
+      - name: Check TOC file exists
+        run: cat _data/toc.yml
       - name: Build
         uses: actions/jekyll-build-pages@v1
       - name: Upload artifact
