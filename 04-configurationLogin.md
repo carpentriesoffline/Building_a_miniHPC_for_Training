@@ -79,10 +79,13 @@ sudo apt-get -y autoremove
 Compute clusters are usually set up so that users cannot access compute nodes
 directly from the public internet. We'll do that too. Our login node's WiFi
 connection will be used as the gateway to the world, and we'll later disable
-WiFi on our compute nodes.
+WiFi on our compute nodes. This means that our login node is also acting as a
+router / internet gateway for the purposes of our tutorial. 
 
-This means that our login node is also acting as a router for the purposes of
-our tutorial.
+> **Tip:** We don't have to use `wlan0` for this: we could connect a USB
+> Ethernet dongle and use `eth1` as our upstream link instead. In any case, the
+> concept to demonstrate here is that our compute nodes are physically isolated
+> from HPC users at a network level.
 
 ### Enable IP forwarding
 
