@@ -237,7 +237,8 @@ dhcp-option=6,192.168.5.101 # DNS server
 dhcp-host=b8:27:eb:6e:7d:6d,192.168.5.102 # compute node assignment
 ```
 
-> **Warning:** Don't copy-and-paste this block without altering it to match your MAC address!
+> **Warning:** Don't copy-and-paste this block without altering it to match
+> your MAC address!
 
 > **Note:** If you add more compute nodes, add one `dhcp-host` line per node,
 > incrementing the IP each time:
@@ -391,8 +392,16 @@ NodeName=pixie01 NodeAddr=192.168.5.101 CPUs=4 State=IDLE
 NodeName=pixie02 NodeAddr=192.168.5.102 CPUs=4 State=IDLE
 ```
 
-> **Warning:** You're starting to get used to this warning, but please, 
+> **Warning:** You're starting to get used to this warning, but please,
 > don't copy-and-paste this block without altering it to match your hostname!
+
+> **Tip:** If you're trying this at home with a mixed bag of hardware, bear in
+> mind that the first-generation Raspberry Pi used a 32-bit single-core SoC.
+> This matters if some nodes can't run certain software: for example,
+> 32-bit-only Pi 1Bs can run `slurmd` but can't use EESSI, which requires a
+> 64-bit OS. Slurm has features to work around this: `NodeName` entries accept
+> a `Feature=` tag (e.g.  `Feature=64bit`). Jobs can then request specific node
+> types with `--constraint=64bit`. 
 
 Next, restart slurm:
 
