@@ -35,6 +35,24 @@ hostname resolution (all nodes resolving each other by name) is provided by
 dnsmasq on the login node and delivered to compute nodes via DHCP. The
 hostname for the compute node is all that is needed locally.
 
+> **Tip:** You can confirm the login node has seen this compute node and issued
+> it a DHCP lease by running the following **on the login node**:
+>
+> ```bash
+> cat /var/lib/misc/dnsmasq.leases
+> ```
+>
+> Each line is an active lease: expiry timestamp, MAC address, assigned IP,
+> hostname, and client ID. Your compute node should appear with the IP you
+> reserved for it in `/etc/dnsmasq.conf` by setting a `dhcp-host` line with
+> the MAC address for the compute node.
+>
+> This is also a useful way to check IP addresses assigned to cluster nodes
+> if they aren't ending up where you expected, and you can even edit the file
+> and delete lines to clear DHCP leases for clients if they have the wrong IP
+> address (for example, if their MAC address wasn't added to `/etc/dnsmasq.conf`
+> on the login node).
+
 ## Start with an update
 
 We need to update packages on the compute nodes, too:
