@@ -142,7 +142,6 @@ sudo mkdir /sharedfs
     - `sudo mv munge.key /etc/munge/munge.key`
     - `sudo chmod 400 /etc/munge/munge.key`
     - `sudo chown munge: /etc/munge/munge.key`
-- Copy `/etc/cgroup.conf` and `/etc/cgroup_allowed_devices_file.conf` from the login node to the compute node using the same technique.
 - Update `/etc/fstab` to show the following:
 
 ```bash
@@ -153,33 +152,40 @@ PARTUUID=3e3e7392-02  /               ext4    defaults,noatime  0       1
 192.168.5.101:/home    /home    nfs    defaults   0 0
 ```
 
-> **Note:** My `/etc/cgroup.conf` didn't get created automatically. I created it using:
->
-> ```bash
-> sudo tee /etc/cgroup.conf << 'EOF'
-> CgroupPlugin=autodetect
-> ConstrainCores=yes
-> ConstrainRAMSpace=yes
-> EOF
-> ```
->
-> Same for `/etc/slurm/cgroup_allowed_devices_file.conf`:
->
-> ```bash
-> sudo tee /etc/slurm/cgroup_allowed_devices_file.conf << 'EOF'
-> /dev/null
-> /dev/urandom
-> /dev/zero
-> /dev/sda*
-> /dev/cpu/*/*
-> /dev/pts/*
-> /dev/shm
-> EOF
-> ```
+## Slurm cgroups configuration
+
+Slurm's cgroup plugin is used by `slurmd` to enforce resource limits on jobs.
+We need to configure this on our compute nodes. Create `/etc/slurm/cgroup.conf`:
+
+```bash
+sudo tee /etc/slurm/cgroup.conf << 'EOF'
+CgroupPlugin=autodetect
+ConstrainCores=yes
+ConstrainRAMSpace=yes
+EOF
+```
+
+And `/etc/slurm/cgroup_allowed_devices_file.conf`:
+
+```bash
+sudo tee /etc/slurm/cgroup_allowed_devices_file.conf << 'EOF'
+/dev/null
+/dev/urandom
+/dev/zero
+/dev/sda*
+/dev/cpu/*/*
+/dev/pts/*
+/dev/shm
+EOF
+```
+
+This should be a reasonable default configuration, but for a deeper dive, see
+(the Slurm `cgroups` documentation)[https://slurm.schedmd.com/cgroups.html]
 
 ## Start munge and slurmd
 
-Now that the config files are in place, start munge first (slurmd depends on it), then slurmd:
+Now that the config files are in place, start munge first (slurmd depends on
+it), then slurmd:
 
 ```bash
 sudo systemctl restart munge
@@ -187,7 +193,8 @@ sudo systemctl restart slurmd
 sudo systemctl status slurmd
 ```
 
-`slurmd` should now show `active (running)`. If it still fails, check the log for details:
+`slurmd` should now show `active (running)`. If it still fails, check the log
+for details:
 
 ```bash
 sudo journalctl -u slurmd -n 30
