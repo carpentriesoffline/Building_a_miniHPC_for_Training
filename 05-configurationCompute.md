@@ -133,21 +133,50 @@ sudo mkdir /sharedfs
 
 ## Copy configuration files from the login node
 
-- Copy the slurm config of the login node to `/etc/slurm/slurm.conf`
-  - _On login node:_ `scp /etc/slurm/slurm.conf pi@node02.local:slurm.conf`
-  - _On compute node:_ `sudo mv slurm.conf /etc/slurm/slurm.conf`
-- Copy `/etc/munge/munge.key` from the login node to the compute node
-  - _On login node:_ `scp /etc/munge/munge.key pi@node02.local:munge.key`
-  - _On compute node:_
-    - `sudo mv munge.key /etc/munge/munge.key`
-    - `sudo chmod 400 /etc/munge/munge.key`
-    - `sudo chown munge: /etc/munge/munge.key`
-- Update `/etc/fstab` to show the following:
+### 1. Slurm configuration files
+
+Copy the slurm config from the login node to `/etc/slurm/slurm.conf`:
+
+ - _On login node:_ `scp /etc/slurm/slurm.conf pi@node02.local:slurm.conf`
+ - _On compute node:_ `sudo mv slurm.conf /etc/slurm/slurm.conf`
+
+### 2. Munge key
+
+Copy `/etc/munge/munge.key` from the login node to the compute node:
+
+ _On login node:_
 
 ```bash
+sudo cp /etc/munge/munge.key munge.key
+sudo chown pi:pi munge.key && chmod 664 munge.key
+scp munge.key pi@node02.local:munge.key
+rm munge.key
+```
+
+_On compute node:_
+
+```bash
+sudo mv munge.key /etc/munge/munge.key
+sudo chmod 400 /etc/munge/munge.key
+sudo chown munge: /etc/munge/munge.key
+```
+
+> **Tip:** `munge.key` is owned by `root` with permissions `400`, so `scp`
+> cannot read it directly as the `pi` user. The steps above copy it to the
+> home directory first and relax the permissions just long enough to transfer
+> it, then clean up the temporary copy.
+
+### 3. Filesystem table (`fstab`)
+
+Update `/etc/fstab` to show the following:
+
+```bash
+# Leave these lines alone:
 proc            /proc           proc    defaults          0       0
 PARTUUID=3e3e7392-01  /boot/firmware  vfat    defaults          0       2
 PARTUUID=3e3e7392-02  /               ext4    defaults,noatime  0       1
+
+# Append these lines:
 192.168.5.101:/sharedfs    /sharedfs    nfs    defaults   0 0
 192.168.5.101:/home    /home    nfs    defaults   0 0
 ```
