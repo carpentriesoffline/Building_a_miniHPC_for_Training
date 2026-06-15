@@ -138,7 +138,12 @@ sudo mkdir /sharedfs
 Copy the slurm config from the login node to `/etc/slurm/slurm.conf`:
 
  - _On login node:_ `scp /etc/slurm/slurm.conf pi@node02.local:slurm.conf`
- - _On compute node:_ `sudo mv slurm.conf /etc/slurm/slurm.conf`
+ - _On compute node:_
+
+   ```bash
+   sudo mv slurm.conf /etc/slurm/slurm.conf
+   sudo chown root:root /etc/slurm/slurm.conf
+   ```
 
 ### 2. Munge key
 
