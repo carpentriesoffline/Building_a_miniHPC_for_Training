@@ -396,12 +396,11 @@ NodeName=pixie02 NodeAddr=192.168.5.102 CPUs=4 State=IDLE
 > don't copy-and-paste this block without altering it to match your hostname!
 
 > **Tip:** If you're trying this at home with a mixed bag of hardware, bear in
-> mind that the first-generation Raspberry Pi used a 32-bit single-core SoC.
-> This matters if some nodes can't run certain software: for example,
-> 32-bit-only Pi 1Bs can run `slurmd` but can't use EESSI, which requires a
-> 64-bit OS. Slurm has features to work around this: `NodeName` entries accept
-> a `Feature=` tag (e.g.  `Feature=64bit`). Jobs can then request specific node
-> types with `--constraint=64bit`. 
+> mind that only Pi 3 and later run a 64-bit OS. Pi 1Bs (ARMv6) and most Pi
+> 2Bs (ARMv7) are 32-bit and can run `slurmd` but can't use EESSI. Slurm has
+> features to work around this: `NodeName` entries accept a `Feature=` tag
+> (e.g. `Feature=64bit`). Jobs can then request specific node types with
+> `--constraint=64bit`, ensuring they are routed to capable nodes.
 
 Next, restart slurm:
 
