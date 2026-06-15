@@ -102,7 +102,7 @@ sudo apt-get install -y slurmd slurm-client munge ntpsec ntpsec-ntpdate lmod nfs
 | `munge`          | Authentication service used by Slurm to verify inter-node messages             |
 | `ntpsec`         | NTP time synchronisation daemon: keeps node clocks in sync with the login node |
 | `ntpsec-ntpdate` | One-shot time sync command, useful for initial clock correction on first boot  |
-| `lmod`           | Lua-based module system for loading software environments (e.g. ESSI)          |
+| `lmod`           | Lua-based module system for loading software environments (e.g. EESSI)          |
 | `nfs-common`     | NFS client utilities to mount the shared filesystem from the login node        |
 | `vim`            | Text editor that confuses people trying to exit it. Try `:q` if stuck.         |
 
@@ -240,7 +240,7 @@ for details:
 sudo journalctl -u slurmd -n 30
 ```
 
-## Install ESSI
+## Install EESSI
 
 ```bash
 mkdir eessi
