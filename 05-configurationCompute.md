@@ -10,6 +10,31 @@ Flash an SD card as described in episode 2 and give it a name of `node02` where
 `node` is the name that you use for all your nodes in your HPC (e.g. `orange`,
 `black`, `green`, `blue`, `yellow`).
 
+## Check the hostname (and fix if required)
+
+> **Do this first.** Hostname resolution must be in place before running any
+> `sudo` command, otherwise every `sudo` invocation will print `unable to
+> resolve host node02`.
+
+Back in section 3, we configured the hostname for the node in the imaging tool.
+It's worth checking the hostname is set correctly: it should end `02`.
+
+```bash
+hostname
+```
+
+If you wrote the same image to SD card without customising the hostname, it
+will be `node01`, which will conflict. If you need to modify it, run:
+
+```bash
+echo pixie02 | sudo tee /etc/hostname
+```
+
+No changes to `/etc/hosts` are needed on the compute node. Cluster-wide
+hostname resolution (all nodes resolving each other by name) is provided by
+dnsmasq on the login node and delivered to compute nodes via DHCP. The
+hostname for the compute node is all that is needed locally.
+
 ## Start with an update
 
 We need to update packages on the compute nodes, too:
@@ -42,21 +67,6 @@ sudo apt upgrade -y
 > Once `wlan0` is disabled at the end of this tutorial, the compute node routes
 > all traffic through `eth0` to the login node, which provides internet access
 > via its own `wlan0`.
-
-## Configure the hostname and hosts file
-
-> **Do this first.** Hostname resolution must be in place before running any
-> `sudo` command, otherwise every `sudo` invocation will print `unable to
-> resolve host node01`. Copy `/etc/hosts` from the login node before
-> proceeding.
-
-Copy `/etc/hosts` from the login node to `/etc/hosts` on the compute node:
-
-```bash
-sudo scp pi@node01.local:/etc/hosts /etc/hosts
-```
-
-(Obviously, replace `node01`, `node02` with your hostnames here!)
 
 ## Install required packages
 

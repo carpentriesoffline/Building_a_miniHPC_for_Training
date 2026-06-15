@@ -112,6 +112,7 @@ sudo iptables -A FORWARD -i eth0 -o wlan0 -j ACCEPT
 sudo iptables -A FORWARD -i wlan0 -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo netfilter-persistent save
 ```
+
 Here's what each rule does:
 
 `sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE`  
@@ -228,12 +229,25 @@ interface=eth0
 bind-dynamic
 domain-needed
 bogus-priv
+
 dhcp-range=192.168.5.102,192.168.5.200,255.255.255.0,12h
-dhcp-host=b8:27:eb:6e:7d:6d,192.168.5.102
-dhcp-option=3,192.168.5.101 # default route — the login node
+dhcp-option=3,192.168.5.101 # default route (the login node)
+dhcp-option=6,192.168.5.101 # DNS server
+
+dhcp-host=b8:27:eb:6e:7d:6d,192.168.5.102 # compute node assignment
 ```
 
 > **Warning:** Don't copy-and-paste this block without altering it to match your MAC address!
+
+> **Note:** If you add more compute nodes, add one `dhcp-host` line per node,
+> incrementing the IP each time:
+>
+> ```bash
+> dhcp-host=<mac-of-node02>,192.168.5.102
+> dhcp-host=<mac-of-node03>,192.168.5.103
+> ```
+>
+> You'll also need a matching host entry in `/etc/cloud/templates/hosts.debian.tmpl` for each node.
 
 Restart dnsmasq to apply the config:
 
@@ -282,24 +296,35 @@ NFS service here.
 
 ## Configure hosts file
 
-- The `/etc/hosts` file should contain the following. Make sure to change all 
-occurences of `pixie` in this block to the name of your cluster:
+> **Warning:** On current Debian (Bookworm and later), cloud-init manages
+> `/etc/hosts` and will overwrite direct edits on reboot. Edit the template
+> instead: `/etc/cloud/templates/hosts.debian.tmpl`.
+
+`dnsmasq` reads the login node's `/etc/hosts` and serves those entries as DNS
+to all cluster nodes, so this is the only place you need to maintain
+hostname-to-IP mappings for the cluster. Compute nodes will receive the login
+node's address as their DNS server via DHCP.
+
+The template already contains entries to create this node's hostname.  Append
+the cluster IP entries below it. Add the following to
+`/etc/cloud/templates/hosts.debian.tmpl`, substituting your cluster name:
 
 ```bash
-127.0.0.1 localhost
-::1       localhost ip6-localhost ip6-loopback
-ff02::1   ip6-allnodes
-ff02::2   ip6-allrouters
-
-# This login node's hostname
-127.0.1.1 pixie01
+# Cluster nodes
 192.168.5.101 pixie01
-
-# IP and hostname of compute nodes
 192.168.5.102 pixie02
 ```
 
-> **Warning:** Don't copy-and-paste this block without altering it to match your hostname!
+> **Warning:** Don't copy-and-paste this block without altering it to match
+> your cluster name! (`orange`, `black`, `green`, etc.).
+
+Now we can apply the template to `/etc/hosts` immediately, then reload
+dnsmasq so it picks up the new entries:
+
+```bash
+sudo cloud-init single --name update_etc_hosts
+sudo systemctl reload dnsmasq
+```
 
 ## Configure munge
 
@@ -418,4 +443,3 @@ into a functioning HPC head node.
 - Installed EESSI to provide a shared, architecture-aware software environment
 
 In the next section, we'll configure a compute node to perform computational work.
-
