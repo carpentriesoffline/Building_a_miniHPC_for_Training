@@ -196,14 +196,16 @@ sudo journalctl -u slurmd -n 30
 ## Install ESSI
 
 ```bash
-mkdir essi
-cd essi
+mkdir eessi
+cd eessi
 wget https://raw.githubusercontent.com/EESSI/eessi-demo/main/scripts/install_cvmfs_eessi.sh
 sudo bash ./install_cvmfs_eessi.sh
 
 source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
-# We don't do this one anymore:
+
+# Older versions of EESSI needed us to put the source line into profile:
 # echo "source /cvmfs/software.eessi.io/versions/2023.06/init/bash" | sudo tee -a /etc/profile
+# We don't need to do this any more
 ```
 
 ## Disable WiFi and Bluetooth
@@ -225,4 +227,6 @@ dtoverlay=disable-wifi
 dtoverlay=disable-bt
 ```
 
-Save the file and reboot
+Save the file and reboot! You now have a configured compute node. In the next
+section, we'll test our cluster by submitting jobs with `slurm`.
+
