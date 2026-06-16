@@ -186,7 +186,7 @@ PARTUUID=3e3e7392-02  /               ext4    defaults,noatime  0       1
 192.168.5.101:/home    /home    nfs    defaults   0 0
 ```
 
-Then mount everything:
+Then reload the modifications and mount everything:
 
 ```bash
 sudo systemctl daemon-reload
