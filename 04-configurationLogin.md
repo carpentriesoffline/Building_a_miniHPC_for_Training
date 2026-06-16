@@ -18,6 +18,39 @@ title: Configuring the login node
 In this section, we will configure our login node. This is the node through
 which we will interface with our cluster.
 
+## Check the hostname (and fix if required)
+
+> **Do this first.** Hostname resolution must be in place before running any
+> `sudo` command, otherwise every `sudo` invocation will print `unable to
+> resolve host node01`.
+
+Back in section 3, we configured the hostname for the node in the imaging tool.
+It's worth checking the hostname is set correctly: your login node should end
+`01`, and your compute node `02`.
+
+```bash
+hostname
+```
+
+It is important that the hostname is correct. If you need to modify it, run:
+
+```bash
+sudo raspi-config
+```
+
+Then use the arrow keys and "Enter" to select "01 System Options" then "S4
+Hostname". Enter your corrected hostname and apply changes.
+
+> **Note:** You can alternately accomplish this by editing `/etc/hostname`.
+> However, on Debian Bookworm (modern Raspberry Pi OS), `cloud-init` manages
+> this file and your change will be lost on reboot. You can tell it to respect
+> your changes by setting `preserve_hostname` to true:
+>
+> ```bash
+> sudo sed -E -i 's/(preserve_hostname: )(.*)/\1true/g' /etc/cloud/cloud.cfg
+> echo pixie02 | sudo tee /etc/hostname
+> ```
+
 ## Start with an update
 
 ```bash
