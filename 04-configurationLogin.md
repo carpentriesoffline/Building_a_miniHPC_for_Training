@@ -33,7 +33,7 @@ to have on hand) onto your Pi:
 ```bash
 sudo apt-get install -y nfs-kernel-server nfs-common slurm slurm-wlm munge \
   libmunge-dev libmunge2 iptables iptables-persistent dnsmasq libopenmpi-dev \
-  libopenmpi3t64 lmod build-essential python3-pip net-tools bind9-dnsutils \
+  libopenmpi40 lmod build-essential python3-pip net-tools bind9-dnsutils \
   ansible nmap git htop screen vim 
 ```
 
