@@ -37,11 +37,20 @@ sudo apt-get install -y nfs-kernel-server nfs-common slurm slurm-wlm munge \
   ansible nmap git htop screen vim 
 ```
 
+Be careful when copying this command that you don't introduce any trailing
+spaces after the `/` symbol. This tells bash that the command continues on the
+next line, but it won't work if there's whitespace after it.
+
 A dialog block will appear on the screen. Answer yes to both questions.
 
 > **Note:** On older Raspberry Pi OS releases, `libpmix2`, `libpmix-bin`, and
 > `libpmix-dev` were separate packages. PMIx packages were merged into OpenMPI
-> in Debian Bookworm: use `libopenmpi3t64` and `libopenmpi-dev` instead.
+> in Debian Bookworm: use `libopenmpi40` and `libopenmpi-dev` instead.
+
+> **Tip:** If `libopenmpi40` isn't available, try `libopenmpi3t64` instead.
+> You'll know you hit this issue if you see: `E: Unable to locate package
+> libopenmpi40`. We have noticed that on older Pis (1B, 2B), only the legacy
+> OpenMPI package is installable: this is because these use 32-bit `armhf` CPUs.
 
 | Package                           | Purpose                                                                  |
 | --------------------------------- | ------------------------------------------------------------------------ |
@@ -52,7 +61,7 @@ A dialog block will appear on the screen. Answer yes to both questions.
 | `libmunge2` `libmunge-dev`        | MUNGE shared library and development headers                             |
 | `iptables` `iptables-persistent`  | Firewall and NAT rules: persistent saves them across reboots             |
 | `dnsmasq`                         | Lightweight DHCP and DNS server: assigns IPs to compute nodes            |
-| `libopenmpi-dev` `libopenmpi3t64` | OpenMPI runtime and headers: provides PMIx support for Slurm job launch  |
+| `libopenmpi-dev` `libopenmpi40`   | OpenMPI runtime and headers: provides PMIx support for Slurm job launch  |
 | `python3-pip`                     | Python package installer                                                 |
 | `lmod`                            | Lua-based module system for managing software environments (e.g. EESSI)  |
 | `build-essential`                 | Compilers and build tools (`gcc`, `make`, etc.)                          |
