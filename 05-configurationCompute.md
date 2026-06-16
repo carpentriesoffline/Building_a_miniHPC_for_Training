@@ -27,13 +27,26 @@ If you wrote the same image to SD card without customising the hostname, it
 will be `node01`, which will conflict. If you need to modify it, run:
 
 ```bash
-echo pixie02 | sudo tee /etc/hostname
+sudo raspi-config
 ```
+
+Then use the arrow keys and "Enter" to select "01 System Options" then "S4
+Hostname". Enter your corrected hostname and apply.
+
+> **Note:** You can alternately accomplish this by editing `/etc/hostname`.
+> However, on Debian Bookworm (modern Raspberry Pi OS), `cloud-init` manages
+> this file and your change will be lost on reboot. You can tell it to respect
+> your changes by setting `preserve_hostname` to true:
+>
+> ```bash
+> sudo sed -E -i 's/(preserve_hostname: )(.*)/\1true/g' /etc/cloud/cloud.cfg
+> echo pixie02 | sudo tee /etc/hostname
+> ```
 
 No changes to `/etc/hosts` are needed on the compute node. Cluster-wide
 hostname resolution (all nodes resolving each other by name) is provided by
-dnsmasq on the login node and delivered to compute nodes via DHCP. The
-hostname for the compute node is all that is needed locally.
+dnsmasq on the login node and IP addresses are delivered to compute nodes via
+DHCP. The hostname for the compute node is all that is needed locally.
 
 > **Tip:** You can confirm the login node has seen this compute node and issued
 > it a DHCP lease by running the following **on the login node**:
