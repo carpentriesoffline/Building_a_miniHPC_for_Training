@@ -189,6 +189,7 @@ PARTUUID=3e3e7392-02  /               ext4    defaults,noatime  0       1
 Then mount everything:
 
 ```bash
+sudo systemctl daemon-reload
 sudo mount -a
 ```
 
