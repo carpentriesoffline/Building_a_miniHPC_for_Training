@@ -228,6 +228,13 @@ for details:
 sudo journalctl -u slurmd -n 30
 ```
 
+> **Tip**: We can check our node's status *from the login node* using `sinfo`.
+> If the node is down (in state `FAIL`), use `scontrol` to bring it back up:
+>
+> ```bash
+> sudo scontrol update NodeName=node02 State=RESUME
+> ```
+
 ## Install EESSI
 
 ```bash
