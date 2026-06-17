@@ -18,26 +18,34 @@ title: Configuring the login node
 - Install EESSI for a shared software environment
 :::
 
-> **Configure the login node first.** The compute node configuration (next
-> page) depends on files generated here (munge key, slurm.conf, /etc/hosts),
-> and the login node must be up and running as the DHCP/DNS server before the
-> compute node can reach the network.
+::: callout
+## Configure the login node first
+The compute node configuration (next
+page) depends on files generated here (munge key, slurm.conf, /etc/hosts),
+and the login node must be up and running as the DHCP/DNS server before the
+compute node can reach the network.
+:::
 
-> **Tip:** We won't configure a separate control node in this tutorial: the
-> login node will act as the SLURM controller, the NFS backing filesystem, and
-> the cluster's internet gateway, too. In a production cluster these would
-> typically be separate machines, but combining them means we can demonstrate
-> all the techniques using just two nodes. We'll also leave multi-user systems
-> and authentication (Kerberos, LDAP and friends) as an exercise to the reader.
+::: tip
+We won't configure a separate control node in this tutorial: the login node
+will act as the SLURM controller, the NFS backing filesystem, and the cluster's
+internet gateway, too. In a production cluster these would typically be
+separate machines, but combining them means we can demonstrate all the
+techniques using just two nodes. We'll also leave multi-user systems and
+authentication (Kerberos, LDAP and friends) as an exercise to the reader.
+:::
 
 In this section, we will configure our login node. This is the node through
 which we will interface with our cluster.
 
 ## Check the hostname (and fix if required)
 
-> **Do this first.** Hostname resolution must be in place before running any
-> `sudo` command, otherwise every `sudo` invocation will print `unable to
-> resolve host node01`.
+::: callout
+## Do this first
+Hostname resolution must be in place before running any
+`sudo` command, otherwise every `sudo` invocation will print `unable to
+resolve host node01`.
+:::
 
 Back in section 3, we configured the hostname for the node in the imaging tool.
 It's worth checking the hostname is set correctly: your login node should end
@@ -56,15 +64,17 @@ sudo raspi-config
 Then use the arrow keys and "Enter" to select "01 System Options" then "S4
 Hostname". Enter your corrected hostname and apply changes.
 
-> **Note:** You can alternately accomplish this by editing `/etc/hostname`.
-> However, on Debian Bookworm (modern Raspberry Pi OS), `cloud-init` manages
-> this file and your change will be lost on reboot. You can tell it to respect
-> your changes by setting `preserve_hostname` to true:
->
-> ```bash
-> sudo sed -E -i 's/(preserve_hostname: )(.*)/\1true/g' /etc/cloud/cloud.cfg
-> echo pixie02 | sudo tee /etc/hostname
-> ```
+::: callout
+You can alternately accomplish this by editing `/etc/hostname`.
+However, on Debian Bookworm (modern Raspberry Pi OS), `cloud-init` manages this
+file and your change will be lost on reboot. You can tell it to respect your
+changes by setting `preserve_hostname` to true:
+
+```bash
+sudo sed -E -i 's/(preserve_hostname: )(.*)/\1true/g' /etc/cloud/cloud.cfg
+echo pixie02 | sudo tee /etc/hostname
+```
+:::
 
 ## Start with an update
 
@@ -91,14 +101,18 @@ next line, but it won't work if there's whitespace after it.
 
 A dialog block will appear on the screen. Answer yes to both questions.
 
-> **Note:** On older Raspberry Pi OS releases, `libpmix2`, `libpmix-bin`, and
-> `libpmix-dev` were separate packages. PMIx packages were merged into OpenMPI
-> in Debian Bookworm: use `libopenmpi40` and `libopenmpi-dev` instead.
+::: callout
+On older Raspberry Pi OS releases, `libpmix2`, `libpmix-bin`, and `libpmix-dev`
+were separate packages. PMIx packages were merged into OpenMPI in Debian
+Bookworm: use `libopenmpi40` and `libopenmpi-dev` instead.
+:::
 
-> **Tip:** If `libopenmpi40` isn't available, try `libopenmpi3t64` instead.
-> You'll know you hit this issue if you see: `E: Unable to locate package
-> libopenmpi40`. We have noticed that on older Pis (1B, 2B), only the legacy
-> OpenMPI package is installable: this is because these use 32-bit `armhf` CPUs.
+::: tip
+If `libopenmpi40` isn't available, try `libopenmpi3t64` instead.  You'll know
+you hit this issue if you see: `E: Unable to locate package libopenmpi40`. We
+have noticed that on older Pis (1B, 2B), only the legacy OpenMPI package is
+installable: this is because these use 32-bit `armhf` CPUs.
+:::
 
 | Package                           | Purpose                                                                  |
 | --------------------------------- | ------------------------------------------------------------------------ |
@@ -128,8 +142,11 @@ Now, we can remove any redundant packages left over after our upgrades and packa
 sudo apt-get -y autoremove
 ```
 
-> **Note:** This stage can take quite a long time on older hardware (Pi 2Bs or Pi 3s, for instance).
-> The hardware in the workshop uses Raspberry Pi 5s, so shouldn't keep you waiting too long.
+::: callout
+This stage can take quite a long time on older hardware (Pi 2Bs or Pi 3s, for
+instance). The hardware in the workshop uses Raspberry Pi 5s, so shouldn't
+keep you waiting too long.
+:::
 
 ## Set up cluster networking
 
@@ -139,10 +156,12 @@ connection will be used as the gateway to the world, and we'll later disable
 WiFi on our compute nodes. This means that our login node is also acting as a
 router / internet gateway for the purposes of our tutorial. 
 
-> **Tip:** We don't have to use `wlan0` for this: we could connect a USB
-> Ethernet dongle and use `eth1` as our upstream link instead. In any case, the
-> concept to demonstrate here is that our compute nodes are physically isolated
-> from HPC users at a network level.
+::: tip
+We don't have to use `wlan0` for this: we could connect a USB Ethernet dongle
+and use `eth1` as our upstream link instead. In any case, the concept to
+demonstrate here is that our compute nodes are physically isolated from HPC
+users at a network level.
+:::
 
 ### Enable IP forwarding
 
@@ -150,7 +169,8 @@ By default, Linux drops packets that arrive on one interface but are destined
 for another network. Enabling IP forwarding tells the kernel to route those
 packets instead of discarding them.
 
-Create a drop-in configuration file so the system setting is not mixed with distribution defaults:
+Create a drop-in configuration file so the system setting is not mixed with
+distribution defaults:
 
 ```bash
 echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/99-ip-forward.conf
@@ -195,9 +215,11 @@ connections into the cluster.
 
 ## Configure the network interfaces
 
-> **Warning:** Do **not** edit `/etc/network/interfaces` on current Raspberry
-> Pi OS (Bookworm).  That file is not used when NetworkManager is active, and
-> mixing the two causes unpredictable behaviour. Use `nmcli` instead.
+::: warning
+Do **not** edit `/etc/network/interfaces` on current Raspberry Pi OS
+(Bookworm).  That file is not used when NetworkManager is active, and mixing
+the two causes unpredictable behaviour. Use `nmcli` instead.
+:::
 
 The login node needs a **fixed IP** on its ethernet interface (`eth0`) so the
 compute nodes always reach it at the same address, and so dnsmasq can hand out
@@ -214,13 +236,17 @@ sudo nmcli con add type ethernet ifname eth0 con-name eth0-static \
 sudo nmcli con up eth0-static
 ```
 
-> **Note:** Need to reverse this for any reason? `sudo nmcli con delete
-> eth0-static` removes the static connection and returns eth0 to DHCP.
+::: callout
+Need to reverse this for any reason? `sudo nmcli con delete eth0-static`
+removes the static connection and returns eth0 to DHCP.
+:::
 
-> **Warning:** Previous versions of this tutorial used `eth0` as the gateway
-> interface, routing outgoing traffic back over `192.168.5.101`. This has been
-> updated to use `wlan0` so that the cluster network can reach the
-> internet. As such, we don't set an `ipv4.gateway` on this connection.
+::: warning
+Previous versions of this tutorial used `eth0` as the gateway interface,
+routing outgoing traffic back over `192.168.5.101`. This has been updated to
+use `wlan0` so that the cluster network can reach the internet. As such, we
+don't set an `ipv4.gateway` on this connection.
+:::
 
 Verify the address is set:
 
@@ -242,9 +268,12 @@ if you need to modify it for any reason, you can do so with the following comman
 echo pixie01 | sudo tee /etc/hostname
 ```
 
-> **Warning:** This hostname **must** match the value used in the config files below,
-> particularly `/etc/hosts` and `/etc/slurm/slurm.conf`. Take extra care when editing these
-> files that they match the values for your login and compute node hostnames.
+::: warning
+This hostname **must** match the value used in the config files below,
+particularly `/etc/hosts` and `/etc/slurm/slurm.conf`. Take extra care when
+editing these files that they match the values for your login and compute node
+hostnames.
+:::
 
 ## Configure DHCP
 
@@ -257,14 +286,22 @@ static routers=192.168.5.101
 static domain_name_servers=192.168.5.101
 ```
 
-> _Tip:_ You can populate the files in this section however you'd like. However,
-> one of the easier patterns is using heredocs with `sudo tee filename`, e.g.:
->
-> ```bash
-> sudo tee /etc/somefile.conf <<EOF
->   <paste your lines here, then type "EOF" to end>
-> EOF
-> ```
+::: tip
+You can populate the files in this section however you'd like. However, one of
+the easier patterns is using heredocs with `sudo tee filename`, e.g.:
+
+```bash
+sudo tee /etc/somefile.conf <<EOF
+  <paste your lines here, then type "EOF" to end>
+EOF
+```
+
+Make sure you replace `somefile.conf` with the file you're trying to write.
+
+**Don't just copy-paste this block:** it's here to help you understand the
+method. You may find it helpful to use a text editor to help you prepare these
+commands before pasting them in.
+:::
 
 ## Configure DNS masquerading
 
@@ -294,18 +331,22 @@ dhcp-option=6,192.168.5.101 # DNS server
 dhcp-host=b8:27:eb:6e:7d:6d,192.168.5.102 # compute node assignment
 ```
 
-> **Warning:** Don't copy-and-paste this block without altering it to match
-> your MAC address!
+::: warning
+Don't copy-and-paste this block without altering it to match your MAC address!
+:::
 
-> **Note:** If you add more compute nodes, add one `dhcp-host` line per node,
-> incrementing the IP each time:
->
-> ```bash
-> dhcp-host=<mac-of-node02>,192.168.5.102
-> dhcp-host=<mac-of-node03>,192.168.5.103
-> ```
->
-> You'll also need a matching host entry in `/etc/cloud/templates/hosts.debian.tmpl` for each node.
+::: callout
+If you add more compute nodes, add one `dhcp-host` line per node, incrementing
+the IP each time:
+
+```bash
+dhcp-host=<mac-of-node02>,192.168.5.102
+dhcp-host=<mac-of-node03>,192.168.5.103
+```
+
+You'll also need a matching host entry in
+`/etc/cloud/templates/hosts.debian.tmpl` for each node.
+:::
 
 Restart dnsmasq to apply the config:
 
@@ -354,9 +395,11 @@ NFS service here.
 
 ## Configure hosts file
 
-> **Warning:** On current Debian (Bookworm and later), cloud-init manages
-> `/etc/hosts` and will overwrite direct edits on reboot. Edit the template
-> instead: `/etc/cloud/templates/hosts.debian.tmpl`.
+::: warning
+On current Debian (Bookworm and later), cloud-init manages `/etc/hosts` and
+will overwrite direct edits on reboot. Edit the template instead:
+`/etc/cloud/templates/hosts.debian.tmpl`.
+:::
 
 `dnsmasq` reads the login node's `/etc/hosts` and serves those entries as DNS
 to all cluster nodes, so this is the only place you need to maintain
@@ -373,8 +416,10 @@ the cluster IP entries below it. Add the following to
 192.168.5.102 pixie02
 ```
 
-> **Warning:** Don't copy-and-paste this block without altering it to match
-> your cluster name! (`orange`, `black`, `green`, etc.).
+::: warning
+Don't copy-and-paste this block without altering it to match your cluster name!
+(`orange`, `black`, `green`, `blue`, etc.).
+:::
 
 Now we can apply the template to `/etc/hosts` immediately, then reload
 dnsmasq so it picks up the new entries:
@@ -389,7 +434,8 @@ sudo systemctl reload dnsmasq
 Munge is the authentication service we'll be using in our Pi HPC cluster. We
 need to do some configuration here first.
 
-Create the munge key using the `mungekey` tool, which handles size and permissions correctly:
+Create the munge key using the `mungekey` tool, which handles size and
+permissions correctly:
 
 ```bash
 sudo mungekey --create
@@ -449,15 +495,19 @@ NodeName=pixie01 NodeAddr=192.168.5.101 CPUs=4 State=IDLE
 NodeName=pixie02 NodeAddr=192.168.5.102 CPUs=4 State=IDLE
 ```
 
-> **Warning:** You're starting to get used to this warning, but please,
-> don't copy-and-paste this block without altering it to match your hostname!
+::: warning
+You're starting to get used to this warning, but please, don't copy-and-paste
+this block without altering it to match your hostname!
+:::
 
-> **Tip:** If you're trying this at home with a mixed bag of hardware, bear in
-> mind that only Pi 3 and later run a 64-bit OS. Pi 1Bs (ARMv6) and most Pi
-> 2Bs (ARMv7) are 32-bit and can run `slurmd` but can't use EESSI. Slurm has
-> features to work around this: `NodeName` entries accept a `Feature=` tag
-> (e.g. `Feature=64bit`). Jobs can then request specific node types with
-> `--constraint=64bit`, ensuring they are routed to capable nodes.
+::: tip
+If you're trying this at home with a mixed bag of hardware, bear in mind that
+only Pi 3 and later run a 64-bit OS. Pi 1Bs (ARMv6) and most Pi 2Bs (ARMv7) are
+32-bit and can run `slurmd` but can't use EESSI. Slurm has features to work
+around this: `NodeName` entries accept a `Feature=` tag (e.g. `Feature=64bit`).
+Jobs can then request specific node types with `--constraint=64bit`, ensuring
+they are routed to capable nodes.
+:::
 
 Next, restart slurm:
 
@@ -467,11 +517,14 @@ sudo systemctl restart slurmctld
 sudo systemctl restart slurmd
 ```
 
-> **Note:** `slurmd` must be restarted after the config is in place. It is 
-> installed earlier but will be in a failed state until now. Munge must be 
-> started first as both daemons depend on it.
+::: callout
+`slurmd` must be restarted after the config is in place. It is installed
+earlier but will be in a failed state until now. Munge must be started first as
+both daemons depend on it.
+:::
 
-At this point, you should see Slurm running if you check using `sudo systemctl status slurmctld`:
+At this point, you should see Slurm running if you check using `sudo systemctl
+status slurmctld`:
 
 ![](fig/slurm-running.png){alt='Slurm running on the login node'}
 
@@ -486,7 +539,9 @@ sudo bash ./install_cvmfs_eessi.sh
 source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 ```
 
-> **Note:** Only Pi 3 and later are supported by EESSI, as it needs a 64-bit OS.
+::: callout
+Only Pi 3 and later are supported by EESSI, as it needs a 64-bit OS.
+:::
 
 ## What we learned
 
@@ -510,8 +565,12 @@ into a functioning HPC head node.
 In the next section, we'll configure a compute node to perform computational work.
 
 :::keypoints
-- The login node acts as NAT gateway, DHCP/DNS server (dnsmasq), NFS server, and Slurm controller
-- iptables NAT masquerading allows compute nodes to reach the internet through the login node's WiFi
-- munge provides authentication between Slurm daemons; all nodes must share the same munge key
-- EESSI provides a shared, architecture-aware software environment accessible from all nodes
+- The login node acts as NAT gateway, DHCP/DNS server (dnsmasq), NFS server,
+  and Slurm controller
+- iptables NAT masquerading allows compute nodes to reach the internet through
+  the login node's WiFi
+- munge provides authentication between Slurm daemons; all nodes must share the
+  same munge key
+- EESSI provides a shared, architecture-aware software environment accessible
+  from all nodes
 :::

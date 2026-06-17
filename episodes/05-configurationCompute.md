@@ -35,23 +35,25 @@ hostname resolution (all nodes resolving each other by name) is provided by
 dnsmasq on the login node and IP addresses are delivered to compute nodes via
 DHCP. The hostname for the compute node is all that is needed locally.
 
-> **Tip:** You can confirm the login node has seen this compute node and issued
-> it a DHCP lease by running the following **on the login node** (try it!):
->
-> ```bash
-> cat /var/lib/misc/dnsmasq.leases
-> ```
->
-> Each line is an active lease: expiry timestamp, MAC address, assigned IP,
-> hostname, and client ID. Your compute node should appear with the IP you
-> reserved for it in `/etc/dnsmasq.conf` by setting a `dhcp-host` line with
-> the MAC address for the compute node.
->
-> This is also a useful way to check IP addresses assigned to cluster nodes
-> if they aren't ending up where you expected, and you can even edit the file
-> and delete lines to clear DHCP leases for clients if they have the wrong IP
-> address (for example, if their MAC address wasn't added to `/etc/dnsmasq.conf`
-> on the login node).
+::: tip
+You can confirm the login node has seen this compute node and issued it a DHCP
+lease by running the following **on the login node** (try it!):
+
+```bash
+cat /var/lib/misc/dnsmasq.leases
+```
+
+Each line is an active lease: expiry timestamp, MAC address, assigned IP,
+hostname, and client ID. Your compute node should appear with the IP you
+reserved for it in `/etc/dnsmasq.conf` by setting a `dhcp-host` line with the
+MAC address for the compute node.
+
+This is also a useful way to check IP addresses assigned to cluster nodes if
+they aren't ending up where you expected, and you can even edit the file and
+delete lines to clear DHCP leases for clients if they have the wrong IP address
+(for example, if their MAC address wasn't added to `/etc/dnsmasq.conf` on the
+login node).
+:::
 
 ## Start with an update
 
@@ -62,29 +64,31 @@ sudo apt-get update
 sudo apt upgrade -y
 ```
 
-> **Note:** During initial setup, while both `wlan0` and `eth0` are connected,
-> your Pi can get confused about which interface to use for internet traffic.
-> If packages aren't downloading, give `wlan0` a higher interface priority.
-> Grab the device name from `nmcli`:
->
-> ```bash
-> pi@node02:~ $ nmcli con show
-> NAME                              UUID                                  TYPE      DEVICE
-> netplan-wlan0-CarpentriesOffline  e5799f3d-8920-3080-b93f-e6e5ac4ce778  wifi      wlan0
-> netplan-eth0                      75a1216a-9d1a-30cd-8aca-ace5526ec021  ethernet  eth0
-> lo                                c4c925ab-c23d-4a84-86f3-bb9133a05b92  loopback  lo
-> ```
->
-> Then give `wlan0` a higher interface metric:
->
-> ```bash
-> sudo nmcli con mod netplan-wlan0-CarpentriesOffline ipv4.route-metric 100
-> sudo nmcli con down netplan-wlan0-CarpentriesOffline && sudo nmcli con up netplan-wlan0-CarpentriesOffline
-> ```
->
-> Once `wlan0` is disabled at the end of this tutorial, the compute node routes
-> all traffic through `eth0` to the login node, which provides internet access
-> via its own `wlan0`.
+::: callout
+During initial setup, while both `wlan0` and `eth0` are connected, your Pi can
+get confused about which interface to use for internet traffic. If packages
+aren't downloading, give `wlan0` a higher interface priority. Grab the device
+name from `nmcli`:
+
+```bash
+pi@node02:~ $ nmcli con show
+NAME                              UUID                                  TYPE      DEVICE
+netplan-wlan0-CarpentriesOffline  e5799f3d-8920-3080-b93f-e6e5ac4ce778  wifi      wlan0
+netplan-eth0                      75a1216a-9d1a-30cd-8aca-ace5526ec021  ethernet  eth0
+lo                                c4c925ab-c23d-4a84-86f3-bb9133a05b92  loopback  lo
+```
+
+Then give `wlan0` a higher interface metric:
+
+```bash
+sudo nmcli con mod netplan-wlan0-CarpentriesOffline ipv4.route-metric 100
+sudo nmcli con down netplan-wlan0-CarpentriesOffline && sudo nmcli con up netplan-wlan0-CarpentriesOffline
+```
+
+Once `wlan0` is disabled at the end of this tutorial, the compute node routes
+all traffic through `eth0` to the login node, which provides internet access
+via its own `wlan0`.
+:::
 
 ## Install required packages
 
@@ -92,8 +96,10 @@ sudo apt upgrade -y
 sudo apt-get install -y slurmd slurm-client munge ntpsec ntpsec-ntpdate lmod nfs-common vim
 ```
 
-> **Note:** `ntp` and `ntpdate` are no longer available on current Raspberry Pi OS. Use `ntpsec`
-> and `ntpsec-ntpdate` instead; they provide the same functionality.
+::: callout
+`ntp` and `ntpdate` are no longer available on current Raspberry Pi OS. Use `ntpsec`
+and `ntpsec-ntpdate` instead; they provide the same functionality.
+:::
 
 | Package          | Purpose                                                                        |
 | ---------------- | ------------------------------------------------------------------------------ |
@@ -165,10 +171,12 @@ sudo chmod 400 /etc/munge/munge.key
 sudo chown munge: /etc/munge/munge.key
 ```
 
-> **Tip:** `munge.key` is owned by `root` with permissions `400`, so `scp`
-> cannot read it directly as the `pi` user. The steps above copy it to the
-> home directory first and relax the permissions just long enough to transfer
-> it, then clean up the temporary copy.
+::: tip
+`munge.key` is owned by `root` with permissions `400`, so `scp` cannot read it
+directly as the `pi` user. The steps above copy it to the home directory first
+and relax the permissions just long enough to transfer it, then clean up the
+temporary copy.
+:::
 
 ### 3. Filesystem table (`fstab`)
 
@@ -240,12 +248,14 @@ for details:
 sudo journalctl -u slurmd -n 30
 ```
 
-> **Tip**: We can check our node's status *from the login node* using `sinfo`.
-> If the node is down (in state `FAIL`), use `scontrol` to bring it back up:
->
-> ```bash
-> sudo scontrol update NodeName=node02 State=RESUME
-> ```
+::: tip
+We can check our node's status *from the login node* using `sinfo`. If the
+node is down (in state `FAIL`), use `scontrol` to bring it back up:
+
+```bash
+sudo scontrol update NodeName=node02 State=RESUME
+```
+:::
 
 ## Install EESSI
 
@@ -285,9 +295,12 @@ Save the file and reboot! You now have a configured compute node. In the next
 section, we'll test our cluster by submitting jobs with `slurm`.
 
 :::keypoints
-- The compute node must have the same munge key as the login node for Slurm authentication
-- Copy `slurm.conf` and `munge.key` from the login node before starting `slurmd`
+- The compute node must have the same munge key as the login node for Slurm
+  authentication
+- Copy `slurm.conf` and `munge.key` from the login node before starting
+  `slurmd`
 - Mount shared filesystems via NFS entries in `/etc/fstab`
-- Disable WiFi on compute nodes so all traffic routes through `eth0` to the login node
+- Disable WiFi on compute nodes so all traffic routes through `eth0` to the
+  login node
 :::
 
