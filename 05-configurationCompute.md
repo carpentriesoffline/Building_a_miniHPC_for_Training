@@ -65,7 +65,13 @@ sudo apt-get update
 sudo apt upgrade -y
 ```
 
-::: hint
+::: discussion
+### Network Interface Priority
+
+When you have multiple network adapters attached to a computer, the computer
+needs to know which interface to route traffic over. This is selected based on
+the *priority* of the interface.
+
 During initial setup, while both `wlan0` and `eth0` are connected, your Pi can
 get confused about which interface to use for internet traffic. If packages
 aren't downloading, give `wlan0` a higher interface priority. Grab the device

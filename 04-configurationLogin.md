@@ -63,7 +63,7 @@ sudo raspi-config
 Then use the arrow keys and "Enter" to select "01 System Options" then "S4
 Hostname". Enter your corrected hostname and apply changes.
 
-::: hint
+::: callout 
 You can alternately accomplish this by editing `/etc/hostname`.
 However, on Debian Bookworm (modern Raspberry Pi OS), `cloud-init` manages this
 file and your change will be lost on reboot. You can tell it to respect your
@@ -100,13 +100,13 @@ next line, but it won't work if there's whitespace after it.
 
 A dialog block will appear on the screen. Answer yes to both questions.
 
-::: callout
+::: discussion
+### Package versions and compatibility
+
 On older Raspberry Pi OS releases, `libpmix2`, `libpmix-bin`, and `libpmix-dev`
 were separate packages. PMIx packages were merged into OpenMPI in Debian
 Bookworm: use `libopenmpi40` and `libopenmpi-dev` instead.
-:::
 
-::: hint
 If `libopenmpi40` isn't available, try `libopenmpi3t64` instead. You'll know
 you hit this issue if you see: `E: Unable to locate package libopenmpi40`. We
 have noticed that on older Pis (1B, 2B), only the legacy OpenMPI package is
@@ -236,7 +236,7 @@ sudo nmcli con add type ethernet ifname eth0 con-name eth0-static \
 sudo nmcli con up eth0-static
 ```
 
-::: hint
+::: callout 
 Need to reverse this for any reason? `sudo nmcli con delete eth0-static`
 removes the static connection and returns eth0 to DHCP.
 :::
