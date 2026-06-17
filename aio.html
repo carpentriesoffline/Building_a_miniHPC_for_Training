@@ -625,10 +625,19 @@ Pi using the <code>ssh</code> command.</p>
 <li>Password: <code>0nl1n3</code>
 </li>
 </ol>
-<div class="tip">
+<div id="tip" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="tip" class="callout-inner">
+<h3 class="callout-title">Tip</h3>
+<div class="callout-content">
 <p>We’ve noticed occasional issues using the login name <code>pi</code>
 on fresh Rasbian Lite image: it takes you round in circles back to a
 login prompt! We’ll use a different name to be sure here.</p>
+</div>
+</div>
 </div>
 <figure><img src="fig/screenshots/imager-pwd-setup.png" alt="Setting the username and password" class="figure mx-auto d-block"></figure><p><em>Customisation: Choose Wi-Fi</em>: next, enter your WiFi details.
 For our workshop, we are using the network
@@ -825,11 +834,11 @@ network</li>
 </div>
 </div>
 </div>
-<div id="configure-the-login-node-first" class="callout">
+<div id="configure-the-login-node-first" class="callout caution">
 <div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
+<i class="callout-icon" data-feather="alert-triangle"></i>
 </div>
-<span class="callout-header">Callout</span>
+<span class="callout-header">Caution</span>
 <div id="configure-the-login-node-first" class="callout-inner">
 <h3 class="callout-title">Configure the login node first</h3>
 <div class="callout-content">
@@ -840,7 +849,14 @@ network.</p>
 </div>
 </div>
 </div>
-<div class="tip">
+<div id="tutorial-design" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="tutorial-design" class="callout-inner">
+<h3 class="callout-title">Tutorial design</h3>
+<div class="callout-content">
 <p>We won’t configure a separate control node in this tutorial: the
 login node will act as the SLURM controller, the NFS backing filesystem,
 and the cluster’s internet gateway, too. In a production cluster these
@@ -849,18 +865,20 @@ demonstrate all the techniques using just two nodes. We’ll also leave
 multi-user systems and authentication (Kerberos, LDAP and friends) as an
 exercise to the reader.</p>
 </div>
+</div>
+</div>
 <p>In this section, we will configure our login node. This is the node
 through which we will interface with our cluster.</p>
 <section><h2 class="section-heading" id="check-the-hostname-and-fix-if-required">Check the hostname (and fix if required)<a class="anchor" aria-label="anchor" href="#check-the-hostname-and-fix-if-required"></a>
 </h2>
 <hr class="half-width">
-<div id="do-this-first" class="callout">
+<div id="check-your-hostname-first" class="callout prereq">
 <div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
+<i class="callout-icon" data-feather="check"></i>
 </div>
-<span class="callout-header">Callout</span>
-<div id="do-this-first" class="callout-inner">
-<h3 class="callout-title">Do this first</h3>
+<span class="callout-header">Prerequisite</span>
+<div id="check-your-hostname-first" class="callout-inner">
+<h3 class="callout-title">Check your hostname first</h3>
 <div class="callout-content">
 <p>Hostname resolution must be in place before running any
 <code>sudo</code> command, otherwise every <code>sudo</code> invocation
@@ -886,13 +904,13 @@ it, run:</p>
 </div>
 <p>Then use the arrow keys and “Enter” to select “01 System Options”
 then “S4 Hostname”. Enter your corrected hostname and apply changes.</p>
-<div id="callout3" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<span class="callout-header">Callout</span>
-<div class="callout-inner">
-<div class="callout-content">
+<div id="accordionHint1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
+  <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
+</button>
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div class="accordion-body">
 <p>You can alternately accomplish this by editing
 <code>/etc/hostname</code>. However, on Debian Bookworm (modern
 Raspberry Pi OS), <code>cloud-init</code> manages this file and your
@@ -903,6 +921,7 @@ by setting <code>preserve_hostname</code> to true:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="fu">sudo</span> sed <span class="at">-E</span> <span class="at">-i</span> <span class="st">'s/(preserve_hostname: )(.*)/\1true/g'</span> /etc/cloud/cloud.cfg</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="bu">echo</span> pixie02 <span class="kw">|</span> <span class="fu">sudo</span> tee /etc/hostname</span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -935,7 +954,7 @@ the command continues on the next line, but it won’t work if there’s
 whitespace after it.</p>
 <p>A dialog block will appear on the screen. Answer yes to both
 questions.</p>
-<div id="callout4" class="callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
@@ -949,13 +968,22 @@ packages. PMIx packages were merged into OpenMPI in Debian Bookworm: use
 </div>
 </div>
 </div>
-<div class="tip">
+<div id="accordionHint2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
+  <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
+</button>
+<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div class="accordion-body">
 <p>If <code>libopenmpi40</code> isn’t available, try
 <code>libopenmpi3t64</code> instead. You’ll know you hit this issue if
 you see: <code>E: Unable to locate package libopenmpi40</code>. We have
 noticed that on older Pis (1B, 2B), only the legacy OpenMPI package is
 installable: this is because these use 32-bit <code>armhf</code>
 CPUs.</p>
+</div>
+</div>
+</div>
 </div>
 <table class="table">
 <colgroup>
@@ -1067,7 +1095,7 @@ upgrades and package installations:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="fu">sudo</span> apt-get <span class="at">-y</span> autoremove</span></code></pre>
 </div>
-<div id="callout5" class="callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
@@ -1089,12 +1117,21 @@ login node’s WiFi connection will be used as the gateway to the world,
 and we’ll later disable WiFi on our compute nodes. This means that our
 login node is also acting as a router / internet gateway for the
 purposes of our tutorial.</p>
-<div class="tip">
+<div id="alternative-uplink-interfaces" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="alternative-uplink-interfaces" class="callout-inner">
+<h3 class="callout-title">Alternative uplink interfaces</h3>
+<div class="callout-content">
 <p>We don’t have to use <code>wlan0</code> for this: we could connect a
 USB Ethernet dongle and use <code>eth1</code> as our upstream link
 instead. In any case, the concept to demonstrate here is that our
 compute nodes are physically isolated from HPC users at a network
 level.</p>
+</div>
+</div>
 </div>
 <div class="section level3">
 <h3 id="enable-ip-forwarding">Enable IP forwarding<a class="anchor" aria-label="anchor" href="#enable-ip-forwarding"></a>
@@ -1151,11 +1188,19 @@ cannot initiate connections into the cluster.</p>
 </section><section><h2 class="section-heading" id="configure-the-network-interfaces">Configure the network interfaces<a class="anchor" aria-label="anchor" href="#configure-the-network-interfaces"></a>
 </h2>
 <hr class="half-width">
-<div class="warning">
+<div id="caution2" class="callout caution">
+<div class="callout-square">
+<i class="callout-icon" data-feather="alert-triangle"></i>
+</div>
+<span class="callout-header">Caution</span>
+<div class="callout-inner">
+<div class="callout-content">
 <p>Do <strong>not</strong> edit <code>/etc/network/interfaces</code> on
 current Raspberry Pi OS (Bookworm). That file is not used when
 NetworkManager is active, and mixing the two causes unpredictable
 behaviour. Use <code>nmcli</code> instead.</p>
+</div>
+</div>
 </div>
 <p>The login node needs a <strong>fixed IP</strong> on its ethernet
 interface (<code>eth0</code>) so the compute nodes always reach it at
@@ -1173,26 +1218,35 @@ controls the interface, but DHCP is disabled for it.</p>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a>  connection.autoconnect yes</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a><span class="fu">sudo</span> nmcli con up eth0-static</span></code></pre>
 </div>
-<div id="callout6" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<span class="callout-header">Callout</span>
-<div class="callout-inner">
-<div class="callout-content">
+<div id="accordionHint3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint3" aria-expanded="false" aria-controls="collapseHint3">
+  <h4 class="accordion-header" id="headingHint3"> Give me a hint </h4>
+</button>
+<div id="collapseHint3" class="accordion-collapse collapse" aria-labelledby="headingHint3" data-bs-parent="#accordionHint3">
+<div class="accordion-body">
 <p>Need to reverse this for any reason?
 <code>sudo nmcli con delete eth0-static</code> removes the static
 connection and returns eth0 to DHCP.</p>
 </div>
 </div>
 </div>
-<div class="warning">
+</div>
+<div id="caution3" class="callout caution">
+<div class="callout-square">
+<i class="callout-icon" data-feather="alert-triangle"></i>
+</div>
+<span class="callout-header">Caution</span>
+<div class="callout-inner">
+<div class="callout-content">
 <p>Previous versions of this tutorial used <code>eth0</code> as the
 gateway interface, routing outgoing traffic back over
 <code>192.168.5.101</code>. This has been updated to use
 <code>wlan0</code> so that the cluster network can reach the internet.
 As such, we don’t set an <code>ipv4.gateway</code> on this
 connection.</p>
+</div>
+</div>
 </div>
 <p>Verify the address is set:</p>
 <div class="codewrapper sourceCode" id="cb10">
@@ -1214,12 +1268,20 @@ with the following command:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1" aria-label="code-block-11-1"></a><span class="bu">echo</span> pixie01 <span class="kw">|</span> <span class="fu">sudo</span> tee /etc/hostname</span></code></pre>
 </div>
-<div class="warning">
+<div id="caution4" class="callout caution">
+<div class="callout-square">
+<i class="callout-icon" data-feather="alert-triangle"></i>
+</div>
+<span class="callout-header">Caution</span>
+<div class="callout-inner">
+<div class="callout-content">
 <p>This hostname <strong>must</strong> match the value used in the
 config files below, particularly <code>/etc/hosts</code> and
 <code>/etc/slurm/slurm.conf</code>. Take extra care when editing these
 files that they match the values for your login and compute node
 hostnames.</p>
+</div>
+</div>
 </div>
 </section><section><h2 class="section-heading" id="configure-dhcp">Configure DHCP<a class="anchor" aria-label="anchor" href="#configure-dhcp"></a>
 </h2>
@@ -1234,7 +1296,14 @@ hostnames.</p>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1" aria-label="code-block-12-3"></a><span class="ex">static</span> routers=192.168.5.101</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1" aria-label="code-block-12-4"></a><span class="ex">static</span> domain_name_servers=192.168.5.101</span></code></pre>
 </div>
-<div class="tip">
+<div id="tip" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="tip" class="callout-inner">
+<h3 class="callout-title">Tip</h3>
+<div class="callout-content">
 <p>You can populate the files in this section however you’d like.
 However, one of the easier patterns is using heredocs with
 <code>sudo tee filename</code>, e.g.:</p>
@@ -1250,6 +1319,8 @@ trying to write.</p>
 <p><strong>Don’t just copy-paste this block:</strong> it’s here to help
 you understand the method. You may find it helpful to use a text editor
 to help you prepare these commands before pasting them in.</p>
+</div>
+</div>
 </div>
 </section><section><h2 class="section-heading" id="configure-dns-masquerading">Configure DNS masquerading<a class="anchor" aria-label="anchor" href="#configure-dns-masquerading"></a>
 </h2>
@@ -1281,11 +1352,19 @@ address into the <code>dhcp-host</code> line:</p>
 <span id="cb15-9"><a href="#cb15-9" tabindex="-1" aria-label="code-block-15-9"></a></span>
 <span id="cb15-10"><a href="#cb15-10" tabindex="-1" aria-label="code-block-15-10"></a><span class="ex">dhcp-host=b8:27:eb:6e:7d:6d,192.168.5.102</span> <span class="co"># compute node assignment</span></span></code></pre>
 </div>
-<div class="warning">
+<div id="caution5" class="callout caution">
+<div class="callout-square">
+<i class="callout-icon" data-feather="alert-triangle"></i>
+</div>
+<span class="callout-header">Caution</span>
+<div class="callout-inner">
+<div class="callout-content">
 <p>Don’t copy-and-paste this block without altering it to match your MAC
 address!</p>
 </div>
-<div id="callout7" class="callout">
+</div>
+</div>
+<div id="callout4" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
@@ -1353,11 +1432,19 @@ listed. We don’t need to restart the NFS service here.</p>
 </section><section><h2 class="section-heading" id="configure-hosts-file">Configure hosts file<a class="anchor" aria-label="anchor" href="#configure-hosts-file"></a>
 </h2>
 <hr class="half-width">
-<div class="warning">
+<div id="caution6" class="callout caution">
+<div class="callout-square">
+<i class="callout-icon" data-feather="alert-triangle"></i>
+</div>
+<span class="callout-header">Caution</span>
+<div class="callout-inner">
+<div class="callout-content">
 <p>On current Debian (Bookworm and later), cloud-init manages
 <code>/etc/hosts</code> and will overwrite direct edits on reboot. Edit
 the template instead:
 <code>/etc/cloud/templates/hosts.debian.tmpl</code>.</p>
+</div>
+</div>
 </div>
 <p><code>dnsmasq</code> reads the login node’s <code>/etc/hosts</code>
 and serves those entries as DNS to all cluster nodes, so this is the
@@ -1375,10 +1462,18 @@ cluster name:</p>
 <span id="cb22-2"><a href="#cb22-2" tabindex="-1" aria-label="code-block-22-2"></a><span class="ex">192.168.5.101</span> pixie01</span>
 <span id="cb22-3"><a href="#cb22-3" tabindex="-1" aria-label="code-block-22-3"></a><span class="ex">192.168.5.102</span> pixie02</span></code></pre>
 </div>
-<div class="warning">
+<div id="caution7" class="callout caution">
+<div class="callout-square">
+<i class="callout-icon" data-feather="alert-triangle"></i>
+</div>
+<span class="callout-header">Caution</span>
+<div class="callout-inner">
+<div class="callout-content">
 <p>Don’t copy-and-paste this block without altering it to match your
 cluster name! (<code>orange</code>, <code>black</code>,
 <code>green</code>, <code>blue</code>, etc.).</p>
+</div>
+</div>
 </div>
 <p>Now we can apply the template to <code>/etc/hosts</code> immediately,
 then reload dnsmasq so it picks up the new entries:</p>
@@ -1456,12 +1551,27 @@ configured to use more.</p>
 <span id="cb26-37"><a href="#cb26-37" tabindex="-1" aria-label="code-block-26-37"></a><span class="dt">NodeName</span><span class="op">=</span><span class="dt">pixie01</span> <span class="dt">NodeAddr</span><span class="op">=</span><span class="fl">192.168</span><span class="dt">.5.101</span> <span class="dt">CPUs</span><span class="op">=</span><span class="dv">4</span> <span class="dt">State</span><span class="op">=</span><span class="dt">IDLE</span></span>
 <span id="cb26-38"><a href="#cb26-38" tabindex="-1" aria-label="code-block-26-38"></a><span class="dt">NodeName</span><span class="op">=</span><span class="dt">pixie02</span> <span class="dt">NodeAddr</span><span class="op">=</span><span class="fl">192.168</span><span class="dt">.5.102</span> <span class="dt">CPUs</span><span class="op">=</span><span class="dv">4</span> <span class="dt">State</span><span class="op">=</span><span class="dt">IDLE</span></span></code></pre>
 </div>
-<div class="warning">
+<div id="caution8" class="callout caution">
+<div class="callout-square">
+<i class="callout-icon" data-feather="alert-triangle"></i>
+</div>
+<span class="callout-header">Caution</span>
+<div class="callout-inner">
+<div class="callout-content">
 <p>You’re starting to get used to this warning, but please, don’t
 copy-and-paste this block without altering it to match your
 hostname!</p>
 </div>
-<div class="tip">
+</div>
+</div>
+<div id="adapting-for-mixed-hardware-at-home" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="adapting-for-mixed-hardware-at-home" class="callout-inner">
+<h3 class="callout-title">Adapting for mixed hardware at home</h3>
+<div class="callout-content">
 <p>If you’re trying this at home with a mixed bag of hardware, bear in
 mind that only Pi 3 and later run a 64-bit OS. Pi 1Bs (ARMv6) and most
 Pi 2Bs (ARMv7) are 32-bit and can run <code>slurmd</code> but can’t use
@@ -1471,6 +1581,8 @@ entries accept a <code>Feature=</code> tag
 types with <code>--constraint=64bit</code>, ensuring they are routed to
 capable nodes.</p>
 </div>
+</div>
+</div>
 <p>Next, restart slurm:</p>
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1479,7 +1591,7 @@ capable nodes.</p>
 <span id="cb27-2"><a href="#cb27-2" tabindex="-1" aria-label="code-block-27-2"></a><span class="fu">sudo</span> systemctl restart slurmctld</span>
 <span id="cb27-3"><a href="#cb27-3" tabindex="-1" aria-label="code-block-27-3"></a><span class="fu">sudo</span> systemctl restart slurmd</span></code></pre>
 </div>
-<div id="callout8" class="callout">
+<div id="callout5" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
@@ -1507,14 +1619,14 @@ must be started first as both daemons depend on it.</p>
 <span id="cb28-5"><a href="#cb28-5" tabindex="-1" aria-label="code-block-28-5"></a></span>
 <span id="cb28-6"><a href="#cb28-6" tabindex="-1" aria-label="code-block-28-6"></a><span class="bu">source</span> /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash</span></code></pre>
 </div>
-<div id="callout9" class="callout">
+<div id="prereq2" class="callout prereq">
 <div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
+<i class="callout-icon" data-feather="check"></i>
 </div>
-<span class="callout-header">Callout</span>
+<span class="callout-header">Prerequisite</span>
 <div class="callout-inner">
 <div class="callout-content">
-<p>Only Pi 3 and later are supported by EESSI, as it needs a 64-bit
+<p>Only Pi 3 and later are supported by EESSI, as it requires a 64-bit
 OS.</p>
 </div>
 </div>
@@ -1626,7 +1738,14 @@ Cluster-wide hostname resolution (all nodes resolving each other by
 name) is provided by dnsmasq on the login node and IP addresses are
 delivered to compute nodes via DHCP. The hostname for the compute node
 is all that is needed locally.</p>
-<div class="tip">
+<div id="tip" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="tip" class="callout-inner">
+<h3 class="callout-title">Tip</h3>
+<div class="callout-content">
 <p>You can confirm the login node has seen this compute node and issued
 it a DHCP lease by running the following <strong>on the login
 node</strong> (try it!):</p>
@@ -1646,6 +1765,8 @@ the file and delete lines to clear DHCP leases for clients if they have
 the wrong IP address (for example, if their MAC address wasn’t added to
 <code>/etc/dnsmasq.conf</code> on the login node).</p>
 </div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="start-with-an-update">Start with an update<a class="anchor" aria-label="anchor" href="#start-with-an-update"></a>
 </h2>
 <hr class="half-width">
@@ -1656,13 +1777,13 @@ the wrong IP address (for example, if their MAC address wasn’t added to
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="fu">sudo</span> apt-get update</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span></code></pre>
 </div>
-<div id="callout1" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<span class="callout-header">Callout</span>
-<div class="callout-inner">
-<div class="callout-content">
+<div id="accordionHint1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
+  <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
+</button>
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div class="accordion-body">
 <p>During initial setup, while both <code>wlan0</code> and
 <code>eth0</code> are connected, your Pi can get confused about which
 interface to use for internet traffic. If packages aren’t downloading,
@@ -1687,6 +1808,7 @@ name from <code>nmcli</code>:</p>
 <p>Once <code>wlan0</code> is disabled at the end of this tutorial, the
 compute node routes all traffic through <code>eth0</code> to the login
 node, which provides internet access via its own <code>wlan0</code>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1834,12 +1956,21 @@ compute node:</p>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1" aria-label="code-block-11-2"></a><span class="fu">sudo</span> chmod 400 /etc/munge/munge.key</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1" aria-label="code-block-11-3"></a><span class="fu">sudo</span> chown munge: /etc/munge/munge.key</span></code></pre>
 </div>
-<div class="tip">
+<div id="tip-1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="tip-1" class="callout-inner">
+<h3 class="callout-title">Tip</h3>
+<div class="callout-content">
 <p><code>munge.key</code> is owned by <code>root</code> with permissions
 <code>400</code>, so <code>scp</code> cannot read it directly as the
 <code>pi</code> user. The steps above copy it to the home directory
 first and relax the permissions just long enough to transfer it, then
 clean up the temporary copy.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="section level3">
@@ -1916,7 +2047,14 @@ it still fails, check the log for details:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1" aria-label="code-block-17-1"></a><span class="fu">sudo</span> journalctl <span class="at">-u</span> slurmd <span class="at">-n</span> 30</span></code></pre>
 </div>
-<div class="tip">
+<div id="tip-2" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="tip-2" class="callout-inner">
+<h3 class="callout-title">Tip</h3>
+<div class="callout-content">
 <p>We can check our node’s status <em>from the login node</em> using
 <code>sinfo</code>. If the node is down (in state <code>FAIL</code>),
 use <code>scontrol</code> to bring it back up:</p>
@@ -1924,6 +2062,8 @@ use <code>scontrol</code> to bring it back up:</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1" aria-label="code-block-18-1"></a><span class="fu">sudo</span> scontrol update NodeName=node02 State=RESUME</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="install-eessi">Install EESSI<a class="anchor" aria-label="anchor" href="#install-eessi"></a>

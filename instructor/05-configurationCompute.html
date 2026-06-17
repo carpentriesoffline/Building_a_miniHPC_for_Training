@@ -403,7 +403,14 @@ Cluster-wide hostname resolution (all nodes resolving each other by
 name) is provided by dnsmasq on the login node and IP addresses are
 delivered to compute nodes via DHCP. The hostname for the compute node
 is all that is needed locally.</p>
-<div class="tip">
+<div id="tip" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="tip" class="callout-inner">
+<h3 class="callout-title">Tip</h3>
+<div class="callout-content">
 <p>You can confirm the login node has seen this compute node and issued
 it a DHCP lease by running the following <strong>on the login
 node</strong> (try it!):</p>
@@ -423,6 +430,8 @@ the file and delete lines to clear DHCP leases for clients if they have
 the wrong IP address (for example, if their MAC address wasn’t added to
 <code>/etc/dnsmasq.conf</code> on the login node).</p>
 </div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="start-with-an-update">Start with an update<a class="anchor" aria-label="anchor" href="#start-with-an-update"></a></h2>
 <hr class="half-width"><p>We need to update packages on the compute nodes, too:</p>
 <div class="codewrapper sourceCode" id="cb2">
@@ -431,13 +440,13 @@ the wrong IP address (for example, if their MAC address wasn’t added to
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="fu">sudo</span> apt-get update</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span></code></pre>
 </div>
-<div id="callout1" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<span class="callout-header">Callout</span>
-<div class="callout-inner">
-<div class="callout-content">
+<div id="accordionHint1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
+  <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
+</button>
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div class="accordion-body">
 <p>During initial setup, while both <code>wlan0</code> and
 <code>eth0</code> are connected, your Pi can get confused about which
 interface to use for internet traffic. If packages aren’t downloading,
@@ -462,6 +471,7 @@ name from <code>nmcli</code>:</p>
 <p>Once <code>wlan0</code> is disabled at the end of this tutorial, the
 compute node routes all traffic through <code>eth0</code> to the login
 node, which provides internet access via its own <code>wlan0</code>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -573,12 +583,21 @@ compute node:</p>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1" aria-label="code-block-11-2"></a><span class="fu">sudo</span> chmod 400 /etc/munge/munge.key</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1" aria-label="code-block-11-3"></a><span class="fu">sudo</span> chown munge: /etc/munge/munge.key</span></code></pre>
 </div>
-<div class="tip">
+<div id="tip-1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="tip-1" class="callout-inner">
+<h3 class="callout-title">Tip</h3>
+<div class="callout-content">
 <p><code>munge.key</code> is owned by <code>root</code> with permissions
 <code>400</code>, so <code>scp</code> cannot read it directly as the
 <code>pi</code> user. The steps above copy it to the home directory
 first and relax the permissions just long enough to transfer it, then
 clean up the temporary copy.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="section level3">
@@ -650,7 +669,14 @@ it still fails, check the log for details:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1" aria-label="code-block-17-1"></a><span class="fu">sudo</span> journalctl <span class="at">-u</span> slurmd <span class="at">-n</span> 30</span></code></pre>
 </div>
-<div class="tip">
+<div id="tip-2" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="tip-2" class="callout-inner">
+<h3 class="callout-title">Tip</h3>
+<div class="callout-content">
 <p>We can check our node’s status <em>from the login node</em> using
 <code>sinfo</code>. If the node is down (in state <code>FAIL</code>),
 use <code>scontrol</code> to bring it back up:</p>
@@ -658,6 +684,8 @@ use <code>scontrol</code> to bring it back up:</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1" aria-label="code-block-18-1"></a><span class="fu">sudo</span> scontrol update NodeName=node02 State=RESUME</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="install-eessi">Install EESSI<a class="anchor" aria-label="anchor" href="#install-eessi"></a></h2>
