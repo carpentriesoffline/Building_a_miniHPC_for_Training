@@ -36,7 +36,7 @@ life_cycle: 'pre-alpha'
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
-source: 'https://https://github.com/carpentriesoffline/Building_a_miniHPC_for_Training' # FIXME
+source: 'https://github.com/carpentriesoffline/Building_a_miniHPC_for_Training' # FIXME
 
 # Default branch of your lesson
 branch: 'main'
@@ -50,9 +50,10 @@ episodes:
 - 01-intro.md
 - 02-prepareSDCard.md
 - 03-booting_and_updating.md
-- 04-configurationCompute.md
-- 05-configurationLogin.md
+- 04-configurationLogin.md
+- 05-configurationCompute.md
 - 06-extraStuff.md
+- 07-testingMinimal.md
 - 10-UsingLosetup.md
 # Information for Learners
 learners: 
