@@ -3,6 +3,17 @@ layout: default
 title: Preparing an SD Card
 ---
 
+:::questions
+- How do you write an OS image to a Raspberry Pi SD card?
+- What configuration can be applied to the SD card before first boot?
+:::
+
+:::objectives
+- Download and install the Raspberry Pi Imager tool
+- Select the correct OS image for the Raspberry Pi
+- Pre-configure hostname, user credentials, SSH, and WiFi settings before writing the image
+:::
+
 Every computer needs to load an operating system when you switch it on.
 Therefore it will usually have a default place where it will look for an
 operating system in the first place. The process of loading the operating system
@@ -56,19 +67,19 @@ The OS selection should be `Raspberry Pi OS (other)` -> `Raspberry Pi OS Lite (6
 
 First, select the device:
 
-![Selecting the Raspberry Pi 5](fig/screenshots/imager-device-selection.png)
+![](fig/screenshots/imager-device-selection.png){alt='Selecting the Raspberry Pi 5'}
 
 Selecting the OS is a two step process:
 
-![Selecting "Raspberry Pi OS (other)"](fig/screenshots/imager-OS-selection-1.png)
+![](fig/screenshots/imager-OS-selection-1.png){alt='Selecting Raspberry Pi OS (other)'}
 
 We want the OS with no desktop environment: use `Raspberry Pi OS Lite (64-bit)`:
 
-![OS selection: Raspberry Pi OS Lite (64-bit)](fig/screenshots/imager-OS-selection-2.png)
+![](fig/screenshots/imager-OS-selection-2.png){alt='OS selection: Raspberry Pi OS Lite (64-bit)'}
 
 After this, please select the sdcard you would like to flash the image on, then press `NEXT`.
 
-![Selecting the SD card to write to](fig/screenshots/imager-sd-card-selection.png)
+![](fig/screenshots/imager-sd-card-selection.png){alt='Selecting the SD card to write to'}
 
 The following configuration options can be defined for your set-up such that
 your OS is pre-configured upon first boot. This is useful as it means we can
@@ -83,7 +94,7 @@ Repeating this for the second Pi, we will use a different hostname e.g. `node02`
 
 Check the label on your Pis for the hostname to use.
 
-![Enter hostname dialog image](fig/screenshots/imager-customiser-dialog.png)
+![](fig/screenshots/imager-customiser-dialog.png){alt='Enter hostname dialog'}
 
 In the Localisation screen, select options for United Kingdom / London.
 
@@ -96,18 +107,17 @@ Next, set the username and password that will be used to log into the Pi using t
 > Rasbian Lite image: it takes you round in circles back to a login prompt!
 > We'll use a different name to be sure here.
 
-![Setting the username and password](fig/screenshots/imager-pwd-setup.png)
+![](fig/screenshots/imager-pwd-setup.png){alt='Setting the username and password'}
 
 *Customisation: Choose Wi-Fi*: next, enter your WiFi details. For our workshop,
 we are using the network `CarpentriesOffline`.
 
-![Wi-Fi network entry](fig/screenshots/imager-os-config.png)
+![](fig/screenshots/imager-os-config.png){alt='Wi-Fi network entry'}
 
 Then on the "Remote Access" page, enable SSH with password authentication
-(alternatively, by adding a ssh public key). You could also, if desired, [set
-up easy access to the Pi via an ssh key](ssh-setup.md).
+(alternatively, by adding a ssh public key).
 
-![Setting up SSH](fig/screenshots/imager-ssh-options.png)
+![](fig/screenshots/imager-ssh-options.png){alt='Setting up SSH'}
 
 After, saving this, select `NEXT` to apply the configuration. We can skip the
 final screen on setting up Raspberry Pi Connect.
@@ -115,8 +125,13 @@ final screen on setting up Raspberry Pi Connect.
 Confirm writing to the sdcard (please backup any data on the sdcard, any
 existing data will be **LOST!**)
 
-![Confirming the write to the SD Card](fig/screenshots/imager-confirm-sdcard-write.png)
+![](fig/screenshots/imager-confirm-sdcard-write.png){alt='Confirming the write to the SD Card'}
 
 Once the image has been written to the SD card a **Write Successful** message
 will be displayed. You can now remove the SD card from your computer and insert
 it into the Raspberry Pi.
+
+:::keypoints
+- The Raspberry Pi Imager tool writes OS images to SD cards and supports pre-configuration before first boot
+- Configure hostname, username, password, SSH, and WiFi in the Imager to save manual setup time after booting
+:::

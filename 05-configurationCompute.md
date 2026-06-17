@@ -3,6 +3,19 @@ title: Configuring a compute node
 layout: default
 ---
 
+:::questions
+- What packages does a compute node need to join the cluster?
+- How does the compute node authenticate with the login node?
+:::
+
+:::objectives
+- Install the required packages on a compute node
+- Copy the Slurm configuration and munge key from the login node
+- Mount the shared filesystem from the login node via NFS
+- Start munge and slurmd services
+- Disable WiFi once the compute node is connected via ethernet
+:::
+
 This section demonstrates how to set up a compute node on your Raspberry Pi,
 and add it to your cluster.
 
@@ -89,7 +102,7 @@ sudo apt-get install -y slurmd slurm-client munge ntpsec ntpsec-ntpdate lmod nfs
 | `munge`          | Authentication service used by Slurm to verify inter-node messages             |
 | `ntpsec`         | NTP time synchronisation daemon: keeps node clocks in sync with the login node |
 | `ntpsec-ntpdate` | One-shot time sync command, useful for initial clock correction on first boot  |
-| `lmod`           | Lua-based module system for loading software environments (e.g. EESSI)          |
+| `lmod`           | Lua-based module system for loading software environments (e.g. EESSI)         |
 | `nfs-common`     | NFS client utilities to mount the shared filesystem from the login node        |
 | `vim`            | Text editor that confuses people trying to exit it. Try `:q` if stuck.         |
 
@@ -102,8 +115,7 @@ systemctl status slurmd
 `systemctl` should show that Slurm is installed, but not configured yet. This
 is OK for now! We haven't configured it yet, so it will be in a failure state:
 
-![`systemctl` shows that Slurm is installed, but not configured
-yet](fig/slurm-fail.png)
+![](fig/slurm-fail.png){alt='systemctl shows that Slurm is installed but not configured yet'}
 
 If `slurmd` is not found, the package may have been silently skipped during
 install. Run the install command again with only `slurmd` to confirm:
@@ -271,4 +283,11 @@ dtoverlay=disable-bt
 
 Save the file and reboot! You now have a configured compute node. In the next
 section, we'll test our cluster by submitting jobs with `slurm`.
+
+:::keypoints
+- The compute node must have the same munge key as the login node for Slurm authentication
+- Copy `slurm.conf` and `munge.key` from the login node before starting `slurmd`
+- Mount shared filesystems via NFS entries in `/etc/fstab`
+- Disable WiFi on compute nodes so all traffic routes through `eth0` to the login node
+:::
 
