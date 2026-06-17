@@ -414,13 +414,21 @@ screen:</p>
 <section><h2 class="section-heading" id="creating-an-sd-card-image-step-by-step">Creating an SD card image: step-by-step<a class="anchor" aria-label="anchor" href="#creating-an-sd-card-image-step-by-step"></a></h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="setting-up-a-raspberry-pi">Setting up a Raspberry Pi<a class="anchor" aria-label="anchor" href="#setting-up-a-raspberry-pi"></a></h3>
-<blockquote>
-<p><strong>Note</strong>: The Raspberry Pi imager software is updated
-frequently, so these screenshots may not exactly match what you see.
-This guide is up to date as of June 2026. The official <a href="https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/4" class="external-link">Set
+<div id="callout1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>The Raspberry Pi imager software is updated frequently, so these
+screenshots may not exactly match what you see. This guide is up to date
+as of June 2026. The official <a href="https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/4" class="external-link">Set
 up your SD card</a> tutorial on the Raspberry Pi website is updated more
 frequently.</p>
-</blockquote>
+</div>
+</div>
+</div>
 <p>When using the The Raspberry Pi Imager, select the Device and OS.</p>
 <p>The OS selection should be <code>Raspberry Pi OS (other)</code> -&gt;
 <code>Raspberry Pi OS Lite (64-bit)</code>.</p>
@@ -449,12 +457,11 @@ Pi using the <code>ssh</code> command.</p>
 </li>
 <li>Password: <code>0nl1n3</code>
 </li>
-</ol><blockquote>
-<p><em>Pro-tip:</em> We’ve noticed occasional issues using the login
-name <code>pi</code> on fresh Rasbian Lite image: it takes you round in
-circles back to a login prompt! We’ll use a different name to be sure
-here.</p>
-</blockquote>
+</ol><div class="tip">
+<p>We’ve noticed occasional issues using the login name <code>pi</code>
+on fresh Rasbian Lite image: it takes you round in circles back to a
+login prompt! We’ll use a different name to be sure here.</p>
+</div>
 <figure><img src="fig/screenshots/imager-pwd-setup.png" alt="Setting the username and password" class="figure mx-auto d-block"></figure><p><em>Customisation: Choose Wi-Fi</em>: next, enter your WiFi details.
 For our workshop, we are using the network
 <code>CarpentriesOffline</code>.</p>

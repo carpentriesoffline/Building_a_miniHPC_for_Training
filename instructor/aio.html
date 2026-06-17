@@ -582,13 +582,21 @@ screen:</p>
 <div class="section level3">
 <h3 id="setting-up-a-raspberry-pi">Setting up a Raspberry Pi<a class="anchor" aria-label="anchor" href="#setting-up-a-raspberry-pi"></a>
 </h3>
-<blockquote>
-<p><strong>Note</strong>: The Raspberry Pi imager software is updated
-frequently, so these screenshots may not exactly match what you see.
-This guide is up to date as of June 2026. The official <a href="https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/4" class="external-link">Set
+<div id="callout1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>The Raspberry Pi imager software is updated frequently, so these
+screenshots may not exactly match what you see. This guide is up to date
+as of June 2026. The official <a href="https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/4" class="external-link">Set
 up your SD card</a> tutorial on the Raspberry Pi website is updated more
 frequently.</p>
-</blockquote>
+</div>
+</div>
+</div>
 <p>When using the The Raspberry Pi Imager, select the Device and OS.</p>
 <p>The OS selection should be <code>Raspberry Pi OS (other)</code> -&gt;
 <code>Raspberry Pi OS Lite (64-bit)</code>.</p>
@@ -619,12 +627,11 @@ Pi using the <code>ssh</code> command.</p>
 <li>Password: <code>0nl1n3</code>
 </li>
 </ol>
-<blockquote>
-<p><em>Pro-tip:</em> We’ve noticed occasional issues using the login
-name <code>pi</code> on fresh Rasbian Lite image: it takes you round in
-circles back to a login prompt! We’ll use a different name to be sure
-here.</p>
-</blockquote>
+<div class="tip">
+<p>We’ve noticed occasional issues using the login name <code>pi</code>
+on fresh Rasbian Lite image: it takes you round in circles back to a
+login prompt! We’ll use a different name to be sure here.</p>
+</div>
 <figure><img src="../fig/screenshots/imager-pwd-setup.png" alt="Setting the username and password" class="figure mx-auto d-block"></figure><p><em>Customisation: Choose Wi-Fi</em>: next, enter your WiFi details.
 For our workshop, we are using the network
 <code>CarpentriesOffline</code>.</p>
@@ -820,32 +827,49 @@ network</li>
 </div>
 </div>
 </div>
-<blockquote>
-<p><strong>Configure the login node first.</strong> The compute node
-configuration (next page) depends on files generated here (munge key,
-slurm.conf, /etc/hosts), and the login node must be up and running as
-the DHCP/DNS server before the compute node can reach the network.</p>
-</blockquote>
-<blockquote>
-<p><strong>Tip:</strong> We won’t configure a separate control node in
-this tutorial: the login node will act as the SLURM controller, the NFS
-backing filesystem, and the cluster’s internet gateway, too. In a
-production cluster these would typically be separate machines, but
-combining them means we can demonstrate all the techniques using just
-two nodes. We’ll also leave multi-user systems and authentication
-(Kerberos, LDAP and friends) as an exercise to the reader.</p>
-</blockquote>
+<div id="configure-the-login-node-first" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="configure-the-login-node-first" class="callout-inner">
+<h3 class="callout-title">Configure the login node first</h3>
+<div class="callout-content">
+<p>The compute node configuration (next page) depends on files generated
+here (munge key, slurm.conf, /etc/hosts), and the login node must be up
+and running as the DHCP/DNS server before the compute node can reach the
+network.</p>
+</div>
+</div>
+</div>
+<div class="tip">
+<p>We won’t configure a separate control node in this tutorial: the
+login node will act as the SLURM controller, the NFS backing filesystem,
+and the cluster’s internet gateway, too. In a production cluster these
+would typically be separate machines, but combining them means we can
+demonstrate all the techniques using just two nodes. We’ll also leave
+multi-user systems and authentication (Kerberos, LDAP and friends) as an
+exercise to the reader.</p>
+</div>
 <p>In this section, we will configure our login node. This is the node
 through which we will interface with our cluster.</p>
 <section><h2 class="section-heading" id="check-the-hostname-and-fix-if-required">Check the hostname (and fix if required)<a class="anchor" aria-label="anchor" href="#check-the-hostname-and-fix-if-required"></a>
 </h2>
 <hr class="half-width">
-<blockquote>
-<p><strong>Do this first.</strong> Hostname resolution must be in place
-before running any <code>sudo</code> command, otherwise every
-<code>sudo</code> invocation will print
-<code>unable to resolve host node01</code>.</p>
-</blockquote>
+<div id="do-this-first" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="do-this-first" class="callout-inner">
+<h3 class="callout-title">Do this first</h3>
+<div class="callout-content">
+<p>Hostname resolution must be in place before running any
+<code>sudo</code> command, otherwise every <code>sudo</code> invocation
+will print <code>unable to resolve host node01</code>.</p>
+</div>
+</div>
+</div>
 <p>Back in section 3, we configured the hostname for the node in the
 imaging tool. It’s worth checking the hostname is set correctly: your
 login node should end <code>01</code>, and your compute node
@@ -864,8 +888,14 @@ it, run:</p>
 </div>
 <p>Then use the arrow keys and “Enter” to select “01 System Options”
 then “S4 Hostname”. Enter your corrected hostname and apply changes.</p>
-<blockquote>
-<p><strong>Note:</strong> You can alternately accomplish this by editing
+<div id="callout3" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>You can alternately accomplish this by editing
 <code>/etc/hostname</code>. However, on Debian Bookworm (modern
 Raspberry Pi OS), <code>cloud-init</code> manages this file and your
 change will be lost on reboot. You can tell it to respect your changes
@@ -876,7 +906,9 @@ by setting <code>preserve_hostname</code> to true:</p>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="fu">sudo</span> sed <span class="at">-E</span> <span class="at">-i</span> <span class="st">'s/(preserve_hostname: )(.*)/\1true/g'</span> /etc/cloud/cloud.cfg</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="bu">echo</span> pixie02 <span class="kw">|</span> <span class="fu">sudo</span> tee /etc/hostname</span></code></pre>
 </div>
-</blockquote>
+</div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="start-with-an-update">Start with an update<a class="anchor" aria-label="anchor" href="#start-with-an-update"></a>
 </h2>
 <hr class="half-width">
@@ -905,21 +937,28 @@ the command continues on the next line, but it won’t work if there’s
 whitespace after it.</p>
 <p>A dialog block will appear on the screen. Answer yes to both
 questions.</p>
-<blockquote>
-<p><strong>Note:</strong> On older Raspberry Pi OS releases,
-<code>libpmix2</code>, <code>libpmix-bin</code>, and
-<code>libpmix-dev</code> were separate packages. PMIx packages were
-merged into OpenMPI in Debian Bookworm: use <code>libopenmpi40</code>
-and <code>libopenmpi-dev</code> instead.</p>
-</blockquote>
-<blockquote>
-<p><strong>Tip:</strong> If <code>libopenmpi40</code> isn’t available,
-try <code>libopenmpi3t64</code> instead. You’ll know you hit this issue
-if you see: <code>E: Unable to locate package libopenmpi40</code>. We
-have noticed that on older Pis (1B, 2B), only the legacy OpenMPI package
-is installable: this is because these use 32-bit <code>armhf</code>
+<div id="callout4" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>On older Raspberry Pi OS releases, <code>libpmix2</code>,
+<code>libpmix-bin</code>, and <code>libpmix-dev</code> were separate
+packages. PMIx packages were merged into OpenMPI in Debian Bookworm: use
+<code>libopenmpi40</code> and <code>libopenmpi-dev</code> instead.</p>
+</div>
+</div>
+</div>
+<div class="tip">
+<p>If <code>libopenmpi40</code> isn’t available, try
+<code>libopenmpi3t64</code> instead. You’ll know you hit this issue if
+you see: <code>E: Unable to locate package libopenmpi40</code>. We have
+noticed that on older Pis (1B, 2B), only the legacy OpenMPI package is
+installable: this is because these use 32-bit <code>armhf</code>
 CPUs.</p>
-</blockquote>
+</div>
 <table class="table">
 <colgroup>
 <col width="31%">
@@ -1030,11 +1069,19 @@ upgrades and package installations:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="fu">sudo</span> apt-get <span class="at">-y</span> autoremove</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Note:</strong> This stage can take quite a long time on older
-hardware (Pi 2Bs or Pi 3s, for instance). The hardware in the workshop
-uses Raspberry Pi 5s, so shouldn’t keep you waiting too long.</p>
-</blockquote>
+<div id="callout5" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>This stage can take quite a long time on older hardware (Pi 2Bs or Pi
+3s, for instance). The hardware in the workshop uses Raspberry Pi 5s, so
+shouldn’t keep you waiting too long.</p>
+</div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="set-up-cluster-networking">Set up cluster networking<a class="anchor" aria-label="anchor" href="#set-up-cluster-networking"></a>
 </h2>
 <hr class="half-width">
@@ -1044,13 +1091,13 @@ login node’s WiFi connection will be used as the gateway to the world,
 and we’ll later disable WiFi on our compute nodes. This means that our
 login node is also acting as a router / internet gateway for the
 purposes of our tutorial.</p>
-<blockquote>
-<p><strong>Tip:</strong> We don’t have to use <code>wlan0</code> for
-this: we could connect a USB Ethernet dongle and use <code>eth1</code>
-as our upstream link instead. In any case, the concept to demonstrate
-here is that our compute nodes are physically isolated from HPC users at
-a network level.</p>
-</blockquote>
+<div class="tip">
+<p>We don’t have to use <code>wlan0</code> for this: we could connect a
+USB Ethernet dongle and use <code>eth1</code> as our upstream link
+instead. In any case, the concept to demonstrate here is that our
+compute nodes are physically isolated from HPC users at a network
+level.</p>
+</div>
 <div class="section level3">
 <h3 id="enable-ip-forwarding">Enable IP forwarding<a class="anchor" aria-label="anchor" href="#enable-ip-forwarding"></a>
 </h3>
@@ -1106,13 +1153,12 @@ cannot initiate connections into the cluster.</p>
 </section><section><h2 class="section-heading" id="configure-the-network-interfaces">Configure the network interfaces<a class="anchor" aria-label="anchor" href="#configure-the-network-interfaces"></a>
 </h2>
 <hr class="half-width">
-<blockquote>
-<p><strong>Warning:</strong> Do <strong>not</strong> edit
-<code>/etc/network/interfaces</code> on current Raspberry Pi OS
-(Bookworm). That file is not used when NetworkManager is active, and
-mixing the two causes unpredictable behaviour. Use <code>nmcli</code>
-instead.</p>
-</blockquote>
+<div class="warning">
+<p>Do <strong>not</strong> edit <code>/etc/network/interfaces</code> on
+current Raspberry Pi OS (Bookworm). That file is not used when
+NetworkManager is active, and mixing the two causes unpredictable
+behaviour. Use <code>nmcli</code> instead.</p>
+</div>
 <p>The login node needs a <strong>fixed IP</strong> on its ethernet
 interface (<code>eth0</code>) so the compute nodes always reach it at
 the same address, and so dnsmasq can hand out leases reliably. Ethernet
@@ -1129,19 +1175,27 @@ controls the interface, but DHCP is disabled for it.</p>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a>  connection.autoconnect yes</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a><span class="fu">sudo</span> nmcli con up eth0-static</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Note:</strong> Need to reverse this for any reason?
+<div id="callout6" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>Need to reverse this for any reason?
 <code>sudo nmcli con delete eth0-static</code> removes the static
 connection and returns eth0 to DHCP.</p>
-</blockquote>
-<blockquote>
-<p><strong>Warning:</strong> Previous versions of this tutorial used
-<code>eth0</code> as the gateway interface, routing outgoing traffic
-back over <code>192.168.5.101</code>. This has been updated to use
+</div>
+</div>
+</div>
+<div class="warning">
+<p>Previous versions of this tutorial used <code>eth0</code> as the
+gateway interface, routing outgoing traffic back over
+<code>192.168.5.101</code>. This has been updated to use
 <code>wlan0</code> so that the cluster network can reach the internet.
 As such, we don’t set an <code>ipv4.gateway</code> on this
 connection.</p>
-</blockquote>
+</div>
 <p>Verify the address is set:</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1162,13 +1216,13 @@ with the following command:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1" aria-label="code-block-11-1"></a><span class="bu">echo</span> pixie01 <span class="kw">|</span> <span class="fu">sudo</span> tee /etc/hostname</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Warning:</strong> This hostname <strong>must</strong> match
-the value used in the config files below, particularly
-<code>/etc/hosts</code> and <code>/etc/slurm/slurm.conf</code>. Take
-extra care when editing these files that they match the values for your
-login and compute node hostnames.</p>
-</blockquote>
+<div class="warning">
+<p>This hostname <strong>must</strong> match the value used in the
+config files below, particularly <code>/etc/hosts</code> and
+<code>/etc/slurm/slurm.conf</code>. Take extra care when editing these
+files that they match the values for your login and compute node
+hostnames.</p>
+</div>
 </section><section><h2 class="section-heading" id="configure-dhcp">Configure DHCP<a class="anchor" aria-label="anchor" href="#configure-dhcp"></a>
 </h2>
 <hr class="half-width">
@@ -1182,9 +1236,9 @@ login and compute node hostnames.</p>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1" aria-label="code-block-12-3"></a><span class="ex">static</span> routers=192.168.5.101</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1" aria-label="code-block-12-4"></a><span class="ex">static</span> domain_name_servers=192.168.5.101</span></code></pre>
 </div>
-<blockquote>
-<p><em>Tip:</em> You can populate the files in this section however
-you’d like. However, one of the easier patterns is using heredocs with
+<div class="tip">
+<p>You can populate the files in this section however you’d like.
+However, one of the easier patterns is using heredocs with
 <code>sudo tee filename</code>, e.g.:</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1193,7 +1247,12 @@ you’d like. However, one of the easier patterns is using heredocs with
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1" aria-label="code-block-13-2"></a><span class="st">  &lt;paste your lines here, then type "EOF" to end&gt;</span></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1" aria-label="code-block-13-3"></a><span class="op">EOF</span></span></code></pre>
 </div>
-</blockquote>
+<p>Make sure you replace <code>somefile.conf</code> with the file you’re
+trying to write.</p>
+<p><strong>Don’t just copy-paste this block:</strong> it’s here to help
+you understand the method. You may find it helpful to use a text editor
+to help you prepare these commands before pasting them in.</p>
+</div>
 </section><section><h2 class="section-heading" id="configure-dns-masquerading">Configure DNS masquerading<a class="anchor" aria-label="anchor" href="#configure-dns-masquerading"></a>
 </h2>
 <hr class="half-width">
@@ -1224,13 +1283,19 @@ address into the <code>dhcp-host</code> line:</p>
 <span id="cb15-9"><a href="#cb15-9" tabindex="-1" aria-label="code-block-15-9"></a></span>
 <span id="cb15-10"><a href="#cb15-10" tabindex="-1" aria-label="code-block-15-10"></a><span class="ex">dhcp-host=b8:27:eb:6e:7d:6d,192.168.5.102</span> <span class="co"># compute node assignment</span></span></code></pre>
 </div>
-<blockquote>
-<p><strong>Warning:</strong> Don’t copy-and-paste this block without
-altering it to match your MAC address!</p>
-</blockquote>
-<blockquote>
-<p><strong>Note:</strong> If you add more compute nodes, add one
-<code>dhcp-host</code> line per node, incrementing the IP each time:</p>
+<div class="warning">
+<p>Don’t copy-and-paste this block without altering it to match your MAC
+address!</p>
+</div>
+<div id="callout7" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>If you add more compute nodes, add one <code>dhcp-host</code> line
+per node, incrementing the IP each time:</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1239,7 +1304,9 @@ altering it to match your MAC address!</p>
 </div>
 <p>You’ll also need a matching host entry in
 <code>/etc/cloud/templates/hosts.debian.tmpl</code> for each node.</p>
-</blockquote>
+</div>
+</div>
+</div>
 <p>Restart dnsmasq to apply the config:</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1288,12 +1355,12 @@ listed. We don’t need to restart the NFS service here.</p>
 </section><section><h2 class="section-heading" id="configure-hosts-file">Configure hosts file<a class="anchor" aria-label="anchor" href="#configure-hosts-file"></a>
 </h2>
 <hr class="half-width">
-<blockquote>
-<p><strong>Warning:</strong> On current Debian (Bookworm and later),
-cloud-init manages <code>/etc/hosts</code> and will overwrite direct
-edits on reboot. Edit the template instead:
+<div class="warning">
+<p>On current Debian (Bookworm and later), cloud-init manages
+<code>/etc/hosts</code> and will overwrite direct edits on reboot. Edit
+the template instead:
 <code>/etc/cloud/templates/hosts.debian.tmpl</code>.</p>
-</blockquote>
+</div>
 <p><code>dnsmasq</code> reads the login node’s <code>/etc/hosts</code>
 and serves those entries as DNS to all cluster nodes, so this is the
 only place you need to maintain hostname-to-IP mappings for the cluster.
@@ -1310,11 +1377,11 @@ cluster name:</p>
 <span id="cb22-2"><a href="#cb22-2" tabindex="-1" aria-label="code-block-22-2"></a><span class="ex">192.168.5.101</span> pixie01</span>
 <span id="cb22-3"><a href="#cb22-3" tabindex="-1" aria-label="code-block-22-3"></a><span class="ex">192.168.5.102</span> pixie02</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Warning:</strong> Don’t copy-and-paste this block without
-altering it to match your cluster name! (<code>orange</code>,
-<code>black</code>, <code>green</code>, etc.).</p>
-</blockquote>
+<div class="warning">
+<p>Don’t copy-and-paste this block without altering it to match your
+cluster name! (<code>orange</code>, <code>black</code>,
+<code>green</code>, <code>blue</code>, etc.).</p>
+</div>
 <p>Now we can apply the template to <code>/etc/hosts</code> immediately,
 then reload dnsmasq so it picks up the new entries:</p>
 <div class="codewrapper sourceCode" id="cb23">
@@ -1391,21 +1458,21 @@ configured to use more.</p>
 <span id="cb26-37"><a href="#cb26-37" tabindex="-1" aria-label="code-block-26-37"></a><span class="dt">NodeName</span><span class="op">=</span><span class="dt">pixie01</span> <span class="dt">NodeAddr</span><span class="op">=</span><span class="fl">192.168</span><span class="dt">.5.101</span> <span class="dt">CPUs</span><span class="op">=</span><span class="dv">4</span> <span class="dt">State</span><span class="op">=</span><span class="dt">IDLE</span></span>
 <span id="cb26-38"><a href="#cb26-38" tabindex="-1" aria-label="code-block-26-38"></a><span class="dt">NodeName</span><span class="op">=</span><span class="dt">pixie02</span> <span class="dt">NodeAddr</span><span class="op">=</span><span class="fl">192.168</span><span class="dt">.5.102</span> <span class="dt">CPUs</span><span class="op">=</span><span class="dv">4</span> <span class="dt">State</span><span class="op">=</span><span class="dt">IDLE</span></span></code></pre>
 </div>
-<blockquote>
-<p><strong>Warning:</strong> You’re starting to get used to this
-warning, but please, don’t copy-and-paste this block without altering it
-to match your hostname!</p>
-</blockquote>
-<blockquote>
-<p><strong>Tip:</strong> If you’re trying this at home with a mixed bag
-of hardware, bear in mind that only Pi 3 and later run a 64-bit OS. Pi
-1Bs (ARMv6) and most Pi 2Bs (ARMv7) are 32-bit and can run
-<code>slurmd</code> but can’t use EESSI. Slurm has features to work
-around this: <code>NodeName</code> entries accept a
-<code>Feature=</code> tag (e.g. <code>Feature=64bit</code>). Jobs can
-then request specific node types with <code>--constraint=64bit</code>,
-ensuring they are routed to capable nodes.</p>
-</blockquote>
+<div class="warning">
+<p>You’re starting to get used to this warning, but please, don’t
+copy-and-paste this block without altering it to match your
+hostname!</p>
+</div>
+<div class="tip">
+<p>If you’re trying this at home with a mixed bag of hardware, bear in
+mind that only Pi 3 and later run a 64-bit OS. Pi 1Bs (ARMv6) and most
+Pi 2Bs (ARMv7) are 32-bit and can run <code>slurmd</code> but can’t use
+EESSI. Slurm has features to work around this: <code>NodeName</code>
+entries accept a <code>Feature=</code> tag
+(e.g. <code>Feature=64bit</code>). Jobs can then request specific node
+types with <code>--constraint=64bit</code>, ensuring they are routed to
+capable nodes.</p>
+</div>
 <p>Next, restart slurm:</p>
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1414,12 +1481,19 @@ ensuring they are routed to capable nodes.</p>
 <span id="cb27-2"><a href="#cb27-2" tabindex="-1" aria-label="code-block-27-2"></a><span class="fu">sudo</span> systemctl restart slurmctld</span>
 <span id="cb27-3"><a href="#cb27-3" tabindex="-1" aria-label="code-block-27-3"></a><span class="fu">sudo</span> systemctl restart slurmd</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Note:</strong> <code>slurmd</code> must be restarted after
-the config is in place. It is installed earlier but will be in a failed
-state until now. Munge must be started first as both daemons depend on
-it.</p>
-</blockquote>
+<div id="callout8" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p><code>slurmd</code> must be restarted after the config is in place.
+It is installed earlier but will be in a failed state until now. Munge
+must be started first as both daemons depend on it.</p>
+</div>
+</div>
+</div>
 <p>At this point, you should see Slurm running if you check using
 <code>sudo systemctl status slurmctld</code>:</p>
 <figure><img src="../fig/slurm-running.png" alt="Slurm running on the login node" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="install-eessi">Install EESSI<a class="anchor" aria-label="anchor" href="#install-eessi"></a>
@@ -1435,10 +1509,18 @@ it.</p>
 <span id="cb28-5"><a href="#cb28-5" tabindex="-1" aria-label="code-block-28-5"></a></span>
 <span id="cb28-6"><a href="#cb28-6" tabindex="-1" aria-label="code-block-28-6"></a><span class="bu">source</span> /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Note:</strong> Only Pi 3 and later are supported by EESSI, as
-it needs a 64-bit OS.</p>
-</blockquote>
+<div id="callout9" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>Only Pi 3 and later are supported by EESSI, as it needs a 64-bit
+OS.</p>
+</div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="what-we-learned">What we learned<a class="anchor" aria-label="anchor" href="#what-we-learned"></a>
 </h2>
 <hr class="half-width">
@@ -1546,10 +1628,10 @@ Cluster-wide hostname resolution (all nodes resolving each other by
 name) is provided by dnsmasq on the login node and IP addresses are
 delivered to compute nodes via DHCP. The hostname for the compute node
 is all that is needed locally.</p>
-<blockquote>
-<p><strong>Tip:</strong> You can confirm the login node has seen this
-compute node and issued it a DHCP lease by running the following
-<strong>on the login node</strong> (try it!):</p>
+<div class="tip">
+<p>You can confirm the login node has seen this compute node and issued
+it a DHCP lease by running the following <strong>on the login
+node</strong> (try it!):</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1565,7 +1647,7 @@ nodes if they aren’t ending up where you expected, and you can even edit
 the file and delete lines to clear DHCP leases for clients if they have
 the wrong IP address (for example, if their MAC address wasn’t added to
 <code>/etc/dnsmasq.conf</code> on the login node).</p>
-</blockquote>
+</div>
 </section><section><h2 class="section-heading" id="start-with-an-update">Start with an update<a class="anchor" aria-label="anchor" href="#start-with-an-update"></a>
 </h2>
 <hr class="half-width">
@@ -1576,12 +1658,18 @@ the wrong IP address (for example, if their MAC address wasn’t added to
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="fu">sudo</span> apt-get update</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span></code></pre>
 </div>
-<blockquote>
-<p><strong>Note:</strong> During initial setup, while both
-<code>wlan0</code> and <code>eth0</code> are connected, your Pi can get
-confused about which interface to use for internet traffic. If packages
-aren’t downloading, give <code>wlan0</code> a higher interface priority.
-Grab the device name from <code>nmcli</code>:</p>
+<div id="callout1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>During initial setup, while both <code>wlan0</code> and
+<code>eth0</code> are connected, your Pi can get confused about which
+interface to use for internet traffic. If packages aren’t downloading,
+give <code>wlan0</code> a higher interface priority. Grab the device
+name from <code>nmcli</code>:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1601,7 +1689,9 @@ Grab the device name from <code>nmcli</code>:</p>
 <p>Once <code>wlan0</code> is disabled at the end of this tutorial, the
 compute node routes all traffic through <code>eth0</code> to the login
 node, which provides internet access via its own <code>wlan0</code>.</p>
-</blockquote>
+</div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="install-required-packages">Install required packages<a class="anchor" aria-label="anchor" href="#install-required-packages"></a>
 </h2>
 <hr class="half-width">
@@ -1610,12 +1700,20 @@ node, which provides internet access via its own <code>wlan0</code>.</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> slurmd slurm-client munge ntpsec ntpsec-ntpdate lmod nfs-common vim</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Note:</strong> <code>ntp</code> and <code>ntpdate</code> are
-no longer available on current Raspberry Pi OS. Use <code>ntpsec</code>
-and <code>ntpsec-ntpdate</code> instead; they provide the same
+<div id="callout2" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p><code>ntp</code> and <code>ntpdate</code> are no longer available on
+current Raspberry Pi OS. Use <code>ntpsec</code> and
+<code>ntpsec-ntpdate</code> instead; they provide the same
 functionality.</p>
-</blockquote>
+</div>
+</div>
+</div>
 <table class="table">
 <colgroup>
 <col width="17%">
@@ -1738,13 +1836,13 @@ compute node:</p>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1" aria-label="code-block-11-2"></a><span class="fu">sudo</span> chmod 400 /etc/munge/munge.key</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1" aria-label="code-block-11-3"></a><span class="fu">sudo</span> chown munge: /etc/munge/munge.key</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Tip:</strong> <code>munge.key</code> is owned by
-<code>root</code> with permissions <code>400</code>, so <code>scp</code>
-cannot read it directly as the <code>pi</code> user. The steps above
-copy it to the home directory first and relax the permissions just long
-enough to transfer it, then clean up the temporary copy.</p>
-</blockquote>
+<div class="tip">
+<p><code>munge.key</code> is owned by <code>root</code> with permissions
+<code>400</code>, so <code>scp</code> cannot read it directly as the
+<code>pi</code> user. The steps above copy it to the home directory
+first and relax the permissions just long enough to transfer it, then
+clean up the temporary copy.</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="filesystem-table-fstab">3. Filesystem table (<code>fstab</code>)<a class="anchor" aria-label="anchor" href="#filesystem-table-fstab"></a>
@@ -1820,16 +1918,16 @@ it still fails, check the log for details:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1" aria-label="code-block-17-1"></a><span class="fu">sudo</span> journalctl <span class="at">-u</span> slurmd <span class="at">-n</span> 30</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Tip</strong>: We can check our node’s status <em>from the
-login node</em> using <code>sinfo</code>. If the node is down (in state
-<code>FAIL</code>), use <code>scontrol</code> to bring it back up:</p>
+<div class="tip">
+<p>We can check our node’s status <em>from the login node</em> using
+<code>sinfo</code>. If the node is down (in state <code>FAIL</code>),
+use <code>scontrol</code> to bring it back up:</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1" aria-label="code-block-18-1"></a><span class="fu">sudo</span> scontrol update NodeName=node02 State=RESUME</span></code></pre>
 </div>
-</blockquote>
+</div>
 </section><section><h2 class="section-heading" id="install-eessi">Install EESSI<a class="anchor" aria-label="anchor" href="#install-eessi"></a>
 </h2>
 <hr class="half-width">

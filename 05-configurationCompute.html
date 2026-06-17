@@ -401,10 +401,10 @@ Cluster-wide hostname resolution (all nodes resolving each other by
 name) is provided by dnsmasq on the login node and IP addresses are
 delivered to compute nodes via DHCP. The hostname for the compute node
 is all that is needed locally.</p>
-<blockquote>
-<p><strong>Tip:</strong> You can confirm the login node has seen this
-compute node and issued it a DHCP lease by running the following
-<strong>on the login node</strong> (try it!):</p>
+<div class="tip">
+<p>You can confirm the login node has seen this compute node and issued
+it a DHCP lease by running the following <strong>on the login
+node</strong> (try it!):</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -420,7 +420,7 @@ nodes if they aren’t ending up where you expected, and you can even edit
 the file and delete lines to clear DHCP leases for clients if they have
 the wrong IP address (for example, if their MAC address wasn’t added to
 <code>/etc/dnsmasq.conf</code> on the login node).</p>
-</blockquote>
+</div>
 </section><section><h2 class="section-heading" id="start-with-an-update">Start with an update<a class="anchor" aria-label="anchor" href="#start-with-an-update"></a></h2>
 <hr class="half-width"><p>We need to update packages on the compute nodes, too:</p>
 <div class="codewrapper sourceCode" id="cb2">
@@ -429,12 +429,18 @@ the wrong IP address (for example, if their MAC address wasn’t added to
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="fu">sudo</span> apt-get update</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span></code></pre>
 </div>
-<blockquote>
-<p><strong>Note:</strong> During initial setup, while both
-<code>wlan0</code> and <code>eth0</code> are connected, your Pi can get
-confused about which interface to use for internet traffic. If packages
-aren’t downloading, give <code>wlan0</code> a higher interface priority.
-Grab the device name from <code>nmcli</code>:</p>
+<div id="callout1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>During initial setup, while both <code>wlan0</code> and
+<code>eth0</code> are connected, your Pi can get confused about which
+interface to use for internet traffic. If packages aren’t downloading,
+give <code>wlan0</code> a higher interface priority. Grab the device
+name from <code>nmcli</code>:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -454,19 +460,29 @@ Grab the device name from <code>nmcli</code>:</p>
 <p>Once <code>wlan0</code> is disabled at the end of this tutorial, the
 compute node routes all traffic through <code>eth0</code> to the login
 node, which provides internet access via its own <code>wlan0</code>.</p>
-</blockquote>
+</div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="install-required-packages">Install required packages<a class="anchor" aria-label="anchor" href="#install-required-packages"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="fu">sudo</span> apt-get install <span class="at">-y</span> slurmd slurm-client munge ntpsec ntpsec-ntpdate lmod nfs-common vim</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Note:</strong> <code>ntp</code> and <code>ntpdate</code> are
-no longer available on current Raspberry Pi OS. Use <code>ntpsec</code>
-and <code>ntpsec-ntpdate</code> instead; they provide the same
+<div id="callout2" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p><code>ntp</code> and <code>ntpdate</code> are no longer available on
+current Raspberry Pi OS. Use <code>ntpsec</code> and
+<code>ntpsec-ntpdate</code> instead; they provide the same
 functionality.</p>
-</blockquote>
+</div>
+</div>
+</div>
 <table class="table"><colgroup><col width="17%"><col width="82%"></colgroup><thead><tr><th>Package</th>
 <th>Purpose</th>
 </tr></thead><tbody><tr><td><code>slurmd</code></td>
@@ -555,13 +571,13 @@ compute node:</p>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1" aria-label="code-block-11-2"></a><span class="fu">sudo</span> chmod 400 /etc/munge/munge.key</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1" aria-label="code-block-11-3"></a><span class="fu">sudo</span> chown munge: /etc/munge/munge.key</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Tip:</strong> <code>munge.key</code> is owned by
-<code>root</code> with permissions <code>400</code>, so <code>scp</code>
-cannot read it directly as the <code>pi</code> user. The steps above
-copy it to the home directory first and relax the permissions just long
-enough to transfer it, then clean up the temporary copy.</p>
-</blockquote>
+<div class="tip">
+<p><code>munge.key</code> is owned by <code>root</code> with permissions
+<code>400</code>, so <code>scp</code> cannot read it directly as the
+<code>pi</code> user. The steps above copy it to the home directory
+first and relax the permissions just long enough to transfer it, then
+clean up the temporary copy.</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="filesystem-table-fstab">3. Filesystem table (<code>fstab</code>)<a class="anchor" aria-label="anchor" href="#filesystem-table-fstab"></a></h3>
@@ -632,16 +648,16 @@ it still fails, check the log for details:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1" aria-label="code-block-17-1"></a><span class="fu">sudo</span> journalctl <span class="at">-u</span> slurmd <span class="at">-n</span> 30</span></code></pre>
 </div>
-<blockquote>
-<p><strong>Tip</strong>: We can check our node’s status <em>from the
-login node</em> using <code>sinfo</code>. If the node is down (in state
-<code>FAIL</code>), use <code>scontrol</code> to bring it back up:</p>
+<div class="tip">
+<p>We can check our node’s status <em>from the login node</em> using
+<code>sinfo</code>. If the node is down (in state <code>FAIL</code>),
+use <code>scontrol</code> to bring it back up:</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1" aria-label="code-block-18-1"></a><span class="fu">sudo</span> scontrol update NodeName=node02 State=RESUME</span></code></pre>
 </div>
-</blockquote>
+</div>
 </section><section><h2 class="section-heading" id="install-eessi">Install EESSI<a class="anchor" aria-label="anchor" href="#install-eessi"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
