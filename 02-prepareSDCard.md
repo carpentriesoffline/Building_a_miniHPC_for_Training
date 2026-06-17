@@ -56,10 +56,13 @@ will open with the following screen:
 
 ### Setting up a Raspberry Pi
 
-> **Note**: The Raspberry Pi imager software is updated frequently, so these
-screenshots may not exactly match what you see. This guide is up to date as of
-June 2026. The official [Set up your SD card](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/4)
+::: callout
+The Raspberry Pi imager software is updated frequently, so these screenshots
+may not exactly match what you see. This guide is up to date as of June 2026.
+The official [Set up your SD
+card](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up/4)
 tutorial on the Raspberry Pi website is updated more frequently.
+:::
 
 When using the The Raspberry Pi Imager, select the Device and OS.
 
@@ -103,9 +106,11 @@ Next, set the username and password that will be used to log into the Pi using t
 1. Username: `pixie`
 1. Password: `0nl1n3`
 
-> *Pro-tip:* We've noticed occasional issues using the login name `pi` on fresh
-> Rasbian Lite image: it takes you round in circles back to a login prompt!
-> We'll use a different name to be sure here.
+::: tip
+We've noticed occasional issues using the login name `pi` on fresh Rasbian Lite
+image: it takes you round in circles back to a login prompt!  We'll use a
+different name to be sure here.
+:::
 
 ![](fig/screenshots/imager-pwd-setup.png){alt='Setting the username and password'}
 
@@ -132,6 +137,8 @@ will be displayed. You can now remove the SD card from your computer and insert
 it into the Raspberry Pi.
 
 :::keypoints
-- The Raspberry Pi Imager tool writes OS images to SD cards and supports pre-configuration before first boot
-- Configure hostname, username, password, SSH, and WiFi in the Imager to save manual setup time after booting
+- The Raspberry Pi Imager tool writes OS images to SD cards and supports
+  pre-configuration before first boot
+- Configure hostname, username, password, SSH, and WiFi in the Imager to save
+  manual setup time after booting
 :::
