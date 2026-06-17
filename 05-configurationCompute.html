@@ -438,13 +438,17 @@ the wrong IP address (for example, if their MAC address wasn’t added to
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="fu">sudo</span> apt-get update</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span></code></pre>
 </div>
-<div id="accordionHint1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
-  <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
-</button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
-<div class="accordion-body">
+<div id="network-interface-priority" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="network-interface-priority" class="callout-inner">
+<h3 class="callout-title">Network Interface Priority</h3>
+<div class="callout-content">
+<p>When you have multiple network adapters attached to a computer, the
+computer needs to know which interface to route traffic over. This is
+selected based on the <em>priority</em> of the interface.</p>
 <p>During initial setup, while both <code>wlan0</code> and
 <code>eth0</code> are connected, your Pi can get confused about which
 interface to use for internet traffic. If packages aren’t downloading,
@@ -469,7 +473,6 @@ name from <code>nmcli</code>:</p>
 <p>Once <code>wlan0</code> is disabled at the end of this tutorial, the
 compute node routes all traffic through <code>eth0</code> to the login
 node, which provides internet access via its own <code>wlan0</code>.</p>
-</div>
 </div>
 </div>
 </div>
