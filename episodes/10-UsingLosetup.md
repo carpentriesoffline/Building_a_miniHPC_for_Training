@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Preparing compute nodes for eessi
 ---
 

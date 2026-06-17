@@ -1,6 +1,5 @@
 ---
 title: Booting and Updating
-layout: default
 ---
 
 ## Running the OS for the first time

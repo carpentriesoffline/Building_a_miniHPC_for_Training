@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Some extra things that can be done
 ---
 

@@ -1,5 +1,0 @@
-<nav class="site-nav">
-  {% for item in site.data.navigation %}
-    <a href="{{ site.baseurl }}/{{ item.link }}"{% if page.url == '/' and item.link == 'index.html' %} class="active"{% elsif page.url contains item.link %} class="active"{% endif %}>{{ item.name }}</a>
-  {% endfor %}
-</nav>
