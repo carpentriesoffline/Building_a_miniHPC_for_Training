@@ -106,7 +106,8 @@ Next, set the username and password that will be used to log into the Pi using t
 1. Username: `pixie`
 1. Password: `0nl1n3`
 
-::: tip
+::: callout
+## Tip
 We've noticed occasional issues using the login name `pi` on fresh Rasbian Lite
 image: it takes you round in circles back to a login prompt!  We'll use a
 different name to be sure here.
