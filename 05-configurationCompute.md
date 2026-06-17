@@ -35,7 +35,8 @@ hostname resolution (all nodes resolving each other by name) is provided by
 dnsmasq on the login node and IP addresses are delivered to compute nodes via
 DHCP. The hostname for the compute node is all that is needed locally.
 
-::: tip
+::: callout
+## Tip
 You can confirm the login node has seen this compute node and issued it a DHCP
 lease by running the following **on the login node** (try it!):
 
@@ -64,7 +65,7 @@ sudo apt-get update
 sudo apt upgrade -y
 ```
 
-::: callout
+::: hint
 During initial setup, while both `wlan0` and `eth0` are connected, your Pi can
 get confused about which interface to use for internet traffic. If packages
 aren't downloading, give `wlan0` a higher interface priority. Grab the device
@@ -171,7 +172,8 @@ sudo chmod 400 /etc/munge/munge.key
 sudo chown munge: /etc/munge/munge.key
 ```
 
-::: tip
+::: callout
+## Tip
 `munge.key` is owned by `root` with permissions `400`, so `scp` cannot read it
 directly as the `pi` user. The steps above copy it to the home directory first
 and relax the permissions just long enough to transfer it, then clean up the
@@ -248,7 +250,8 @@ for details:
 sudo journalctl -u slurmd -n 30
 ```
 
-::: tip
+::: callout
+## Tip
 We can check our node's status *from the login node* using `sinfo`. If the
 node is down (in state `FAIL`), use `scontrol` to bring it back up:
 

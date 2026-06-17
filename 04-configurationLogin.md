@@ -18,15 +18,15 @@ title: Configuring the login node
 - Install EESSI for a shared software environment
 :::
 
-::: callout
+::: caution
 ## Configure the login node first
-The compute node configuration (next
-page) depends on files generated here (munge key, slurm.conf, /etc/hosts),
-and the login node must be up and running as the DHCP/DNS server before the
-compute node can reach the network.
+The compute node configuration (next page) depends on files generated here
+(munge key, slurm.conf, /etc/hosts), and the login node must be up and running
+as the DHCP/DNS server before the compute node can reach the network.
 :::
 
-::: tip
+::: discussion
+## Tutorial design
 We won't configure a separate control node in this tutorial: the login node
 will act as the SLURM controller, the NFS backing filesystem, and the cluster's
 internet gateway, too. In a production cluster these would typically be
@@ -40,11 +40,10 @@ which we will interface with our cluster.
 
 ## Check the hostname (and fix if required)
 
-::: callout
-## Do this first
-Hostname resolution must be in place before running any
-`sudo` command, otherwise every `sudo` invocation will print `unable to
-resolve host node01`.
+::: prereq
+## Check your hostname first
+Hostname resolution must be in place before running any `sudo` command,
+otherwise every `sudo` invocation will print `unable to resolve host node01`.
 :::
 
 Back in section 3, we configured the hostname for the node in the imaging tool.
@@ -64,7 +63,7 @@ sudo raspi-config
 Then use the arrow keys and "Enter" to select "01 System Options" then "S4
 Hostname". Enter your corrected hostname and apply changes.
 
-::: callout
+::: hint
 You can alternately accomplish this by editing `/etc/hostname`.
 However, on Debian Bookworm (modern Raspberry Pi OS), `cloud-init` manages this
 file and your change will be lost on reboot. You can tell it to respect your
@@ -107,8 +106,8 @@ were separate packages. PMIx packages were merged into OpenMPI in Debian
 Bookworm: use `libopenmpi40` and `libopenmpi-dev` instead.
 :::
 
-::: tip
-If `libopenmpi40` isn't available, try `libopenmpi3t64` instead.  You'll know
+::: hint
+If `libopenmpi40` isn't available, try `libopenmpi3t64` instead. You'll know
 you hit this issue if you see: `E: Unable to locate package libopenmpi40`. We
 have noticed that on older Pis (1B, 2B), only the legacy OpenMPI package is
 installable: this is because these use 32-bit `armhf` CPUs.
@@ -156,7 +155,8 @@ connection will be used as the gateway to the world, and we'll later disable
 WiFi on our compute nodes. This means that our login node is also acting as a
 router / internet gateway for the purposes of our tutorial. 
 
-::: tip
+::: discussion
+## Alternative uplink interfaces
 We don't have to use `wlan0` for this: we could connect a USB Ethernet dongle
 and use `eth1` as our upstream link instead. In any case, the concept to
 demonstrate here is that our compute nodes are physically isolated from HPC
@@ -215,7 +215,7 @@ connections into the cluster.
 
 ## Configure the network interfaces
 
-::: warning
+::: caution
 Do **not** edit `/etc/network/interfaces` on current Raspberry Pi OS
 (Bookworm).  That file is not used when NetworkManager is active, and mixing
 the two causes unpredictable behaviour. Use `nmcli` instead.
@@ -236,12 +236,12 @@ sudo nmcli con add type ethernet ifname eth0 con-name eth0-static \
 sudo nmcli con up eth0-static
 ```
 
-::: callout
+::: hint
 Need to reverse this for any reason? `sudo nmcli con delete eth0-static`
 removes the static connection and returns eth0 to DHCP.
 :::
 
-::: warning
+::: caution
 Previous versions of this tutorial used `eth0` as the gateway interface,
 routing outgoing traffic back over `192.168.5.101`. This has been updated to
 use `wlan0` so that the cluster network can reach the internet. As such, we
@@ -268,7 +268,7 @@ if you need to modify it for any reason, you can do so with the following comman
 echo pixie01 | sudo tee /etc/hostname
 ```
 
-::: warning
+::: caution
 This hostname **must** match the value used in the config files below,
 particularly `/etc/hosts` and `/etc/slurm/slurm.conf`. Take extra care when
 editing these files that they match the values for your login and compute node
@@ -286,7 +286,8 @@ static routers=192.168.5.101
 static domain_name_servers=192.168.5.101
 ```
 
-::: tip
+::: callout
+## Tip
 You can populate the files in this section however you'd like. However, one of
 the easier patterns is using heredocs with `sudo tee filename`, e.g.:
 
@@ -331,7 +332,7 @@ dhcp-option=6,192.168.5.101 # DNS server
 dhcp-host=b8:27:eb:6e:7d:6d,192.168.5.102 # compute node assignment
 ```
 
-::: warning
+::: caution
 Don't copy-and-paste this block without altering it to match your MAC address!
 :::
 
@@ -395,7 +396,7 @@ NFS service here.
 
 ## Configure hosts file
 
-::: warning
+::: caution
 On current Debian (Bookworm and later), cloud-init manages `/etc/hosts` and
 will overwrite direct edits on reboot. Edit the template instead:
 `/etc/cloud/templates/hosts.debian.tmpl`.
@@ -416,7 +417,7 @@ the cluster IP entries below it. Add the following to
 192.168.5.102 pixie02
 ```
 
-::: warning
+::: caution
 Don't copy-and-paste this block without altering it to match your cluster name!
 (`orange`, `black`, `green`, `blue`, etc.).
 :::
@@ -495,12 +496,13 @@ NodeName=pixie01 NodeAddr=192.168.5.101 CPUs=4 State=IDLE
 NodeName=pixie02 NodeAddr=192.168.5.102 CPUs=4 State=IDLE
 ```
 
-::: warning
+::: caution
 You're starting to get used to this warning, but please, don't copy-and-paste
 this block without altering it to match your hostname!
 :::
 
-::: tip
+::: discussion
+## Adapting for mixed hardware at home
 If you're trying this at home with a mixed bag of hardware, bear in mind that
 only Pi 3 and later run a 64-bit OS. Pi 1Bs (ARMv6) and most Pi 2Bs (ARMv7) are
 32-bit and can run `slurmd` but can't use EESSI. Slurm has features to work
@@ -539,8 +541,8 @@ sudo bash ./install_cvmfs_eessi.sh
 source /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash
 ```
 
-::: callout
-Only Pi 3 and later are supported by EESSI, as it needs a 64-bit OS.
+::: prereq
+Only Pi 3 and later are supported by EESSI, as it requires a 64-bit OS.
 :::
 
 ## What we learned
