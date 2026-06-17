@@ -2,6 +2,16 @@
 title: Introduction
 ---
 
+:::questions
+- Why is training on a real HPC challenging for workshop instructors?
+- What hardware is needed to build a mini-HPC for training?
+:::
+
+:::objectives
+- Explain the challenges of using a real HPC for training purposes
+- List the minimum hardware components needed for a Raspberry Pi mini-HPC
+:::
+
 When running a workshop to teach learners how to use an HPC, an instructor is
 immediately presented with a few problems:
 
@@ -49,6 +59,11 @@ to use an HPC.
   - 3D printed DIN Rail stand
   - 3D printed RPi cases
 
-![An example of a MiniHPC created with Raspberry Pis](fig/minihpc.jpg)
+![](fig/minihpc.jpg){alt='An example of a MiniHPC created with Raspberry Pis'}
 
 *The first CarpentriesOffline MiniHPC, `pixie`, created with Raspberry Pis!*
+
+:::keypoints
+- A mini-HPC using Raspberry Pis solves common HPC training challenges: cost, restricted access, internet dependency, and resource contention
+- The minimum hardware is one or more Raspberry Pi 4s (2GB+), a network switch, ethernet cables, SD cards, and a USB storage device
+:::

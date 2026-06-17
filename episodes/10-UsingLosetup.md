@@ -2,6 +2,18 @@
 title: Preparing compute nodes for eessi
 ---
 
+:::questions
+- What is a loop device and when is it needed?
+- How do you create persistent storage for a diskless compute node?
+:::
+
+:::objectives
+- Create a large file with `dd` to act as a virtual disk
+- Map the file to a loop device using `losetup`
+- Partition and format the loop device
+- Mount the loop device for use by EESSI
+:::
+
 Credit to: <https://linuxconfig.org/how-to-create-loop-devices-on-linux>
 
 To use `eessi` on diskless compute nodes, we need to create "pseudo" disk using
@@ -32,3 +44,8 @@ Map the file called `loopdevice` to the next available block device:
 ## Mount the file as a drive
 
 - `sudo mount /dev/loop0 /cvmfs`
+
+:::keypoints
+- Loop devices map regular files to block devices, allowing them to be partitioned and mounted like physical disks
+- This provides EESSI with a mountable filesystem at `/cvmfs` on diskless compute nodes
+:::

@@ -2,6 +2,16 @@
 title: Some extra things that can be done
 ---
 
+:::questions
+- How can you provision additional compute nodes without repeating the full setup?
+- What is PXE booting and how does it help scale a cluster?
+:::
+
+:::objectives
+- Create a disk image of a configured compute node using `dd`
+- Set up PXE booting to allow nodes to boot from the network
+:::
+
 ## Making an image of the compute node OS
 
 - On a Linux laptop (or with a USB SD card reader) take an image of this:
@@ -58,3 +68,8 @@ pixiecluster*    up   infinite      5   idle pixie[002-006]
 
 - <https://www.clearlinux.org/clear-linux-documentation/tutorials/hpc.html>
 - <https://www.quantstart.com/articles/building-a-raspberry-pi-cluster-for-qstrader-using-slurm-part-3/>
+
+:::keypoints
+- `dd` can create an exact disk image of a configured compute node SD card, which can then be written to new cards
+- PXE booting allows compute nodes to load their OS from the network, removing the need for individual SD cards
+:::

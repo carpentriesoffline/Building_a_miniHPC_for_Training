@@ -3,6 +3,21 @@ layout: default
 title: Configuring the login node
 ---
 
+:::questions
+- What roles does the login node play in an HPC cluster?
+- How does a login node provide network access to compute nodes?
+:::
+
+:::objectives
+- Configure the login node as a NAT gateway using iptables
+- Assign a static IP address to the ethernet interface using `nmcli`
+- Configure dnsmasq to provide DHCP and DNS to the cluster network
+- Set up NFS to export shared filesystems to compute nodes
+- Configure munge authentication
+- Install and configure Slurm on the login node
+- Install EESSI for a shared software environment
+:::
+
 > **Configure the login node first.** The compute node configuration (next
 > page) depends on files generated here (munge key, slurm.conf, /etc/hosts),
 > and the login node must be up and running as the DHCP/DNS server before the
@@ -216,7 +231,7 @@ ip addr show
 You should see a static address of `192.168.5.101` assigned to `eth0`. Your SSH
 connection to the Pi is running through `wlan0` at this point:
 
-![`ip addr show` showing static IP assignment and WiFi connection](fig/static-ip.png)
+![](fig/static-ip.png){alt='ip addr show showing static IP assignment and WiFi connection'}
 
 ## How to modify the hostname (*if required!*)
 
@@ -458,7 +473,7 @@ sudo systemctl restart slurmd
 
 At this point, you should see Slurm running if you check using `sudo systemctl status slurmctld`:
 
-![Slurm running on the login node](fig/slurm-running.png)
+![](fig/slurm-running.png){alt='Slurm running on the login node'}
 
 ## Install EESSI
 
@@ -493,3 +508,10 @@ into a functioning HPC head node.
 - Installed EESSI to provide a shared, architecture-aware software environment
 
 In the next section, we'll configure a compute node to perform computational work.
+
+:::keypoints
+- The login node acts as NAT gateway, DHCP/DNS server (dnsmasq), NFS server, and Slurm controller
+- iptables NAT masquerading allows compute nodes to reach the internet through the login node's WiFi
+- munge provides authentication between Slurm daemons; all nodes must share the same munge key
+- EESSI provides a shared, architecture-aware software environment accessible from all nodes
+:::

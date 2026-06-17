@@ -2,6 +2,17 @@
 title: Booting and Updating
 ---
 
+:::questions
+- How do you connect to a freshly booted Raspberry Pi on the network?
+- What are the first steps after logging in for the first time?
+:::
+
+:::objectives
+- Find a Raspberry Pi on the network using `ping`
+- Log in to the Pi via SSH
+- Update and upgrade the OS packages
+:::
+
 ## Running the OS for the first time
 
 Once you have written the operating system to the microSD card you can insert
@@ -43,7 +54,7 @@ the password set there was `0nl1n3`.
 
 Logging in should look something like this in your terminal:
 
-![Logged into node01 in the terminal](fig/login.png)
+![](fig/login.png){alt='Logged into node01 in the terminal'}
 
 ### Updating the software
 
@@ -53,4 +64,10 @@ Now you are connected, do an update and a full-upgrade:
 sudo apt update
 sudo apt full-upgrade -y
 ```
+
+:::keypoints
+- Use `ping node01.local` to confirm a Pi is reachable on the network before connecting
+- SSH with `ssh <username>@<ip-address>` to log in
+- Always update packages with `sudo apt update && sudo apt full-upgrade -y` before installing software
+:::
 

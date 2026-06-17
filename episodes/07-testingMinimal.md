@@ -3,6 +3,18 @@ layout: default
 title: Testing & running your first job
 ---
 
+:::questions
+- How do you verify that a Slurm cluster is working correctly?
+- How do you submit and monitor batch jobs?
+:::
+
+:::objectives
+- Check cluster health using `sinfo`
+- Submit a batch job with `sbatch` and monitor it with `squeue`
+- Run an interactive job using `srun`
+- Verify the shared filesystem works across nodes
+:::
+
 Before submitting any work, verify that the cluster is healthy and all nodes are visible to
 the scheduler.
 
@@ -115,3 +127,9 @@ srun hostname
 ```
 
 The output file should contain one line per node.
+
+:::keypoints
+- Use `sinfo` to check that all nodes are visible and in `idle` state before submitting jobs
+- `sbatch` submits batch jobs; `squeue` monitors the queue; job output goes to the file specified by `--output`
+- `srun --pty bash` opens an interactive shell on a compute node for debugging
+:::
