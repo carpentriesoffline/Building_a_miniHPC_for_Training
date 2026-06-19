@@ -448,6 +448,31 @@ Verify ownership and permissions:
 sudo ls -la /etc/munge/munge.key
 ```
 
+The key must be owned by the `munge` user with mode `0400` (readable only by
+its owner). The output should look like this:
+
+```output
+-r-------- 1 munge munge 1024 Jun 16 10:00 /etc/munge/munge.key
+```
+
+If the owner is `root` (which can happen if `mungekey` was run as root after
+deleting a pre-existing key), fix it with:
+
+```bash
+sudo chown munge: /etc/munge/munge.key
+```
+
+::: caution
+
+### Do not regenerate the munge key on the login node once compute nodes are configured
+
+If you delete and recreate `/etc/munge/munge.key` on the login node after
+distributing it to compute nodes, the keys will no longer match and SLURM
+will fail to authenticate between nodes. To recover, redistribute the new
+key to all compute nodes and restart `munge` everywhere.
+
+:::
+
 ## Configure Slurm
 
 Add the following to `/etc/slurm/slurm.conf`. Again, **change all occurences of 
