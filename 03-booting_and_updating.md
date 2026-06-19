@@ -20,6 +20,15 @@ the card into the RPi and switch it on. If you configured the OS with a Wifi
 SSID and enabled ssh you should be able to access the RPi via the wireless
 network using your desktop or laptop computer.
 
+::: callout First boot takes longer than usual
+
+On its very first boot, the Pi automatically expands the root filesystem to
+fill the SD card. This can take a minute or two, during which the network
+interface will not yet be up. Wait until `ping node01.local` succeeds before
+attempting to SSH in.
+
+:::
+
 ### How do I find my IP address?
 
 In the setup stage, you connected your Pi to the `CarpentriesOffline` WiFi

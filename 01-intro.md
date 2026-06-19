@@ -12,6 +12,18 @@ title: Introduction
 - List the minimum hardware components needed for a Raspberry Pi mini-HPC
 :::
 
+:::instructor
+
+The first thing to do is to get all learners to plug in the hardware
+for their cluster. On its very first boot, the Pi automatically expands
+the root filesystem to fill the SD card. This can take a minute or two,
+during which the network interface will not yet be up.
+
+This is a good time to deliver the lesson introduction. By
+the time you have finished, the Pi will be ready to connect to.
+
+:::
+
 When running a workshop to teach learners how to use an HPC, an instructor is
 immediately presented with a few problems:
 
