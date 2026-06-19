@@ -72,6 +72,7 @@ network interfaces: `eth0` connects to the internal switch, and `wlan0`
 connects to the router so learners can reach the cluster over WiFi.
 
 ```mermaid
+%%{init: {"themeVariables": {"edgeLabelBackground": "transparent"}} }%%
 graph TD
     Mains[Mains socket] --> PSU[Power strip]
     PSU -->|USB-A to barrel| Switch["Network switch<br/>■ ■ □ □ □"]
