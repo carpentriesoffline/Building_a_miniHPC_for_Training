@@ -111,6 +111,14 @@ graph TD
 
 *The first CarpentriesOffline MiniHPC, `pixie`, created with Raspberry Pis!*
 
+## Further reading
+
+Once your mini-HPC is up and running, the
+[Introduction to High-Performance Computing](https://carpentries-incubator.github.io/hpc-intro/)
+lesson from The Carpentries Incubator covers how to use an HPC cluster:
+submitting jobs with SLURM, working with modules, and running parallel
+workloads with MPI.
+
 :::keypoints
 - A mini-HPC using Raspberry Pis solves common HPC training challenges: cost, restricted access, 
   internet dependency, and resource contention
