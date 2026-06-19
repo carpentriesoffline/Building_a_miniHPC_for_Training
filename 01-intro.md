@@ -76,9 +76,12 @@ network interfaces: `eth0` connects to the internal switch, and `wlan0`
 connects to the router so learners can reach the cluster over WiFi.
 
 ```mermaid
-%%{init: {"themeVariables": {"edgeLabelBackground": "#ffffff00"}} }%%
+%%{init: 
+  {"themeVariables": {"edgeLabelBackground": "#ffffff00"}} 
+}%%
 graph TD
     accTitle: MiniHPC hardware connections: power and network topology
+    accDescr {A diagram showing how the hardware for this lesson is connected together.}
     Mains[Mains socket] --> PSU[Power strip]
     PSU -->|USB-A to barrel| Switch["Network switch<br/>■ ■ □ □ □"]
     Switch -->|ethernet| node01
