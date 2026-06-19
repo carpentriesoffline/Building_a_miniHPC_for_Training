@@ -758,12 +758,21 @@ network?</li>
 can insert the card into the RPi and switch it on. If you configured the
 OS with a Wifi SSID and enabled ssh you should be able to access the RPi
 via the wireless network using your desktop or laptop computer.</p>
-<p>::: callout First boot takes longer than usual</p>
+<div id="first-boot-takes-longer-than-usual" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="first-boot-takes-longer-than-usual" class="callout-inner">
+<h3 class="callout-title">First boot takes longer than usual</h3>
+<div class="callout-content">
 <p>On its very first boot, the Pi automatically expands the root
 filesystem to fill the SD card. This can take a minute or two, during
 which the network interface will not yet be up. Wait until
 <code>ping node01.local</code> succeeds before attempting to SSH in.</p>
-<p>:::</p>
+</div>
+</div>
+</div>
 <div class="section level3">
 <h3 id="how-do-i-find-my-ip-address">How do I find my IP address?<a class="anchor" aria-label="anchor" href="#how-do-i-find-my-ip-address"></a>
 </h3>
@@ -786,7 +795,14 @@ command to check it is connected to the network:</p>
 address, <code>node01.local</code> to its dynamically-assigned IP
 address (here <code>192.168.1.48</code>), then sends an ICMP “ping”
 packet to ensure we can reach it on the network.</p>
-<p>::: discussion Trouble connecting to your Pi?</p>
+<div id="trouble-connecting-to-your-pi" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="trouble-connecting-to-your-pi" class="callout-inner">
+<h3 class="callout-title">Trouble connecting to your Pi?</h3>
+<div class="callout-content">
 <p><code>.local</code> hostnames resolve automatically on macOS and
 Linux. On Windows they can be unreliable. If
 <code>ping node01.local</code> is failing, even after waiting a little
@@ -862,7 +878,9 @@ Scanner</a></p></li>
 <li><p><strong>Ask your instructor:</strong> they can find the IP
 address from the router.</p></li>
 </ol>
-<p>:::</p>
+</div>
+</div>
+</div>
 
 </div>
 <div class="section level3">
