@@ -482,9 +482,12 @@ cable, but YMMV.</p>
 has two network interfaces: <code>eth0</code> connects to the internal
 switch, and <code>wlan0</code> connects to the router so learners can
 reach the cluster over WiFi.</p>
-<pre class="mermaid"><code>%%{init: {"themeVariables": {"edgeLabelBackground": "#ffffff00"}} }%%
+<pre class="mermaid"><code>%%{init:
+  {"themeVariables": {"edgeLabelBackground": "#ffffff00"}}
+}%%
 graph TD
     accTitle: MiniHPC hardware connections: power and network topology
+    accDescr {A diagram showing how the hardware for this lesson is connected together.}
     Mains[Mains socket] --&gt; PSU[Power strip]
     PSU --&gt;|USB-A to barrel| Switch["Network switch&lt;br/&gt;■ ■ □ □ □"]
     Switch --&gt;|ethernet| node01
@@ -823,7 +826,7 @@ below!</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>Try the following in order:</p>
 <ol style="list-style-type: decimal">

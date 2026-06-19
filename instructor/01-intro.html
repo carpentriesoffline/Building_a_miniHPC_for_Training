@@ -385,7 +385,7 @@ mini-HPC</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>The first thing to do is to get all learners to plug in the hardware
 for their cluster. On its very first boot, the Pi automatically expands
@@ -448,9 +448,12 @@ cable, but YMMV.</p>
 has two network interfaces: <code>eth0</code> connects to the internal
 switch, and <code>wlan0</code> connects to the router so learners can
 reach the cluster over WiFi.</p>
-<pre class="mermaid"><code>%%{init: {"themeVariables": {"edgeLabelBackground": "#ffffff00"}} }%%
+<pre class="mermaid"><code>%%{init:
+  {"themeVariables": {"edgeLabelBackground": "#ffffff00"}}
+}%%
 graph TD
     accTitle: MiniHPC hardware connections: power and network topology
+    accDescr {A diagram showing how the hardware for this lesson is connected together.}
     Mains[Mains socket] --&gt; PSU[Power strip]
     PSU --&gt;|USB-A to barrel| Switch["Network switch&lt;br/&gt;■ ■ □ □ □"]
     Switch --&gt;|ethernet| node01
