@@ -78,6 +78,7 @@ connects to the router so learners can reach the cluster over WiFi.
 ```mermaid
 %%{init: {"themeVariables": {"edgeLabelBackground": "#ffffff00"}} }%%
 graph TD
+    accTitle: MiniHPC hardware connections: power and network topology
     Mains[Mains socket] --> PSU[Power strip]
     PSU -->|USB-A to barrel| Switch["Network switch<br/>■ ■ □ □ □"]
     Switch -->|ethernet| node01
