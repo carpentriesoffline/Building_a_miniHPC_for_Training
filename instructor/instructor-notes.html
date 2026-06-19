@@ -426,7 +426,21 @@ customise Pi images on the command line, rather than manually operating
 the GUI.</p>
 <hr>
 <br></section><section id="03-booting_and_updating"><h2 class="section-heading"><a href="03-booting_and_updating.html">Booting and Updating</a></h2>
-<hr class="half-width"></section><section id="04-configurationLogin"><h2 class="section-heading"><a href="04-configurationLogin.html">Configuring the login node</a></h2>
+<hr class="half-width">
+<h3 id="03-booting_and_updating-headingInstructor1">
+<a href="03-booting_and_updating.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#03-booting_and_updating-headingInstructor1"></a>
+</h3>
+<p><code>.local</code> resolution failures are most common on Windows.
+Linux learners in the same group are usually unaffected and can confirm
+the Pi is up. If a group is stuck, look up the Pi’s IP from the router
+interface and give it to them directly — this is the fastest recovery
+path.</p>
+<p>Consider using a <a href="https://github.com/sjmf/kvm-serial" class="external-link">serial
+KVM controller software such as kvm-serial</a> and HDMI capture
+interface to connect directly to the console of the user’s Raspberry Pi.
+The login screen prints the IP directly to the display.</p>
+<hr>
+<br></section><section id="04-configurationLogin"><h2 class="section-heading"><a href="04-configurationLogin.html">Configuring the login node</a></h2>
 <hr class="half-width"></section><section id="05-configurationCompute"><h2 class="section-heading"><a href="05-configurationCompute.html">Configuring a compute node</a></h2>
 <hr class="half-width"></section><section id="06-extraStuff"><h2 class="section-heading"><a href="06-extraStuff.html">Some extra things that can be done</a></h2>
 <hr class="half-width"></section><section id="07-testingMinimal"><h2 class="section-heading"><a href="07-testingMinimal.html">Testing &amp; running your first job</a></h2>

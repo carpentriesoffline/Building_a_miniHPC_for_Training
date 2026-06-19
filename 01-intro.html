@@ -423,7 +423,8 @@ to power all Rasberry Pis)</li>
 has two network interfaces: <code>eth0</code> connects to the internal
 switch, and <code>wlan0</code> connects to the router so learners can
 reach the cluster over WiFi.</p>
-<pre class="mermaid"><code>graph TD
+<pre class="mermaid"><code>%%{init: {"themeVariables": {"edgeLabelBackground": "transparent"}} }%%
+graph TD
     Mains[Mains socket] --&gt; PSU[Power strip]
     PSU --&gt;|USB-A to barrel| Switch["Network switch&lt;br/&gt;■ ■ □ □ □"]
     Switch --&gt;|ethernet| node01

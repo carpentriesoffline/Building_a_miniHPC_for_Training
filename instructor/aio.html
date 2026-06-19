@@ -428,7 +428,7 @@ mini-HPC</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>The first thing to do is to get all learners to plug in the hardware
 for their cluster. On its very first boot, the Pi automatically expands
@@ -492,7 +492,8 @@ to power all Rasberry Pis)</li>
 has two network interfaces: <code>eth0</code> connects to the internal
 switch, and <code>wlan0</code> connects to the router so learners can
 reach the cluster over WiFi.</p>
-<pre class="mermaid"><code>graph TD
+<pre class="mermaid"><code>%%{init: {"themeVariables": {"edgeLabelBackground": "transparent"}} }%%
+graph TD
     Mains[Mains socket] --&gt; PSU[Power strip]
     PSU --&gt;|USB-A to barrel| Switch["Network switch&lt;br/&gt;■ ■ □ □ □"]
     Switch --&gt;|ethernet| node01
@@ -590,7 +591,7 @@ before writing the image</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>The process of downloading the imager, getting students to flash it
 to the Pi, and navigating permissions errors on managed machines, means
@@ -818,16 +819,113 @@ command to check it is connected to the network:</p>
 address, <code>node01.local</code> to its dynamically-assigned IP
 address (here <code>192.168.1.48</code>), then sends an ICMP “ping”
 packet to ensure we can reach it on the network.</p>
+<p>::: discussion Trouble connecting to your Pi?</p>
+<p><code>.local</code> hostnames resolve automatically on macOS and
+Linux. On Windows they can be unreliable. If
+<code>ping node01.local</code> is failing, even after waiting a little
+while for the system to expand the root partition, try the following in
+order:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Check you are using your Pi’s actual hostname:</strong>
+the examples in this lesson use <code>node01</code>, but you (or we) may
+have given yours a different name in the Raspberry Pi Imager. Check the
+label on your Pi, or ask your neighbour what name they set, and make
+sure your <code>ping</code> and <code>ssh</code> commands use that name
+rather than the example from the instructions.</p></li>
+<li>
+<p><strong>Try SSH by name anyway:</strong> even if
+<code>ping</code> fails, SSH sometimes resolves <code>.local</code>
+names independently. Some routers also support bare hostnames without
+the <code>.local</code> suffix, so it is worth trying both:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="fu">ssh</span> pixie@node01.local</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="fu">ssh</span> pixie@node01</span></code></pre>
+</div>
+</li>
+<li><p><strong>Reboot the Pi:</strong> if it failed to join the WiFi on
+first boot, a reboot usually fixes it. Wait a minute, reboot, then try
+again.</p></li>
+<li>
+<p><strong>Use a network scanner:</strong> these free GUI tools list
+every device on your network along with its IP address. Look for a
+device named <code>node01</code>:</p>
+<ul>
+<li><p><strong>Windows / macOS / Linux:</strong> <a href="https://angryip.org/" class="external-link">Angry IP Scanner</a></p></li>
+<li><p><strong>Windows only:</strong> <a href="https://www.advanced-ip-scanner.com/" class="external-link">Advanced IP
+Scanner</a></p></li>
+<li>
+<p><strong>Command line (all platforms):</strong>
+<code>nmap -sn 192.168.1.0/24</code> (requires package install)</p>
+<details><summary><p>Installing nmap</p>
+</summary><table class="table">
+<thead><tr>
+<th>Platform</th>
+<th>Command</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Windows (PowerShell)</td>
+<td><code>winget install nmap</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><code>brew install nmap</code></td>
+</tr>
+<tr>
+<td>Debian / Ubuntu</td>
+<td><code>sudo apt-get install nmap</code></td>
+</tr>
+<tr>
+<td>Fedora / RHEL</td>
+<td><code>sudo yum install nmap</code></td>
+</tr>
+</tbody>
+</table></details>
+</li>
+</ul>
+<p>Once you have the IP address, use it in place of the hostname:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="fu">ssh</span> pixie@192.168.1.48</span></code></pre>
+</div>
+</li>
+<li><p><strong>Ask your instructor:</strong> they can find the IP
+address from the router.</p></li>
+</ol>
+<p>:::</p>
+<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
+  <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
+</button>
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div class="accordion-body">
+<p><code>.local</code> resolution failures are most common on Windows.
+Linux learners in the same group are usually unaffected and can confirm
+the Pi is up. If a group is stuck, look up the Pi’s IP from the router
+interface and give it to them directly — this is the fastest recovery
+path.</p>
+<p>Consider using a <a href="https://github.com/sjmf/kvm-serial" class="external-link">serial
+KVM controller software such as kvm-serial</a> and HDMI capture
+interface to connect directly to the console of the user’s Raspberry Pi.
+The login screen prints the IP directly to the display.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="section level3">
 <h3 id="logging-in-to-the-pi">Logging in to the Pi<a class="anchor" aria-label="anchor" href="#logging-in-to-the-pi"></a>
 </h3>
 <p>Use SSH or login with a local console (if you have a monitor
 attached). Use the login details you used above to log into the Pi.</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>@<span class="op">&lt;</span>IP-ADDRESS<span class="op">&gt;</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>@<span class="op">&lt;</span>IP-ADDRESS<span class="op">&gt;</span></span></code></pre>
 </div>
 <p>In section 2, we set our username in the Raspberry Pi Imager to
 <code>pixie</code>, and the password set there was
@@ -839,11 +937,11 @@ attached). Use the login details you used above to log into the Pi.</p>
 <h3 id="updating-the-software">Updating the software<a class="anchor" aria-label="anchor" href="#updating-the-software"></a>
 </h3>
 <p>Now you are connected, do an update and a full-upgrade:</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="fu">sudo</span> apt update</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="fu">sudo</span> apt full-upgrade <span class="at">-y</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a><span class="fu">sudo</span> apt full-upgrade <span class="at">-y</span></span></code></pre>
 </div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
