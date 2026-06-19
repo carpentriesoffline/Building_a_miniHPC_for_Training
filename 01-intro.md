@@ -45,13 +45,43 @@ to use an HPC.
 
 ## Minimal requirements
 
-- Raspberry Pi (RPi) 4 2GB+ single board computers (SBC): 1 for the head node, plus as many nodes as as you want
+- Raspberry Pi (RPi) 3-5 2GB+ single board computers (SBC): 1 for the head node, plus as many nodes as as you want
 - A multiport Netgear switch (as many ports as Rasberry Pis)
 - 10BaseT Cat6 ethernet cables (1 per Rasberry Pi)
 - Power supplies for each Rasberry Pi (alternatively: use a PoE switch to power all Rasberry Pis)
 - A 8GB flash drive for shared storage
 - A 32GB SD card to boot the main node from
 - Cooling device (e.g. USB desktop fan)
+
+## Hardware connections
+
+The diagram below shows how the components connect. The login node has two
+network interfaces: `eth0` connects to the internal switch, and `wlan0`
+connects to the router so learners can reach the cluster over WiFi.
+
+```mermaid
+graph TD
+    Mains[Mains socket] --> PSU[Power strip]
+    PSU -->|USB-A to barrel| Switch["Network switch<br/>■ ■ □ □ □"]
+    Switch -->|ethernet| node01
+    PSU -->|USB-C| node01["node01: login node"]
+    PSU -->|USB-C| nodeN["node02 (to nodeNN): compute"]
+    Switch -->|ethernet| nodeN
+    Router[WiFi router] -->|wlan0| node01
+    Laptops[Learner laptops] -->|WiFi| Router
+
+    style Mains   fill:orange, stroke:orange, color:black
+    style PSU     fill:orange, stroke:orange, color:black
+    style Switch  fill:steelblue, stroke:steelblue, color:white
+    style Router  fill:steelblue, stroke:steelblue, color:white
+    style node01  fill:seagreen, stroke:seagreen, color:white
+    style nodeN   fill:seagreen, stroke:seagreen, color:white
+    style Laptops fill:gray, stroke:gray, color:white
+
+    linkStyle 0,1,3,4 stroke:orange, stroke-width:4px
+    linkStyle 2,5     stroke:steelblue, stroke-width:4px
+    linkStyle 6,7     stroke:darkorchid, stroke-width:4px
+```
 
 ## Optional
 
