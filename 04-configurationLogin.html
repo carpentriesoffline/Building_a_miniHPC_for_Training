@@ -976,55 +976,88 @@ handles size and permissions correctly:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" tabindex="-1" aria-label="code-block-25-1"></a><span class="fu">sudo</span> ls <span class="at">-la</span> /etc/munge/munge.key</span></code></pre>
 </div>
+<p>The key must be owned by the <code>munge</code> user with mode
+<code>0400</code> (readable only by its owner). The output should look
+like this:</p>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>-r-------- 1 munge munge 1024 Jun 16 10:00 /etc/munge/munge.key</code></pre>
+</div>
+<p>If the owner is <code>root</code> (which can happen if
+<code>mungekey</code> was run as root after deleting a pre-existing
+key), fix it with:</p>
+<div class="codewrapper sourceCode" id="cb27">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" tabindex="-1" aria-label="code-block-27-1"></a><span class="fu">sudo</span> chown munge: /etc/munge/munge.key</span></code></pre>
+</div>
+<div id="do-not-regenerate-the-munge-key-on-the-login-node-once-compute-nodes-are-configured" class="callout caution">
+<div class="callout-square">
+<i class="callout-icon" data-feather="alert-triangle"></i>
+</div>
+<span class="callout-header">Caution</span>
+<div id="do-not-regenerate-the-munge-key-on-the-login-node-once-compute-nodes-are-configured" class="callout-inner">
+<h3 class="callout-title">Do not regenerate the munge key on the login
+node once compute nodes are configured</h3>
+<div class="callout-content">
+<p>If you delete and recreate <code>/etc/munge/munge.key</code> on the
+login node after distributing it to compute nodes, the keys will no
+longer match and SLURM will fail to authenticate between nodes. To
+recover, redistribute the new key to all compute nodes and restart
+<code>munge</code> everywhere.</p>
+</div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="configure-slurm">Configure Slurm<a class="anchor" aria-label="anchor" href="#configure-slurm"></a></h2>
 <hr class="half-width"><p>Add the following to <code>/etc/slurm/slurm.conf</code>. Again,
 <strong>change all occurences of <code>pixie</code> in this script to
 the name of your cluster.</strong> We use a two-digit node identifier
 here (<code>pixieNN</code>) for simplicity but SLURM can easily be
 configured to use more.</p>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">CONF<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode conf" tabindex="0"><code class="sourceCode toml"><span id="cb26-1"><a href="#cb26-1" tabindex="-1" aria-label="code-block-26-1"></a><span class="dt">SlurmctldHost</span><span class="op">=</span><span class="dt">pixie01</span><span class="er">(</span><span class="dt">192.168.5.101</span><span class="er">)</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1" aria-label="code-block-26-2"></a><span class="dt">MpiDefault</span><span class="op">=</span><span class="dt">none</span></span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1" aria-label="code-block-26-3"></a><span class="dt">ProctrackType</span><span class="op">=</span><span class="dt">proctrack</span><span class="er">/</span><span class="dt">cgroup</span></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1" aria-label="code-block-26-4"></a><span class="co">#ProctrackType=proctrack/linuxproc</span></span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1" aria-label="code-block-26-5"></a><span class="dt">ReturnToService</span><span class="op">=</span><span class="dv">1</span></span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1" aria-label="code-block-26-6"></a><span class="dt">SlurmctldPidFile</span><span class="op">=</span><span class="er">/</span><span class="dt">run</span><span class="er">/</span><span class="dt">slurmctld.pid</span></span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1" aria-label="code-block-26-7"></a><span class="dt">SlurmctldPort</span><span class="op">=</span><span class="dv">6817</span></span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1" aria-label="code-block-26-8"></a><span class="dt">SlurmdPidFile</span><span class="op">=</span><span class="er">/</span><span class="dt">run</span><span class="er">/</span><span class="dt">slurmd.pid</span></span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1" aria-label="code-block-26-9"></a><span class="dt">SlurmdPort</span><span class="op">=</span><span class="dv">6818</span></span>
-<span id="cb26-10"><a href="#cb26-10" tabindex="-1" aria-label="code-block-26-10"></a><span class="dt">SlurmdSpoolDir</span><span class="op">=</span><span class="er">/</span><span class="dt">var</span><span class="er">/</span><span class="dt">lib</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmd</span></span>
-<span id="cb26-11"><a href="#cb26-11" tabindex="-1" aria-label="code-block-26-11"></a><span class="dt">SlurmUser</span><span class="op">=</span><span class="dt">slurm</span></span>
-<span id="cb26-12"><a href="#cb26-12" tabindex="-1" aria-label="code-block-26-12"></a><span class="dt">StateSaveLocation</span><span class="op">=</span><span class="er">/</span><span class="dt">var</span><span class="er">/</span><span class="dt">lib</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmctld</span></span>
-<span id="cb26-13"><a href="#cb26-13" tabindex="-1" aria-label="code-block-26-13"></a><span class="dt">SwitchType</span><span class="op">=</span><span class="dt">switch</span><span class="er">/</span><span class="dt">none</span></span>
-<span id="cb26-14"><a href="#cb26-14" tabindex="-1" aria-label="code-block-26-14"></a><span class="dt">TaskPlugin</span><span class="op">=</span><span class="dt">task</span><span class="er">/</span><span class="dt">affinity</span></span>
-<span id="cb26-15"><a href="#cb26-15" tabindex="-1" aria-label="code-block-26-15"></a><span class="dt">InactiveLimit</span><span class="op">=</span><span class="dv">0</span></span>
-<span id="cb26-16"><a href="#cb26-16" tabindex="-1" aria-label="code-block-26-16"></a><span class="dt">KillWait</span><span class="op">=</span><span class="dv">30</span></span>
-<span id="cb26-17"><a href="#cb26-17" tabindex="-1" aria-label="code-block-26-17"></a><span class="dt">MinJobAge</span><span class="op">=</span><span class="dv">300</span></span>
-<span id="cb26-18"><a href="#cb26-18" tabindex="-1" aria-label="code-block-26-18"></a><span class="dt">SlurmctldTimeout</span><span class="op">=</span><span class="dv">120</span></span>
-<span id="cb26-19"><a href="#cb26-19" tabindex="-1" aria-label="code-block-26-19"></a><span class="dt">SlurmdTimeout</span><span class="op">=</span><span class="dv">300</span></span>
-<span id="cb26-20"><a href="#cb26-20" tabindex="-1" aria-label="code-block-26-20"></a><span class="dt">Waittime</span><span class="op">=</span><span class="dv">0</span></span>
-<span id="cb26-21"><a href="#cb26-21" tabindex="-1" aria-label="code-block-26-21"></a><span class="dt">SchedulerType</span><span class="op">=</span><span class="dt">sched</span><span class="er">/</span><span class="dt">backfill</span></span>
-<span id="cb26-22"><a href="#cb26-22" tabindex="-1" aria-label="code-block-26-22"></a><span class="dt">SelectType</span><span class="op">=</span><span class="dt">select</span><span class="er">/</span><span class="dt">cons_tres</span></span>
-<span id="cb26-23"><a href="#cb26-23" tabindex="-1" aria-label="code-block-26-23"></a><span class="dt">SelectTypeParameters</span><span class="op">=</span><span class="dt">CR_Core</span></span>
-<span id="cb26-24"><a href="#cb26-24" tabindex="-1" aria-label="code-block-26-24"></a><span class="dt">AccountingStorageType</span><span class="op">=</span><span class="dt">accounting_storage</span><span class="er">/</span><span class="dt">none</span></span>
-<span id="cb26-25"><a href="#cb26-25" tabindex="-1" aria-label="code-block-26-25"></a><span class="co"># AccountingStoreJobComment=YES</span></span>
-<span id="cb26-26"><a href="#cb26-26" tabindex="-1" aria-label="code-block-26-26"></a><span class="dt">AccountingStoreFlags</span><span class="op">=</span><span class="dt">job_comment</span></span>
-<span id="cb26-27"><a href="#cb26-27" tabindex="-1" aria-label="code-block-26-27"></a><span class="dt">ClusterName</span><span class="op">=</span><span class="dt">pixie</span></span>
-<span id="cb26-28"><a href="#cb26-28" tabindex="-1" aria-label="code-block-26-28"></a><span class="dt">JobCompType</span><span class="op">=</span><span class="dt">jobcomp</span><span class="er">/</span><span class="dt">none</span></span>
-<span id="cb26-29"><a href="#cb26-29" tabindex="-1" aria-label="code-block-26-29"></a><span class="dt">JobAcctGatherFrequency</span><span class="op">=</span><span class="dv">30</span></span>
-<span id="cb26-30"><a href="#cb26-30" tabindex="-1" aria-label="code-block-26-30"></a><span class="dt">JobAcctGatherType</span><span class="op">=</span><span class="dt">jobacct_gather</span><span class="er">/</span><span class="dt">none</span></span>
-<span id="cb26-31"><a href="#cb26-31" tabindex="-1" aria-label="code-block-26-31"></a><span class="dt">SlurmctldDebug</span><span class="op">=</span><span class="fl">inf</span><span class="dt">o</span></span>
-<span id="cb26-32"><a href="#cb26-32" tabindex="-1" aria-label="code-block-26-32"></a><span class="dt">SlurmctldLogFile</span><span class="op">=</span><span class="er">/</span><span class="dt">var</span><span class="er">/</span><span class="dt">log</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmctld.log</span></span>
-<span id="cb26-33"><a href="#cb26-33" tabindex="-1" aria-label="code-block-26-33"></a><span class="dt">SlurmdDebug</span><span class="op">=</span><span class="fl">inf</span><span class="dt">o</span></span>
-<span id="cb26-34"><a href="#cb26-34" tabindex="-1" aria-label="code-block-26-34"></a><span class="dt">SlurmdLogFile</span><span class="op">=</span><span class="er">/</span><span class="dt">var</span><span class="er">/</span><span class="dt">log</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmd.log</span></span>
-<span id="cb26-35"><a href="#cb26-35" tabindex="-1" aria-label="code-block-26-35"></a><span class="dt">PartitionName</span><span class="op">=</span><span class="dt">pixiecluster</span> <span class="dt">Nodes</span><span class="op">=</span><span class="dt">pixie</span><span class="kw">[02-02]</span> <span class="dt">Default</span><span class="op">=</span><span class="dt">YES</span> <span class="dt">MaxTime</span><span class="op">=</span><span class="dt">INFINITE</span> <span class="dt">State</span><span class="op">=</span><span class="dt">UP</span></span>
-<span id="cb26-36"><a href="#cb26-36" tabindex="-1" aria-label="code-block-26-36"></a><span class="dt">RebootProgram</span><span class="op">=</span><span class="er">/</span><span class="dt">etc</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmreboot.sh</span></span>
-<span id="cb26-37"><a href="#cb26-37" tabindex="-1" aria-label="code-block-26-37"></a><span class="dt">NodeName</span><span class="op">=</span><span class="dt">pixie01</span> <span class="dt">NodeAddr</span><span class="op">=</span><span class="fl">192.168</span><span class="dt">.5.101</span> <span class="dt">CPUs</span><span class="op">=</span><span class="dv">4</span> <span class="dt">State</span><span class="op">=</span><span class="dt">IDLE</span></span>
-<span id="cb26-38"><a href="#cb26-38" tabindex="-1" aria-label="code-block-26-38"></a><span class="dt">NodeName</span><span class="op">=</span><span class="dt">pixie02</span> <span class="dt">NodeAddr</span><span class="op">=</span><span class="fl">192.168</span><span class="dt">.5.102</span> <span class="dt">CPUs</span><span class="op">=</span><span class="dv">4</span> <span class="dt">State</span><span class="op">=</span><span class="dt">IDLE</span></span></code></pre>
+<pre class="sourceCode conf" tabindex="0"><code class="sourceCode toml"><span id="cb28-1"><a href="#cb28-1" tabindex="-1" aria-label="code-block-28-1"></a><span class="dt">SlurmctldHost</span><span class="op">=</span><span class="dt">pixie01</span><span class="er">(</span><span class="dt">192.168.5.101</span><span class="er">)</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1" aria-label="code-block-28-2"></a><span class="dt">MpiDefault</span><span class="op">=</span><span class="dt">none</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1" aria-label="code-block-28-3"></a><span class="dt">ProctrackType</span><span class="op">=</span><span class="dt">proctrack</span><span class="er">/</span><span class="dt">cgroup</span></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1" aria-label="code-block-28-4"></a><span class="co">#ProctrackType=proctrack/linuxproc</span></span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1" aria-label="code-block-28-5"></a><span class="dt">ReturnToService</span><span class="op">=</span><span class="dv">1</span></span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1" aria-label="code-block-28-6"></a><span class="dt">SlurmctldPidFile</span><span class="op">=</span><span class="er">/</span><span class="dt">run</span><span class="er">/</span><span class="dt">slurmctld.pid</span></span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1" aria-label="code-block-28-7"></a><span class="dt">SlurmctldPort</span><span class="op">=</span><span class="dv">6817</span></span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1" aria-label="code-block-28-8"></a><span class="dt">SlurmdPidFile</span><span class="op">=</span><span class="er">/</span><span class="dt">run</span><span class="er">/</span><span class="dt">slurmd.pid</span></span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1" aria-label="code-block-28-9"></a><span class="dt">SlurmdPort</span><span class="op">=</span><span class="dv">6818</span></span>
+<span id="cb28-10"><a href="#cb28-10" tabindex="-1" aria-label="code-block-28-10"></a><span class="dt">SlurmdSpoolDir</span><span class="op">=</span><span class="er">/</span><span class="dt">var</span><span class="er">/</span><span class="dt">lib</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmd</span></span>
+<span id="cb28-11"><a href="#cb28-11" tabindex="-1" aria-label="code-block-28-11"></a><span class="dt">SlurmUser</span><span class="op">=</span><span class="dt">slurm</span></span>
+<span id="cb28-12"><a href="#cb28-12" tabindex="-1" aria-label="code-block-28-12"></a><span class="dt">StateSaveLocation</span><span class="op">=</span><span class="er">/</span><span class="dt">var</span><span class="er">/</span><span class="dt">lib</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmctld</span></span>
+<span id="cb28-13"><a href="#cb28-13" tabindex="-1" aria-label="code-block-28-13"></a><span class="dt">SwitchType</span><span class="op">=</span><span class="dt">switch</span><span class="er">/</span><span class="dt">none</span></span>
+<span id="cb28-14"><a href="#cb28-14" tabindex="-1" aria-label="code-block-28-14"></a><span class="dt">TaskPlugin</span><span class="op">=</span><span class="dt">task</span><span class="er">/</span><span class="dt">affinity</span></span>
+<span id="cb28-15"><a href="#cb28-15" tabindex="-1" aria-label="code-block-28-15"></a><span class="dt">InactiveLimit</span><span class="op">=</span><span class="dv">0</span></span>
+<span id="cb28-16"><a href="#cb28-16" tabindex="-1" aria-label="code-block-28-16"></a><span class="dt">KillWait</span><span class="op">=</span><span class="dv">30</span></span>
+<span id="cb28-17"><a href="#cb28-17" tabindex="-1" aria-label="code-block-28-17"></a><span class="dt">MinJobAge</span><span class="op">=</span><span class="dv">300</span></span>
+<span id="cb28-18"><a href="#cb28-18" tabindex="-1" aria-label="code-block-28-18"></a><span class="dt">SlurmctldTimeout</span><span class="op">=</span><span class="dv">120</span></span>
+<span id="cb28-19"><a href="#cb28-19" tabindex="-1" aria-label="code-block-28-19"></a><span class="dt">SlurmdTimeout</span><span class="op">=</span><span class="dv">300</span></span>
+<span id="cb28-20"><a href="#cb28-20" tabindex="-1" aria-label="code-block-28-20"></a><span class="dt">Waittime</span><span class="op">=</span><span class="dv">0</span></span>
+<span id="cb28-21"><a href="#cb28-21" tabindex="-1" aria-label="code-block-28-21"></a><span class="dt">SchedulerType</span><span class="op">=</span><span class="dt">sched</span><span class="er">/</span><span class="dt">backfill</span></span>
+<span id="cb28-22"><a href="#cb28-22" tabindex="-1" aria-label="code-block-28-22"></a><span class="dt">SelectType</span><span class="op">=</span><span class="dt">select</span><span class="er">/</span><span class="dt">cons_tres</span></span>
+<span id="cb28-23"><a href="#cb28-23" tabindex="-1" aria-label="code-block-28-23"></a><span class="dt">SelectTypeParameters</span><span class="op">=</span><span class="dt">CR_Core</span></span>
+<span id="cb28-24"><a href="#cb28-24" tabindex="-1" aria-label="code-block-28-24"></a><span class="dt">AccountingStorageType</span><span class="op">=</span><span class="dt">accounting_storage</span><span class="er">/</span><span class="dt">none</span></span>
+<span id="cb28-25"><a href="#cb28-25" tabindex="-1" aria-label="code-block-28-25"></a><span class="co"># AccountingStoreJobComment=YES</span></span>
+<span id="cb28-26"><a href="#cb28-26" tabindex="-1" aria-label="code-block-28-26"></a><span class="dt">AccountingStoreFlags</span><span class="op">=</span><span class="dt">job_comment</span></span>
+<span id="cb28-27"><a href="#cb28-27" tabindex="-1" aria-label="code-block-28-27"></a><span class="dt">ClusterName</span><span class="op">=</span><span class="dt">pixie</span></span>
+<span id="cb28-28"><a href="#cb28-28" tabindex="-1" aria-label="code-block-28-28"></a><span class="dt">JobCompType</span><span class="op">=</span><span class="dt">jobcomp</span><span class="er">/</span><span class="dt">none</span></span>
+<span id="cb28-29"><a href="#cb28-29" tabindex="-1" aria-label="code-block-28-29"></a><span class="dt">JobAcctGatherFrequency</span><span class="op">=</span><span class="dv">30</span></span>
+<span id="cb28-30"><a href="#cb28-30" tabindex="-1" aria-label="code-block-28-30"></a><span class="dt">JobAcctGatherType</span><span class="op">=</span><span class="dt">jobacct_gather</span><span class="er">/</span><span class="dt">none</span></span>
+<span id="cb28-31"><a href="#cb28-31" tabindex="-1" aria-label="code-block-28-31"></a><span class="dt">SlurmctldDebug</span><span class="op">=</span><span class="fl">inf</span><span class="dt">o</span></span>
+<span id="cb28-32"><a href="#cb28-32" tabindex="-1" aria-label="code-block-28-32"></a><span class="dt">SlurmctldLogFile</span><span class="op">=</span><span class="er">/</span><span class="dt">var</span><span class="er">/</span><span class="dt">log</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmctld.log</span></span>
+<span id="cb28-33"><a href="#cb28-33" tabindex="-1" aria-label="code-block-28-33"></a><span class="dt">SlurmdDebug</span><span class="op">=</span><span class="fl">inf</span><span class="dt">o</span></span>
+<span id="cb28-34"><a href="#cb28-34" tabindex="-1" aria-label="code-block-28-34"></a><span class="dt">SlurmdLogFile</span><span class="op">=</span><span class="er">/</span><span class="dt">var</span><span class="er">/</span><span class="dt">log</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmd.log</span></span>
+<span id="cb28-35"><a href="#cb28-35" tabindex="-1" aria-label="code-block-28-35"></a><span class="dt">PartitionName</span><span class="op">=</span><span class="dt">pixiecluster</span> <span class="dt">Nodes</span><span class="op">=</span><span class="dt">pixie</span><span class="kw">[02-02]</span> <span class="dt">Default</span><span class="op">=</span><span class="dt">YES</span> <span class="dt">MaxTime</span><span class="op">=</span><span class="dt">INFINITE</span> <span class="dt">State</span><span class="op">=</span><span class="dt">UP</span></span>
+<span id="cb28-36"><a href="#cb28-36" tabindex="-1" aria-label="code-block-28-36"></a><span class="dt">RebootProgram</span><span class="op">=</span><span class="er">/</span><span class="dt">etc</span><span class="er">/</span><span class="dt">slurm</span><span class="er">/</span><span class="dt">slurmreboot.sh</span></span>
+<span id="cb28-37"><a href="#cb28-37" tabindex="-1" aria-label="code-block-28-37"></a><span class="dt">NodeName</span><span class="op">=</span><span class="dt">pixie01</span> <span class="dt">NodeAddr</span><span class="op">=</span><span class="fl">192.168</span><span class="dt">.5.101</span> <span class="dt">CPUs</span><span class="op">=</span><span class="dv">4</span> <span class="dt">State</span><span class="op">=</span><span class="dt">IDLE</span></span>
+<span id="cb28-38"><a href="#cb28-38" tabindex="-1" aria-label="code-block-28-38"></a><span class="dt">NodeName</span><span class="op">=</span><span class="dt">pixie02</span> <span class="dt">NodeAddr</span><span class="op">=</span><span class="fl">192.168</span><span class="dt">.5.102</span> <span class="dt">CPUs</span><span class="op">=</span><span class="dv">4</span> <span class="dt">State</span><span class="op">=</span><span class="dt">IDLE</span></span></code></pre>
 </div>
-<div id="caution8" class="callout caution">
+<div id="caution9" class="callout caution">
 <div class="callout-square">
 <i class="callout-icon" data-feather="alert-triangle"></i>
 </div>
@@ -1057,12 +1090,12 @@ capable nodes.</p>
 </div>
 </div>
 <p>Next, restart slurm:</p>
-<div class="codewrapper sourceCode" id="cb27">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" tabindex="-1" aria-label="code-block-27-1"></a><span class="fu">sudo</span> systemctl restart munge</span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1" aria-label="code-block-27-2"></a><span class="fu">sudo</span> systemctl restart slurmctld</span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1" aria-label="code-block-27-3"></a><span class="fu">sudo</span> systemctl restart slurmd</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" tabindex="-1" aria-label="code-block-29-1"></a><span class="fu">sudo</span> systemctl restart munge</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1" aria-label="code-block-29-2"></a><span class="fu">sudo</span> systemctl restart slurmctld</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1" aria-label="code-block-29-3"></a><span class="fu">sudo</span> systemctl restart slurmd</span></code></pre>
 </div>
 <div id="callout6" class="callout">
 <div class="callout-square">
@@ -1080,15 +1113,15 @@ must be started first as both daemons depend on it.</p>
 <p>At this point, you should see Slurm running if you check using
 <code>sudo systemctl status slurmctld</code>:</p>
 <figure><img src="fig/slurm-running.png" alt="Slurm running on the login node" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="install-eessi">Install EESSI<a class="anchor" aria-label="anchor" href="#install-eessi"></a></h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb28">
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" tabindex="-1" aria-label="code-block-28-1"></a><span class="fu">mkdir</span> eessi</span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1" aria-label="code-block-28-2"></a><span class="bu">cd</span> eessi</span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1" aria-label="code-block-28-3"></a><span class="fu">wget</span> https://raw.githubusercontent.com/EESSI/eessi-demo/main/scripts/install_cvmfs_eessi.sh</span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1" aria-label="code-block-28-4"></a><span class="fu">sudo</span> bash ./install_cvmfs_eessi.sh</span>
-<span id="cb28-5"><a href="#cb28-5" tabindex="-1" aria-label="code-block-28-5"></a></span>
-<span id="cb28-6"><a href="#cb28-6" tabindex="-1" aria-label="code-block-28-6"></a><span class="bu">source</span> /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" tabindex="-1" aria-label="code-block-30-1"></a><span class="fu">mkdir</span> eessi</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1" aria-label="code-block-30-2"></a><span class="bu">cd</span> eessi</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1" aria-label="code-block-30-3"></a><span class="fu">wget</span> https://raw.githubusercontent.com/EESSI/eessi-demo/main/scripts/install_cvmfs_eessi.sh</span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1" aria-label="code-block-30-4"></a><span class="fu">sudo</span> bash ./install_cvmfs_eessi.sh</span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1" aria-label="code-block-30-5"></a></span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1" aria-label="code-block-30-6"></a><span class="bu">source</span> /cvmfs/software.eessi.io/versions/2023.06/init/lmod/bash</span></code></pre>
 </div>
 <div id="prereq2" class="callout prereq">
 <div class="callout-square">
