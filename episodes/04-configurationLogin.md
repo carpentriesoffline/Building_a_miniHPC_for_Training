@@ -236,7 +236,7 @@ sudo nmcli con add type ethernet ifname eth0 con-name eth0-static \
 sudo nmcli con up eth0-static
 ```
 
-::: callout 
+::: callout
 Need to reverse this for any reason? `sudo nmcli con delete eth0-static`
 removes the static connection and returns eth0 to DHCP.
 :::
