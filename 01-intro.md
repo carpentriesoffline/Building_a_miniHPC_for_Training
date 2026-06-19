@@ -57,13 +57,17 @@ to use an HPC.
 
 ## Minimal requirements
 
-- Raspberry Pi (RPi) 3-5 2GB+ single board computers (SBC): 1 for the head node, plus as many nodes as as you want
+- Raspberry Pi (RPi) 2GB+ single board computers (SBC): 1 for the head node, plus as many nodes as as you want
+  - Preference 64-bit Pis (i.e. version 3 and up). Prior versions have slower clock speeds resulting
+    in learners having to wait longer for commands to complete, which can slow down workshops.
 - A multiport Netgear switch (as many ports as Rasberry Pis)
 - 10BaseT Cat6 ethernet cables (1 per Rasberry Pi)
 - Power supplies for each Rasberry Pi (alternatively: use a PoE switch to power all Rasberry Pis)
 - A 8GB flash drive for shared storage
 - A 32GB SD card to boot the main node from
 - Cooling device (e.g. USB desktop fan)
+
+We can in theory omit the network switch using a crossover ethernet cable, but YMMV.
 
 ## Hardware connections
 
@@ -72,8 +76,9 @@ network interfaces: `eth0` connects to the internal switch, and `wlan0`
 connects to the router so learners can reach the cluster over WiFi.
 
 ```mermaid
-%%{init: {"themeVariables": {"edgeLabelBackground": "transparent"}} }%%
+%%{init: {"themeVariables": {"edgeLabelBackground": "#ffffff00"}} }%%
 graph TD
+    accTitle: MiniHPC hardware connections: power and network topology
     Mains[Mains socket] --> PSU[Power strip]
     PSU -->|USB-A to barrel| Switch["Network switch<br/>■ ■ □ □ □"]
     Switch -->|ethernet| node01
@@ -107,6 +112,8 @@ graph TD
 *The first CarpentriesOffline MiniHPC, `pixie`, created with Raspberry Pis!*
 
 :::keypoints
-- A mini-HPC using Raspberry Pis solves common HPC training challenges: cost, restricted access, internet dependency, and resource contention
-- The minimum hardware is one or more Raspberry Pi 4s (2GB+), a network switch, ethernet cables, SD cards, and a USB storage device
+- A mini-HPC using Raspberry Pis solves common HPC training challenges: cost, restricted access, 
+  internet dependency, and resource contention
+- The minimum hardware is one or more Raspberry Pis (minimum version 3, preferably v4+/2GB+ RAM),
+  a network switch, ethernet cables, SD cards, and a USB storage device.
 :::
