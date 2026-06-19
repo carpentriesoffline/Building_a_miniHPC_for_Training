@@ -45,9 +45,76 @@ PING node01.local (192.168.1.48): 56 data bytes
 round-trip min/avg/max/stddev = 8.019/9.380/11.158/1.315 ms
 ```
 
-This performs a DNS lookup with the router and resolves the DNS address, 
+This performs a DNS lookup with the router and resolves the DNS address,
 `node01.local` to its dynamically-assigned IP address (here `192.168.1.48`),
 then sends an ICMP "ping" packet to ensure we can reach it on the network.
+
+::: discussion Trouble connecting to your Pi?
+
+`.local` hostnames resolve automatically on macOS and Linux. On Windows they
+can be unreliable. If `ping node01.local` is failing, even after waiting a
+little while for the system to expand the root partition, try the following 
+in order:
+
+1. **Check you are using your Pi's actual hostname:** the examples in this
+   lesson use `node01`, but you (or we) may have given yours a different name
+   in the Raspberry Pi Imager. Check the label on your Pi, or ask your
+   neighbour what name they set, and make sure your `ping` and `ssh` commands
+   use that name rather than the example from the instructions.
+
+2. **Try SSH by name anyway:** even if `ping` fails, SSH sometimes resolves
+   `.local` names independently. Some routers also support bare hostnames
+   without the `.local` suffix, so it is worth trying both:
+
+   ```bash
+   ssh pixie@node01.local
+   ssh pixie@node01
+   ```
+
+3. **Reboot the Pi:** if it failed to join the WiFi on first boot, a reboot
+   usually fixes it. Wait a minute, reboot, then try again.
+
+4. **Use a network scanner:** these free GUI tools list every device on your
+   network along with its IP address. Look for a device named `node01`:
+   - **Windows / macOS / Linux:** [Angry IP Scanner](https://angryip.org/)
+   - **Windows only:** [Advanced IP Scanner](https://www.advanced-ip-scanner.com/)
+   - **Command line (all platforms):** `nmap -sn 192.168.1.0/24` (requires package install)
+
+     <details>
+     <summary>Installing nmap</summary>
+
+     | Platform | Command |
+     | --- | --- |
+     | Windows (PowerShell) | `winget install nmap` |
+     | macOS | `brew install nmap` |
+     | Debian / Ubuntu | `sudo apt-get install nmap` |
+     | Fedora / RHEL | `sudo yum install nmap` |
+
+     </details>
+
+   Once you have the IP address, use it in place of the hostname:
+
+   ```bash
+   ssh pixie@192.168.1.48
+   ```
+
+5. **Ask your instructor:** they can find the IP address from the router.
+
+:::
+
+:::instructor
+
+`.local` resolution failures are most common on Windows. Linux learners in the
+same group are usually unaffected and can confirm the Pi is up. If a group is
+stuck, look up the Pi's IP from the router interface and give it to them
+directly — this is the fastest recovery path.
+
+Consider using a [serial KVM controller software such as
+kvm-serial](https://github.com/sjmf/kvm-serial) and HDMI capture interface to
+connect directly to the console of the user's Raspberry Pi. The login screen
+prints the IP directly to the display.
+
+:::
 
 ### Logging in to the Pi
 
