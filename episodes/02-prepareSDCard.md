@@ -14,6 +14,24 @@ title: Preparing an SD Card
 - Pre-configure hostname, user credentials, SSH, and WiFi settings before writing the image
 :::
 
+:::instructor
+
+The process of downloading the imager, getting students to flash it to the Pi,
+and navigating permissions errors on managed machines, means that this section
+can take some time. Consider pre-flashing SD cards for learners and skipping
+this section. If you do wish to run it, be prepared for this to take a while,
+and ensure you have enough helpers on-hand to assist with the software step.
+
+If pre-flashing cards, consider setting up a multi-SD flashing rig using a
+USB-C hub with sufficient capacity, multiple fast SD card readers (USB-3 at
+minimum), fast SD cards (e.g. microSDHC with U3 speed rating at minimum), to
+flash multiple cards simultaneously. Software such as
+[hypriot/flash](https://github.com/hypriot/flash) can be useful for this
+purpose as it allows you to batch script and customise Pi images on the command
+line, rather than manually operating the GUI.
+
+:::
+
 Every computer needs to load an operating system when you switch it on.
 Therefore it will usually have a default place where it will look for an
 operating system in the first place. The process of loading the operating system
