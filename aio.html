@@ -793,7 +793,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-04-configurationLogin"><p>Content from <a href="04-configurationLogin.html">Configuring the login node</a></p>
 <hr>
-<p>Last updated on 2026-06-17 |
+<p>Last updated on 2026-06-19 |
 
         <a href="https://github.com/carpentriesoffline/Building_a_miniHPC_for_Training/edit/main/episodes/04-configurationLogin.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1670,7 +1670,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-05-configurationCompute"><p>Content from <a href="05-configurationCompute.html">Configuring a compute node</a></p>
 <hr>
-<p>Last updated on 2026-06-17 |
+<p>Last updated on 2026-06-19 |
 
         <a href="https://github.com/carpentriesoffline/Building_a_miniHPC_for_Training/edit/main/episodes/05-configurationCompute.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1884,10 +1884,12 @@ present:</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="ex">systemctl</span> status slurmd</span></code></pre>
 </div>
-<p><code>systemctl</code> should show that Slurm is installed, but not
-configured yet. This is OK for now! We haven’t configured it yet, so it
-will be in a failure state:</p>
-<figure><img src="fig/slurm-fail.png" alt="systemctl shows that Slurm is installed but not configured yet" class="figure mx-auto d-block"></figure><p>If <code>slurmd</code> is not found, the package may have been
+<p>:: caution <code>systemctl</code> should show that Slurm is
+installed, but not configured yet. This is OK for now! We haven’t
+configured it yet, so it will be in a failure state:</p>
+<p><img src="fig/slurm-fail.png" alt="systemctl shows that Slurm is installed but not configured yet" class="figure">
+::</p>
+<p>If <code>slurmd</code> is not found, the package may have been
 silently skipped during install. Run the install command again with only
 <code>slurmd</code> to confirm:</p>
 <div class="codewrapper sourceCode" id="cb7">
@@ -2582,8 +2584,8 @@ any links that you are not going to use.
   "url": "https://carpentriesoffline.github.io/Building_a_miniHPC_for_Training/aio.html",
   "identifier": "https://carpentriesoffline.github.io/Building_a_miniHPC_for_Training/aio.html",
   "dateCreated": "2026-04-16",
-  "dateModified": "2026-06-17",
-  "datePublished": "2026-06-17"
+  "dateModified": "2026-06-19",
+  "datePublished": "2026-06-19"
 }
 
   </script><script>
