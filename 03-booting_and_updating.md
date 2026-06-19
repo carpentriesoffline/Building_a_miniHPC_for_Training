@@ -20,7 +20,9 @@ the card into the RPi and switch it on. If you configured the OS with a Wifi
 SSID and enabled ssh you should be able to access the RPi via the wireless
 network using your desktop or laptop computer.
 
-::: callout First boot takes longer than usual
+::: callout
+
+### First boot takes longer than usual
 
 On its very first boot, the Pi automatically expands the root filesystem to
 fill the SD card. This can take a minute or two, during which the network
@@ -49,7 +51,9 @@ This performs a DNS lookup with the router and resolves the DNS address,
 `node01.local` to its dynamically-assigned IP address (here `192.168.1.48`),
 then sends an ICMP "ping" packet to ensure we can reach it on the network.
 
-::: discussion Trouble connecting to your Pi?
+::: discussion
+
+### Trouble connecting to your Pi?
 
 `.local` hostnames resolve automatically on macOS and Linux. On Windows they
 can be unreliable. If `ping node01.local` is failing, even after waiting a
