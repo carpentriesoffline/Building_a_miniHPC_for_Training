@@ -394,8 +394,38 @@ any links that you are not going to use.
 
 
       <section id="aggregate-instructor-notes"><section id="01-intro"><h2 class="section-heading"><a href="01-intro.html">Introduction</a></h2>
-<hr class="half-width"></section><section id="02-prepareSDCard"><h2 class="section-heading"><a href="02-prepareSDCard.html">Preparing an SD Card</a></h2>
-<hr class="half-width"></section><section id="03-booting_and_updating"><h2 class="section-heading"><a href="03-booting_and_updating.html">Booting and Updating</a></h2>
+<hr class="half-width">
+<h3 id="01-intro-headingInstructor1">
+<a href="01-intro.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#01-intro-headingInstructor1"></a>
+</h3>
+<p>The first thing to do is to get all learners to plug in the hardware
+for their cluster. On its very first boot, the Pi automatically expands
+the root filesystem to fill the SD card. This can take a minute or two,
+during which the network interface will not yet be up.</p>
+<p>This is a good time to deliver the lesson introduction. By the time
+you have finished, the Pi will be ready to connect to.</p>
+<hr>
+<br></section><section id="02-prepareSDCard"><h2 class="section-heading"><a href="02-prepareSDCard.html">Preparing an SD Card</a></h2>
+<hr class="half-width">
+<h3 id="02-prepareSDCard-headingInstructor1">
+<a href="02-prepareSDCard.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#02-prepareSDCard-headingInstructor1"></a>
+</h3>
+<p>The process of downloading the imager, getting students to flash it
+to the Pi, and navigating permissions errors on managed machines, means
+that this section can take some time. Consider pre-flashing SD cards for
+learners and skipping this section. If you do wish to run it, be
+prepared for this to take a while, and ensure you have enough helpers
+on-hand to assist with the software step.</p>
+<p>If pre-flashing cards, consider setting up a multi-SD flashing rig
+using a USB-C hub with sufficient capacity, multiple fast SD card
+readers (USB-3 at minimum), fast SD cards (e.g. microSDHC with U3 speed
+rating at minimum), to flash multiple cards simultaneously. Software
+such as <a href="https://github.com/hypriot/flash" class="external-link">hypriot/flash</a> can
+be useful for this purpose as it allows you to batch script and
+customise Pi images on the command line, rather than manually operating
+the GUI.</p>
+<hr>
+<br></section><section id="03-booting_and_updating"><h2 class="section-heading"><a href="03-booting_and_updating.html">Booting and Updating</a></h2>
 <hr class="half-width"></section><section id="04-configurationLogin"><h2 class="section-heading"><a href="04-configurationLogin.html">Configuring the login node</a></h2>
 <hr class="half-width"></section><section id="05-configurationCompute"><h2 class="section-heading"><a href="05-configurationCompute.html">Configuring a compute node</a></h2>
 <hr class="half-width"></section><section id="06-extraStuff"><h2 class="section-heading"><a href="06-extraStuff.html">Some extra things that can be done</a></h2>

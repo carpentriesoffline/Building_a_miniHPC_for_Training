@@ -337,7 +337,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Booting and Updating</h1>
-        <p>Last updated on 2026-06-17 |
+        <p>Last updated on 2026-06-19 |
 
         <a href="https://github.com/carpentriesoffline/Building_a_miniHPC_for_Training/edit/main/episodes/03-booting_and_updating.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -380,6 +380,12 @@ network?</li>
 can insert the card into the RPi and switch it on. If you configured the
 OS with a Wifi SSID and enabled ssh you should be able to access the RPi
 via the wireless network using your desktop or laptop computer.</p>
+<p>::: callout First boot takes longer than usual</p>
+<p>On its very first boot, the Pi automatically expands the root
+filesystem to fill the SD card. This can take a minute or two, during
+which the network interface will not yet be up. Wait until
+<code>ping node01.local</code> succeeds before attempting to SSH in.</p>
+<p>:::</p>
 <div class="section level3">
 <h3 id="how-do-i-find-my-ip-address">How do I find my IP address?<a class="anchor" aria-label="anchor" href="#how-do-i-find-my-ip-address"></a></h3>
 <p>In the setup stage, you connected your Pi to the
@@ -507,7 +513,7 @@ any links that you are not going to use.
   "url": "https://carpentriesoffline.github.io/Building_a_miniHPC_for_Training/03-booting_and_updating.html",
   "identifier": "https://carpentriesoffline.github.io/Building_a_miniHPC_for_Training/03-booting_and_updating.html",
   "dateCreated": "2026-04-16",
-  "dateModified": "2026-06-17",
+  "dateModified": "2026-06-19",
   "datePublished": "2026-06-19"
 }
 
