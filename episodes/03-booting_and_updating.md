@@ -57,8 +57,12 @@ then sends an ICMP "ping" packet to ensure we can reach it on the network.
 
 `.local` hostnames resolve automatically on macOS and Linux. On Windows they
 can be unreliable. If `ping node01.local` is failing, even after waiting a
-little while for the system to expand the root partition, try the following 
-in order:
+little while for the system to expand the root partition, use the hint below!
+
+:::
+::: hint
+
+Try the following in order:
 
 1. **Check you are using your Pi's actual hostname:** the examples in this
    lesson use `node01`, but you (or we) may have given yours a different name
