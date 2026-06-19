@@ -429,8 +429,19 @@ packet to ensure we can reach it on the network.</p>
 <p><code>.local</code> hostnames resolve automatically on macOS and
 Linux. On Windows they can be unreliable. If
 <code>ping node01.local</code> is failing, even after waiting a little
-while for the system to expand the root partition, try the following in
-order:</p>
+while for the system to expand the root partition, use the hint
+below!</p>
+</div>
+</div>
+</div>
+<div id="accordionHint1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
+  <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
+</button>
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div class="accordion-body">
+<p>Try the following in order:</p>
 <ol style="list-style-type: decimal"><li><p><strong>Check you are using your Pi’s actual hostname:</strong>
 the examples in this lesson use <code>node01</code>, but you (or we) may
 have given yours a different name in the Raspberry Pi Imager. Check the
@@ -486,12 +497,13 @@ address from the router.</p></li>
 </ol></div>
 </div>
 </div>
+</div>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p><code>.local</code> resolution failures are most common on Windows.
 Linux learners in the same group are usually unaffected and can confirm

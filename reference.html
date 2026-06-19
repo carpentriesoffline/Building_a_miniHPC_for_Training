@@ -318,7 +318,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Reference</h1>
-        <p>Last updated on 2026-06-17 |
+        <p>Last updated on 2026-06-19 |
 
         <a href="https://github.com/carpentriesoffline/Building_a_miniHPC_for_Training/edit/main/learners/reference.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -330,12 +330,264 @@
 
         
 <section><h2 class="section-heading" id="glossary">Glossary<a class="anchor" aria-label="anchor" href="#glossary"></a></h2>
-<hr class="half-width"><p>This is a placeholder file. Please add content here.</p>
-<!--
+<hr class="half-width"><dl><dt><strong>apt</strong></dt>
+<dd>
+The package manager used on Debian-based Linux systems (including
+Raspberry Pi OS) to install, update, and remove software.
+</dd>
+<dt><strong>Batch job</strong></dt>
+<dd>
+A non-interactive unit of work submitted to the scheduler via
+<code>sbatch</code>. It runs when resources become available and records
+output to a file.
+</dd>
+<dt><strong>Cgroup (Control Group)</strong></dt>
+<dd>
+A Linux kernel feature used by SLURM to enforce CPU and memory limits on
+running jobs, preventing one job from consuming more than its allocated
+resources.
+</dd>
+<dt><strong>Cluster</strong></dt>
+<dd>
+A group of computers (nodes) connected over a network and managed
+together as a single computing resource.
+</dd>
+<dt><strong>Compute node</strong></dt>
+<dd>
+A node in the cluster dedicated to running jobs. Learners do not log in
+to compute nodes directly; work is submitted via the scheduler.
+</dd>
+<dt><strong>DHCP (Dynamic Host Configuration Protocol)</strong></dt>
+<dd>
+A network service that automatically assigns IP addresses to devices
+when they join a network. The login node runs a DHCP server (dnsmasq)
+for the cluster’s internal network.
+</dd>
+<dt><strong>dnsmasq</strong></dt>
+<dd>
+Lightweight software running on the login node that provides both DHCP
+(IP address assignment) and DNS (hostname resolution) for the cluster’s
+internal network.
+</dd>
+<dt><strong>DNS (Domain Name System)</strong></dt>
+<dd>
+The service that translates human-readable hostnames
+(e.g. <code>node01.local</code>) into IP addresses so computers can
+route traffic to them.
+</dd>
+<dt><strong>EESSI (European Environment for Scientific Software
+Installation)</strong></dt>
+<dd>
+A shared software repository providing pre-built scientific applications
+for HPC clusters across different processor architectures, accessed via
+CVMFS.
+</dd>
+<dt><strong>eth0</strong></dt>
+<dd>
+The name given to the first wired Ethernet network interface on a Linux
+system. On the login node, <code>eth0</code> connects to the internal
+cluster switch.
+</dd>
+<dt><strong>Ethernet</strong></dt>
+<dd>
+Wired network technology using Cat5/Cat6 cables. The cluster’s internal
+network connects all nodes via an Ethernet switch.
+</dd>
+<dt><strong>Head node</strong></dt>
+<dd>
+Another name for the login node — the primary node through which users
+interact with the cluster.
+</dd>
+<dt><strong>HPC (High Performance Computing)</strong></dt>
+<dd>
+Computing using clusters of machines to solve problems that require more
+memory or processing power than a single computer can provide.
+</dd>
+<dt><strong>hostname</strong></dt>
+<dd>
+The human-readable name assigned to a computer on a network
+(e.g. <code>node01</code>). Every node in the cluster must have a unique
+hostname.
+</dd>
+<dt><strong>Interactive job</strong></dt>
+<dd>
+A SLURM job that gives the user a shell directly on a compute node,
+launched with <code>srun --pty bash</code>. Useful for testing and
+debugging.
+</dd>
+<dt><strong>IP address</strong></dt>
+<dd>
+A numerical identifier (e.g. <code>192.168.5.101</code>) that uniquely
+identifies a device on a network. Used for routing traffic between
+nodes.
+</dd>
+<dt><strong>Job</strong></dt>
+<dd>
+A unit of computational work submitted to SLURM for execution on the
+cluster. Jobs are described by a script specifying resources and
+commands.
+</dd>
+<dt><strong>Login node</strong></dt>
+<dd>
+The node through which users access the cluster via SSH. It runs the
+SLURM controller, NFS server, and DHCP/DNS server. Also called the head
+node.
+</dd>
+<dt><strong>mDNS (Multicast DNS)</strong></dt>
+<dd>
+A protocol allowing devices to advertise and discover hostnames ending
+in <code>.local</code> on a local network without a central DNS server.
+Built into macOS and Linux; less reliable on Windows.
+</dd>
+<dt><strong>MPI (Message Passing Interface)</strong></dt>
+<dd>
+A standard library for writing programs that run in parallel across
+multiple processors or nodes, communicating by passing messages.
+</dd>
+<dt><strong>microSD card</strong></dt>
+<dd>
+The small flash storage card that Raspberry Pis boot from. The OS image
+is written to it using the Raspberry Pi Imager.
+</dd>
+<dt><strong>Munge</strong></dt>
+<dd>
+An authentication daemon that ensures only trusted SLURM daemons can
+communicate within the cluster. All nodes must share an identical
+<code>munge.key</code>.
+</dd>
+<dt><strong>NAT (Network Address Translation)</strong></dt>
+<dd>
+A technique where the login node rewrites outgoing packets so that the
+compute nodes can reach the internet using the login node’s external IP
+address.
+</dd>
+<dt><strong>NFS (Network File System)</strong></dt>
+<dd>
+A protocol for sharing directories over the network. The login node
+exports <code>/home</code> and <code>/sharedfs</code> via NFS so that
+all compute nodes see the same files.
+</dd>
+<dt><strong>nmcli</strong></dt>
+<dd>
+The command-line tool for NetworkManager on Raspberry Pi OS, used to
+configure static IP addresses, WiFi connections, and network interface
+settings.
+</dd>
+<dt><strong>Node</strong></dt>
+<dd>
+An individual computer in the cluster. This workshop uses Raspberry Pis
+as nodes.
+</dd>
+<dt><strong>NTP (Network Time Protocol)</strong></dt>
+<dd>
+Protocol for synchronising clocks across computers. All cluster nodes
+must have synchronised clocks for SLURM and logging to work correctly.
+</dd>
+<dt><strong>OpenMPI</strong></dt>
+<dd>
+A widely-used open-source implementation of the MPI standard, providing
+the libraries and tools needed to compile and run parallel programs.
+</dd>
+<dt><strong>Partition (SLURM)</strong></dt>
+<dd>
+A logical grouping of compute nodes used to organise job scheduling. Not
+to be confused with a disk partition. This workshop uses a single
+partition called <code>nodecluster</code>.
+</dd>
+<dt><strong>PoE (Power over Ethernet)</strong></dt>
+<dd>
+Technology that delivers electrical power through Ethernet cables,
+allowing a single cable to supply both network connectivity and power to
+a device.
+</dd>
+<dt><strong>Raspberry Pi</strong></dt>
+<dd>
+A low-cost single-board computer (SBC) used as the nodes in this
+mini-HPC cluster. This workshop targets the Raspberry Pi 4 (2 GB+) or
+newer.
+</dd>
+<dt><strong>Raspberry Pi OS</strong></dt>
+<dd>
+The official Linux distribution for Raspberry Pis, based on Debian. This
+workshop uses the 64-bit Lite (headless) variant.
+</dd>
+<dt><strong>sbatch</strong></dt>
+<dd>
+The SLURM command for submitting a batch job script. Resource
+requirements are specified with <code>#SBATCH</code> comment directives
+inside the script.
+</dd>
+<dt><strong>SBC (Single Board Computer)</strong></dt>
+<dd>
+A complete computer built on a single circuit board, integrating CPU,
+RAM, and I/O. Raspberry Pis are SBCs.
+</dd>
+<dt><strong>sinfo</strong></dt>
+<dd>
+A SLURM command that displays the status of cluster partitions and
+nodes.
+</dd>
+<dt><strong>SLURM</strong></dt>
+<dd>
+The job scheduler and resource manager used in this workshop to submit,
+queue, and run jobs on the compute nodes.
+</dd>
+<dt><strong>slurmd</strong></dt>
+<dd>
+The SLURM daemon running on each compute node. It receives jobs from the
+controller and executes them.
+</dd>
+<dt><strong>slurmctld</strong></dt>
+<dd>
+The SLURM controller daemon running on the login node. It manages the
+job queue and allocates resources to submitted jobs.
+</dd>
+<dt><strong>SQL</strong></dt>
+<dd>
+Not used in this workshop; mentioned only to contrast with SLURM’s
+simpler accounting configuration.
+</dd>
+<dt><strong>squeue</strong></dt>
+<dd>
+A SLURM command that shows the current state of the job queue, including
+running and pending jobs.
+</dd>
+<dt><strong>srun</strong></dt>
+<dd>
+A SLURM command for running a command directly on a compute node. With
+<code>--pty bash</code> it opens an interactive shell.
+</dd>
+<dt><strong>SSH (Secure Shell)</strong></dt>
+<dd>
+A protocol for securely logging in to and running commands on remote
+computers over a network. The primary way learners access the cluster.
+</dd>
+<dt><strong>sudo</strong></dt>
+<dd>
+A command prefix that runs the following command with administrator
+(root) privileges. Required for system configuration changes.
+</dd>
+<dt><strong>systemctl</strong></dt>
+<dd>
+The command-line tool for managing systemd services: starting, stopping,
+restarting, and checking the status of daemons such as
+<code>slurmd</code> and <code>munge</code>.
+</dd>
+<dt><strong>systemd</strong></dt>
+<dd>
+The init system and service manager used by Raspberry Pi OS. It starts
+services at boot and monitors them during operation.
+</dd>
+<dt><strong>wlan0</strong></dt>
+<dd>
+The name given to the first wireless network interface on a Linux
+system. On the login node, <code>wlan0</code> connects to the workshop
+WiFi router, providing internet access and learner connectivity.
+</dd>
+</dl><!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</section></div> <!-- / div.lesson-content -->
+ --></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter Bottom"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="index.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
       </div>
@@ -390,7 +642,7 @@ any links that you are not going to use.
   "url": "https://carpentriesoffline.github.io/Building_a_miniHPC_for_Training/reference.html",
   "identifier": "https://carpentriesoffline.github.io/Building_a_miniHPC_for_Training/reference.html",
   "dateCreated": "2026-04-16",
-  "dateModified": "2026-06-17",
+  "dateModified": "2026-06-19",
   "datePublished": "2026-06-19"
 }
 
