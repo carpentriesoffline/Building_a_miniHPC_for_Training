@@ -476,8 +476,14 @@ required software to learn how to use an HPC.</p>
 </h2>
 <hr class="half-width">
 <ul>
-<li>Raspberry Pi (RPi) 3-5 2GB+ single board computers (SBC): 1 for the
-head node, plus as many nodes as as you want</li>
+<li>Raspberry Pi (RPi) 2GB+ single board computers (SBC): 1 for the head
+node, plus as many nodes as as you want
+<ul>
+<li>Preference 64-bit Pis (i.e. version 3 and up). Prior versions have
+slower clock speeds resulting in learners having to wait longer for
+commands to complete, which can slow down workshops.</li>
+</ul>
+</li>
 <li>A multiport Netgear switch (as many ports as Rasberry Pis)</li>
 <li>10BaseT Cat6 ethernet cables (1 per Rasberry Pi)</li>
 <li>Power supplies for each Rasberry Pi (alternatively: use a PoE switch
@@ -485,15 +491,19 @@ to power all Rasberry Pis)</li>
 <li>A 8GB flash drive for shared storage</li>
 <li>A 32GB SD card to boot the main node from</li>
 <li>Cooling device (e.g. USB desktop fan)</li>
-</ul></section><section><h2 class="section-heading" id="hardware-connections">Hardware connections<a class="anchor" aria-label="anchor" href="#hardware-connections"></a>
+</ul>
+<p>We can in theory omit the network switch using a crossover ethernet
+cable, but YMMV.</p>
+</section><section><h2 class="section-heading" id="hardware-connections">Hardware connections<a class="anchor" aria-label="anchor" href="#hardware-connections"></a>
 </h2>
 <hr class="half-width">
 <p>The diagram below shows how the components connect. The login node
 has two network interfaces: <code>eth0</code> connects to the internal
 switch, and <code>wlan0</code> connects to the router so learners can
 reach the cluster over WiFi.</p>
-<pre class="mermaid"><code>%%{init: {"themeVariables": {"edgeLabelBackground": "transparent"}} }%%
+<pre class="mermaid"><code>%%{init: {"themeVariables": {"edgeLabelBackground": "#ffffff00"}} }%%
 graph TD
+    accTitle: MiniHPC hardware connections: power and network topology
     Mains[Mains socket] --&gt; PSU[Power strip]
     PSU --&gt;|USB-A to barrel| Switch["Network switch&lt;br/&gt;■ ■ □ □ □"]
     Switch --&gt;|ethernet| node01
@@ -538,8 +548,9 @@ with Raspberry Pis!</em></p>
 <li>A mini-HPC using Raspberry Pis solves common HPC training
 challenges: cost, restricted access, internet dependency, and resource
 contention</li>
-<li>The minimum hardware is one or more Raspberry Pi 4s (2GB+), a
-network switch, ethernet cables, SD cards, and a USB storage device</li>
+<li>The minimum hardware is one or more Raspberry Pis (minimum version
+3, preferably v4+/2GB+ RAM), a network switch, ethernet cables, SD
+cards, and a USB storage device.</li>
 </ul>
 </div>
 </div>
@@ -591,7 +602,7 @@ before writing the image</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>The process of downloading the imager, getting students to flash it
 to the Pi, and navigating permissions errors on managed machines, means
