@@ -387,7 +387,7 @@
         
 <section id="aio-01-intro"><p>Content from <a href="01-intro.html">Introduction</a></p>
 <hr>
-<p>Last updated on 2026-06-17 |
+<p>Last updated on 2026-06-19 |
 
         <a href="https://github.com/carpentriesoffline/Building_a_miniHPC_for_Training/edit/main/episodes/01-intro.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -459,7 +459,7 @@ required software to learn how to use an HPC.</p>
 </h2>
 <hr class="half-width">
 <ul>
-<li>Raspberry Pi (RPi) 4 2GB+ single board computers (SBC): 1 for the
+<li>Raspberry Pi (RPi) 3-5 2GB+ single board computers (SBC): 1 for the
 head node, plus as many nodes as as you want</li>
 <li>A multiport Netgear switch (as many ports as Rasberry Pis)</li>
 <li>10BaseT Cat6 ethernet cables (1 per Rasberry Pi)</li>
@@ -468,7 +468,35 @@ to power all Rasberry Pis)</li>
 <li>A 8GB flash drive for shared storage</li>
 <li>A 32GB SD card to boot the main node from</li>
 <li>Cooling device (e.g. USB desktop fan)</li>
-</ul></section><section><h2 class="section-heading" id="optional">Optional<a class="anchor" aria-label="anchor" href="#optional"></a>
+</ul></section><section><h2 class="section-heading" id="hardware-connections">Hardware connections<a class="anchor" aria-label="anchor" href="#hardware-connections"></a>
+</h2>
+<hr class="half-width">
+<p>The diagram below shows how the components connect. The login node
+has two network interfaces: <code>eth0</code> connects to the internal
+switch, and <code>wlan0</code> connects to the router so learners can
+reach the cluster over WiFi.</p>
+<pre class="mermaid"><code>graph TD
+    Mains[Mains socket] --&gt; PSU[Power strip]
+    PSU --&gt;|USB-A to barrel| Switch["Network switch&lt;br/&gt;■ ■ □ □ □"]
+    Switch --&gt;|ethernet| node01
+    PSU --&gt;|USB-C| node01["node01: login node"]
+    PSU --&gt;|USB-C| nodeN["node02 (to nodeNN): compute"]
+    Switch --&gt;|ethernet| nodeN
+    Router[WiFi router] --&gt;|wlan0| node01
+    Laptops[Learner laptops] --&gt;|WiFi| Router
+
+    style Mains   fill:orange, stroke:orange, color:black
+    style PSU     fill:orange, stroke:orange, color:black
+    style Switch  fill:steelblue, stroke:steelblue, color:white
+    style Router  fill:steelblue, stroke:steelblue, color:white
+    style node01  fill:seagreen, stroke:seagreen, color:white
+    style nodeN   fill:seagreen, stroke:seagreen, color:white
+    style Laptops fill:gray, stroke:gray, color:white
+
+    linkStyle 0,1,3,4 stroke:orange, stroke-width:4px
+    linkStyle 2,5     stroke:steelblue, stroke-width:4px
+    linkStyle 6,7     stroke:darkorchid, stroke-width:4px</code></pre>
+</section><section><h2 class="section-heading" id="optional">Optional<a class="anchor" aria-label="anchor" href="#optional"></a>
 </h2>
 <hr class="half-width">
 <ul>
